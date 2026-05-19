@@ -7,7 +7,7 @@ Ce fichier fournit le contexte du projet à Claude Code pour ce répertoire.
 **BubblePop** est une application web statique permettant à l'utilisateur de générer des bulles de BD personnalisées au format PNG. L'utilisateur saisit son texte, choisit un style de bulle et une police, puis télécharge l'image finale avec fond transparent.
 
 - **Nom de marque** : BubblePop
-- **Domaine cible (placeholder)** : `https://bubblepop.app`
+- **Domaine** : `https://getbubblepop.com` (à acheter sur Cloudflare Registrar)
 - **Cible** : créateurs de contenu et pros (YouTubeurs, illustrateurs, marketeurs, créateurs BD) — public international
 
 ## Stack technique
@@ -100,7 +100,7 @@ L'app est référencée sous le nom **BubblePop** avec une stratégie internatio
 - **Fichiers** : `robots.txt`, `sitemap.xml`, `og-image.png` (1200x630)
 - **Favicons** : SVG inline en data-URI (bulle simple)
 - **Mots-clés cibles** : "speech bubble generator", "comic bubble", "générateur bulle BD", "transparent PNG"
-- **URL placeholder** : remplacer `https://bubblepop.app` par le vrai domaine quand il sera acheté (search/replace dans `index.html`, `sitemap.xml`, `robots.txt`)
+- **URL canonique** : `https://getbubblepop.com` (déjà appliquée dans `index.html`, `sitemap.xml`, `robots.txt`)
 
 ## Communication
 
