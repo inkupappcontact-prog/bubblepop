@@ -28,7 +28,7 @@ Pure HTML + CSS + JavaScript vanilla. Zero dependencies, zero build step, single
 ## Run locally
 
 ```bash
-git clone https://github.com/<your-user>/bubblepop
+git clone https://github.com/inkupappcontact-prog/bubblepop
 cd bubblepop
 python -m http.server 8000
 # open http://localhost:8000
