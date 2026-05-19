@@ -1,0 +1,32 @@
+# Sauvegardes locales (non versionnées)
+bulles BD/4_original.png
+*.bak
+*.tmp
+*.old
+
+# Système
+Thumbs.db
+.DS_Store
+desktop.ini
+
+# Outils dev locaux
+.claude/
+.vscode/
+.idea/
+
+# Python (scripts utilitaires)
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+
+# Secrets éventuels
+.env
+.env.*
+!.env.example
+
+# Cache navigateur / build (au cas où)
+node_modules/
+dist/
+.cache/

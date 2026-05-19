@@ -1,0 +1,1858 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- ============================================================ -->
+    <!-- SEO - Balises principales                                    -->
+    <!-- ============================================================ -->
+    <title>BubblePop — Comic Speech Bubble Generator | Free PNG Transparent</title>
+    <meta name="description" content="Create comic speech bubbles online for free. Generate transparent PNG bubbles for your videos, memes, and comics. 4 styles, 5 comic fonts, instant download. No signup.">
+    <meta name="keywords" content="speech bubble generator, comic bubble, comic book bubble, BD bulle, générateur bulle BD, transparent PNG, comic font, meme bubble, manga bubble, cartoon speech bubble">
+    <meta name="author" content="BubblePop">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://bubblepop.app/">
+
+    <meta name="theme-color" content="#0A0B0F">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="BubblePop">
+
+    <!-- ============================================================ -->
+    <!-- Sécurité : durcissement défensif (defense in depth)         -->
+    <!-- ============================================================ -->
+    <!-- CSP : tout est servi depuis l'origine (polices self-hosted comprises).
+         'unsafe-inline' nécessaire car le projet impose mono-fichier
+         (CLAUDE.md interdit fichiers JS/CSS externes). -->
+    <meta http-equiv="Content-Security-Policy" content="
+        default-src 'self' blob: data:;
+        script-src 'self' 'unsafe-inline';
+        style-src 'self' 'unsafe-inline';
+        font-src 'self';
+        img-src 'self' data: blob:;
+        connect-src 'self' blob:;
+        frame-ancestors 'none';
+        base-uri 'self';
+        form-action 'self';
+        object-src 'none';
+        upgrade-insecure-requests;
+    ">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), interest-cohort=(), browsing-topics=(), payment=(), usb=(), magnetometer=(), accelerometer=(), gyroscope=()">
+
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 44 36'%3E%3Cellipse cx='22' cy='16' rx='20' ry='12' fill='%233B82F6'/%3E%3Cpath d='M14 25 L11 34 L20 27 Z' fill='%233B82F6'/%3E%3Ccircle cx='14' cy='16' r='2' fill='%230A0B0F'/%3E%3Ccircle cx='22' cy='16' r='2' fill='%230A0B0F'/%3E%3Ccircle cx='30' cy='16' r='2' fill='%230A0B0F'/%3E%3C/svg%3E">
+
+    <!-- ============================================================ -->
+    <!-- Open Graph                                                   -->
+    <!-- ============================================================ -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="BubblePop">
+    <meta property="og:title" content="BubblePop — Free Comic Speech Bubble Generator">
+    <meta property="og:description" content="Create comic speech bubbles online for free. Transparent PNG, 4 styles, 5 comic fonts, instant download. No signup required.">
+    <meta property="og:url" content="https://bubblepop.app/">
+    <meta property="og:image" content="https://bubblepop.app/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="BubblePop - Comic Speech Bubble Generator">
+    <meta property="og:locale" content="fr_FR">
+    <meta property="og:locale:alternate" content="en_US">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="BubblePop — Free Comic Speech Bubble Generator">
+    <meta name="twitter:description" content="Create comic speech bubbles online for free. Transparent PNG, instant download, no signup.">
+    <meta name="twitter:image" content="https://bubblepop.app/og-image.png">
+    <meta name="twitter:image:alt" content="BubblePop - Comic Speech Bubble Generator">
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "BubblePop",
+      "alternateName": "Comic Speech Bubble Generator",
+      "url": "https://bubblepop.app/",
+      "description": "Free online comic speech bubble generator. Create transparent PNG bubbles for videos, memes, and comics.",
+      "applicationCategory": "DesignApplication",
+      "operatingSystem": "Any (web-based)",
+      "browserRequirements": "Requires JavaScript and HTML5 Canvas",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "EUR" },
+      "featureList": [
+        "4 comic bubble styles",
+        "5 comic fonts",
+        "Transparent PNG export",
+        "Auto-fit text",
+        "No signup required",
+        "100% client-side"
+      ],
+      "inLanguage": ["fr", "en"]
+    }
+    </script>
+
+    <!-- Polices self-hosted (subset Latin uniquement, sous-ensemble français/anglais).
+         Aucune dépendance CDN tierce : tout est servi depuis l'origine. -->
+    <link rel="preload" href="fonts/inter-var.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="fonts/bangers-400.woff2" as="font" type="font/woff2" crossorigin>
+
+    <style>
+        /* ============================================================
+           Polices self-hosted — subset Latin (français/anglais)
+           Fichiers téléchargés depuis Google Fonts + cdnfonts, servis
+           depuis l'origine pour éliminer les CDN tiers.
+           ============================================================ */
+        @font-face {
+            font-family: 'Inter';
+            font-style: normal;
+            font-weight: 100 900;
+            font-display: swap;
+            src: url('fonts/inter-var.woff2') format('woff2');
+        }
+        @font-face {
+            font-family: 'Bangers';
+            font-style: normal;
+            font-weight: 400;
+            font-display: swap;
+            src: url('fonts/bangers-400.woff2') format('woff2');
+        }
+        @font-face {
+            font-family: 'Comic Relief';
+            font-style: normal;
+            font-weight: 400;
+            font-display: swap;
+            src: url('fonts/comic-relief-400.woff2') format('woff2');
+        }
+        @font-face {
+            font-family: 'Comic Relief';
+            font-style: normal;
+            font-weight: 700;
+            font-display: swap;
+            src: url('fonts/comic-relief-700.woff2') format('woff2');
+        }
+        @font-face {
+            font-family: 'Architects Daughter';
+            font-style: normal;
+            font-weight: 400;
+            font-display: swap;
+            src: url('fonts/architects-daughter-400.woff2') format('woff2');
+        }
+        @font-face {
+            font-family: 'Permanent Marker';
+            font-style: normal;
+            font-weight: 400;
+            font-display: swap;
+            src: url('fonts/permanent-marker-400.woff2') format('woff2');
+        }
+        @font-face {
+            font-family: 'Komika Axis';
+            font-style: normal;
+            font-weight: 400;
+            font-display: swap;
+            src: url('fonts/komika-axis-400.woff') format('woff');
+        }
+
+        /* ============================================================
+           Tokens — Comic Noir (sombre par défaut + miroir clair)
+           ============================================================ */
+        :root {
+            --accent:        #3B82F6;
+            --accent-lo:     #1D4ED8;
+            --accent-soft:   rgba(59, 130, 246, 0.18);
+            --accent-ring:   rgba(59, 130, 246, 0.30);
+            --danger:        #F87171;
+            --success:       #22C55E;
+            --glow:          0 0 24px rgba(59, 130, 246, 0.35);
+
+            --radius:   12px;
+            --radius-sm: 8px;
+            --radius-xs: 6px;
+            --transition: 240ms cubic-bezier(0.4, 0, 0.2, 1);
+
+            --font-ui:        'Inter', system-ui, -apple-system, sans-serif;
+            --font-display:   'Bangers', 'Impact', sans-serif;
+            --font-hand:      'Architects Daughter', cursive;
+        }
+
+        /* Mode sombre (par défaut) */
+        :root, [data-theme="dark"] {
+            --bg:        #0A0B0F;
+            --paper:     #13151C;
+            --surface:   #181A23;
+            --surface-2: #22252F;
+            --ink:       #F5F5F2;
+            --ink-2:     #A0A4AE;
+            --ink-3:     #6B6F7A;
+            --border:    #262934;
+            --border-hi: #363A48;
+            --checker-a: #272A33;
+            --checker-b: #1B1D26;
+            --shadow:    0 18px 40px rgba(0,0,0,.55), 0 4px 12px rgba(0,0,0,.35);
+            --shadow-sm: 0 2px 8px rgba(0,0,0,.4);
+        }
+
+        /* Mode clair */
+        [data-theme="light"] {
+            --bg:        #F8F6EF;
+            --paper:     #FFFFFF;
+            --surface:   #FFFFFF;
+            --surface-2: #F2EFE6;
+            --ink:       #0F1116;
+            --ink-2:     #525664;
+            --ink-3:     #9099A8;
+            --border:    #E4DFD0;
+            --border-hi: #0F1116;
+            --checker-a: #DAD4C0;
+            --checker-b: #EDE6CF;
+            --shadow:    0 12px 32px rgba(15,17,22,.08), 0 4px 12px rgba(15,17,22,.05);
+            --shadow-sm: 0 2px 6px rgba(15,17,22,.06);
+            --accent-soft: rgba(59, 130, 246, 0.10);
+            --glow:        0 0 24px rgba(59, 130, 246, 0.22);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body { height: 100%; overflow: hidden; }
+
+        body {
+            font-family: var(--font-ui);
+            background: var(--bg);
+            color: var(--ink);
+            transition: background var(--transition), color var(--transition);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        button { font-family: inherit; cursor: pointer; }
+        a { color: inherit; }
+
+        /* ============================================================
+           Layout racine — header / body / history
+           ============================================================ */
+        .app {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+        }
+        .app-body {
+            flex: 1;
+            display: flex;
+            min-height: 0;
+        }
+
+        /* ============================================================
+           Header (60px)
+           ============================================================ */
+        .header {
+            height: 60px;
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            flex-shrink: 0;
+        }
+        .header-left { display: flex; align-items: center; gap: 16px; }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: inherit;
+        }
+        .logo-mark { width: 38px; height: 32px; flex-shrink: 0; }
+        .logo-text {
+            font-family: var(--font-display);
+            font-size: 26px;
+            line-height: 1;
+            letter-spacing: 0.04em;
+            color: var(--ink);
+            padding-top: 2px;
+        }
+        .sep-v { width: 1px; height: 24px; background: var(--border); }
+        .tagline {
+            font-family: var(--font-hand);
+            font-size: 13px;
+            font-style: italic;
+            color: var(--ink-2);
+        }
+        .header-right { display: flex; align-items: center; gap: 8px; }
+
+        .seg {
+            display: flex;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+        }
+        .seg > * + * { border-left: 1px solid var(--border); }
+
+        .h-btn {
+            background: transparent;
+            border: none;
+            color: var(--ink-2);
+            padding: 7px 10px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: color var(--transition), background var(--transition);
+        }
+        .h-btn:hover { color: var(--ink); background: var(--surface-2); }
+
+        .h-btn-bordered {
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+        }
+
+        .theme-toggle {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--ink);
+            font-size: 12px;
+            font-weight: 600;
+            padding: 7px 12px;
+        }
+
+        .pill-lang {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 6px 10px;
+            border: 1px solid var(--border);
+            border-radius: 999px;
+            background: transparent;
+            color: var(--ink);
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent), var(--accent-lo));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-family: var(--font-display);
+            font-size: 16px;
+            padding-top: 2px;
+        }
+
+        /* ============================================================
+           Preview panel (flex 1)
+           ============================================================ */
+        .preview {
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+            background: var(--paper);
+            min-width: 0;
+        }
+        .checker {
+            position: absolute;
+            inset: 0;
+            background-color: var(--checker-a);
+            background-image:
+                linear-gradient(45deg, var(--checker-b) 25%, transparent 25%),
+                linear-gradient(-45deg, var(--checker-b) 25%, transparent 25%),
+                linear-gradient(45deg, transparent 75%, var(--checker-b) 75%),
+                linear-gradient(-45deg, transparent 75%, var(--checker-b) 75%);
+            background-size: 22px 22px;
+            background-position: 0 0, 0 11px, 11px -11px, -11px 0;
+        }
+        .grid-guides {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            opacity: 0.05;
+        }
+        .grid-guides::before,
+        .grid-guides::after {
+            content: '';
+            position: absolute;
+            background: var(--ink);
+        }
+        .grid-guides::before { left: 50%; top: 0; bottom: 0; width: 1px; }
+        .grid-guides::after  { top: 50%; left: 0; right: 0; height: 1px; }
+
+        .pv-top-left  { position: absolute; top: 16px; left: 16px; display: flex; gap: 8px; z-index: 2; }
+        .pv-top-right { position: absolute; top: 16px; right: 16px; z-index: 2; }
+        .pv-btm-left  { position: absolute; bottom: 16px; left: 16px; z-index: 2; }
+        .pv-btm-right { position: absolute; bottom: 16px; right: 16px; z-index: 2; }
+
+        .pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 5px 10px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--ink-2);
+            letter-spacing: 0.04em;
+        }
+        .pill-display {
+            font-family: var(--font-display);
+            font-size: 13px;
+            font-weight: 400;
+            letter-spacing: 0.08em;
+            color: var(--ink);
+            padding: 5px 12px;
+        }
+        .pill-dot { width: 6px; height: 6px; border-radius: 50%; }
+
+        .zoom-ctl {
+            display: inline-flex;
+            align-items: center;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+        }
+        .zoom-btn {
+            background: transparent;
+            border: none;
+            color: var(--ink-2);
+            width: 28px;
+            height: 28px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .zoom-btn:hover { color: var(--ink); }
+        .zoom-val {
+            padding: 0 10px;
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--ink);
+            font-variant-numeric: tabular-nums;
+        }
+
+        .canvas-wrap {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 60px;
+        }
+        .canvas-stage {
+            position: relative;
+            display: inline-block;
+            line-height: 0;
+        }
+        .canvas-stage canvas {
+            display: block;
+            /* Affichage carré : limite par hauteur de viewport ET largeur disponible */
+            width: min(60vh, 100%);
+            height: min(60vh, 100%);
+            max-width: 720px;
+            max-height: 720px;
+        }
+        /* En mode sombre, les bulles PNG (traits noirs) sont presque invisibles
+           sur le damier sombre. On inverse la luminosité pour la prévisualisation
+           seulement — l'export via toDataURL n'est PAS affecté par les filtres CSS. */
+        [data-theme="dark"] .canvas-stage canvas {
+            filter: invert(1) hue-rotate(180deg);
+        }
+        .selection-box {
+            position: absolute;
+            inset: -10px;
+            border: 1.5px dashed var(--accent);
+            border-radius: 4px;
+            pointer-events: none;
+        }
+        .handle {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: var(--surface);
+            border: 2px solid var(--accent);
+            border-radius: 2px;
+        }
+        .handle.tl { top: -16px; left: -16px; }
+        .handle.tr { top: -16px; right: -16px; }
+        .handle.bl { bottom: -16px; left: -16px; }
+        .handle.br { bottom: -16px; right: -16px; }
+
+        /* ============================================================
+           Inspector (320px)
+           ============================================================ */
+        .inspector {
+            width: 320px;
+            background: var(--surface);
+            border-left: 1px solid var(--border);
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+        }
+        .insp-header {
+            height: 52px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 18px;
+            flex-shrink: 0;
+        }
+        .insp-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-family: var(--font-display);
+            font-size: 17px;
+            letter-spacing: 0.06em;
+            color: var(--ink);
+        }
+        .insp-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+        .insp-body::-webkit-scrollbar { width: 8px; }
+        .insp-body::-webkit-scrollbar-thumb {
+            background: var(--surface-2);
+            border-radius: 4px;
+        }
+        .insp-footer {
+            border-top: 1px solid var(--border);
+            padding: 14px 18px;
+            flex-shrink: 0;
+        }
+
+        .field-label {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 9px;
+        }
+        .field-label .lbl {
+            font-size: 10.5px;
+            font-weight: 700;
+            letter-spacing: 0.13em;
+            text-transform: uppercase;
+            color: var(--ink-2);
+        }
+        .tag {
+            font-size: 9.5px;
+            font-weight: 700;
+            letter-spacing: 0.10em;
+            text-transform: uppercase;
+            color: var(--accent);
+            background: var(--accent-soft);
+            padding: 3px 7px;
+            border-radius: 999px;
+        }
+
+        /* Textarea Comic Noir */
+        textarea.bubble-text {
+            width: 100%;
+            min-height: 80px;
+            background: var(--surface-2);
+            border: 1px solid var(--border-hi);
+            border-radius: var(--radius-sm);
+            padding: 10px 12px;
+            color: var(--ink);
+            font-family: var(--font-ui);
+            font-size: 14px;
+            line-height: 1.4;
+            resize: vertical;
+            box-shadow: 0 0 0 3px var(--accent-soft);
+            transition: box-shadow var(--transition);
+        }
+        textarea.bubble-text:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px var(--accent-ring);
+        }
+        .field-meta {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 7px;
+            font-size: 11px;
+        }
+        .field-meta .left  { color: var(--ink-3); font-variant-numeric: tabular-nums; }
+        .field-meta .right { color: var(--accent); font-weight: 600; }
+
+        /* Grid 2×2 styles */
+        .style-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+        .style-tile {
+            position: relative;
+            padding: 8px;
+            border-radius: 10px;
+            background: var(--surface-2);
+            border: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            transition: background var(--transition), border-color var(--transition);
+        }
+        .style-tile:hover { background: var(--surface); }
+        .style-tile.active {
+            background: var(--accent-soft);
+            border-color: var(--accent);
+        }
+        .style-tile-img {
+            width: 100%;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .style-tile-img img {
+            max-width: 92px;
+            max-height: 50px;
+            object-fit: contain;
+            filter: var(--bubble-filter, none);
+        }
+        [data-theme="dark"] .style-tile-img img { filter: invert(1) hue-rotate(180deg); }
+        [data-theme="dark"] .thumb canvas { filter: invert(1) hue-rotate(180deg); }
+        .style-tile-label {
+            font-size: 11.5px;
+            font-weight: 500;
+            color: var(--ink);
+        }
+        .style-tile.active .style-tile-label { color: var(--accent); font-weight: 700; }
+        .check-badge {
+            position: absolute;
+            top: 6px;
+            right: 6px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: var(--accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Liste polices */
+        .font-list { display: flex; flex-direction: column; gap: 4px; }
+        .font-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 10px;
+            border-radius: var(--radius-sm);
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--ink);
+            text-align: left;
+            transition: background var(--transition), border-color var(--transition);
+        }
+        .font-row:hover { background: var(--surface-2); }
+        .font-row.active {
+            background: var(--accent-soft);
+            border-color: var(--accent);
+        }
+        .font-row.active .font-name { color: var(--accent); font-weight: 700; }
+        .font-sample {
+            width: 30px;
+            font-size: 22px;
+            line-height: 1;
+            text-align: center;
+        }
+        .font-name { flex: 1; font-size: 12.5px; font-weight: 500; }
+
+        /* Swatches couleur (texte) */
+        .swatches { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+        .swatch {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            padding: 0;
+            position: relative;
+            border: none;
+            background: transparent;
+        }
+        .swatch-inner {
+            position: absolute;
+            inset: 3px;
+            border-radius: 50%;
+            border: 1px solid var(--border);
+        }
+        .swatch.active {
+            box-shadow: 0 0 0 2px var(--surface), 0 0 0 4px var(--accent);
+            background: var(--surface);
+        }
+        .swatch-custom {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            border: 1.5px dashed var(--ink-3);
+            background: transparent;
+            color: var(--ink-3);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .swatch-custom input {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        /* Toggles B / I */
+        .style-row {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+        .style-toggle {
+            width: 38px;
+            height: 38px;
+            border-radius: var(--radius-sm);
+            background: var(--surface-2);
+            border: 1px solid var(--border);
+            color: var(--ink);
+            font-size: 16px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: background var(--transition), border-color var(--transition);
+        }
+        .style-toggle:hover { background: var(--surface); }
+        .style-toggle.active {
+            background: var(--accent-soft);
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+        .style-toggle .b { font-weight: 900; }
+        .style-toggle .i { font-style: italic; font-weight: 700; font-family: 'Times New Roman', serif; }
+
+        /* Slider taille */
+        .size-wrap {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .auto-check {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            color: var(--ink);
+            font-weight: 500;
+            white-space: nowrap;
+        }
+        .auto-check input { accent-color: var(--accent); cursor: pointer; }
+        input[type="range"].slider {
+            flex: 1;
+            min-width: 0;
+            height: 6px;
+            accent-color: var(--accent);
+        }
+        input[type="range"].slider:disabled { opacity: 0.4; }
+        .size-val {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--ink);
+            font-variant-numeric: tabular-nums;
+            min-width: 56px;
+            text-align: right;
+        }
+
+        /* Export footer */
+        .btn-primary {
+            width: 100%;
+            padding: 11px 12px;
+            border-radius: 10px;
+            background: var(--accent);
+            color: #fff;
+            border: none;
+            box-shadow: var(--glow);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 13.5px;
+            font-weight: 600;
+            letter-spacing: 0.01em;
+            transition: transform var(--transition);
+        }
+        .btn-primary:hover { transform: translateY(-1px); }
+        .btn-primary:active { transform: translateY(0); }
+
+        .insp-meta {
+            margin-top: 9px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 11px;
+            color: var(--ink-3);
+            font-weight: 500;
+        }
+        .insp-meta .copy {
+            color: var(--ink-2);
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            background: transparent;
+            border: none;
+        }
+        .insp-meta .copy:hover { color: var(--ink); }
+
+        /* ============================================================
+           History strip (116px)
+           ============================================================ */
+        .history {
+            height: 116px;
+            background: var(--surface);
+            border-top: 1px solid var(--border);
+            display: flex;
+            flex-shrink: 0;
+        }
+        .history-left {
+            width: 130px;
+            border-right: 1px solid var(--border);
+            padding: 18px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 4px;
+        }
+        .history-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-family: var(--font-display);
+            font-size: 16px;
+            letter-spacing: 0.06em;
+            color: var(--ink);
+        }
+        .history-sub { font-size: 10.5px; color: var(--ink-3); font-weight: 500; }
+
+        .history-strip {
+            flex: 1;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            padding: 0 18px;
+            overflow-x: auto;
+            overflow-y: hidden;
+        }
+        .history-strip::-webkit-scrollbar { height: 6px; }
+        .history-strip::-webkit-scrollbar-thumb { background: var(--surface-2); border-radius: 3px; }
+
+        .history-empty {
+            font-size: 12px;
+            color: var(--ink-3);
+            font-style: italic;
+        }
+
+        .thumb {
+            position: relative;
+            width: 124px;
+            height: 84px;
+            padding: 0;
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+            flex-shrink: 0;
+            background: var(--paper);
+            border: 2px solid var(--border);
+            transition: border-color var(--transition), box-shadow var(--transition);
+        }
+        .thumb.active {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px var(--accent-soft);
+        }
+        .thumb-img {
+            position: absolute;
+            inset: 0;
+            background-color: var(--checker-a);
+            background-image:
+                linear-gradient(45deg, var(--checker-b) 25%, transparent 25%),
+                linear-gradient(-45deg, var(--checker-b) 25%, transparent 25%),
+                linear-gradient(45deg, transparent 75%, var(--checker-b) 75%),
+                linear-gradient(-45deg, transparent 75%, var(--checker-b) 75%);
+            background-size: 12px 12px;
+            background-position: 0 0, 0 6px, 6px -6px, -6px 0;
+        }
+        .thumb canvas {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+        }
+        .thumb-badge {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            background: var(--accent);
+            color: #fff;
+            font-size: 8.5px;
+            font-weight: 700;
+            letter-spacing: 0.10em;
+            padding: 2px 5px;
+            border-radius: 4px;
+        }
+        .history-right {
+            width: 110px;
+            border-left: 1px solid var(--border);
+            padding: 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            justify-content: center;
+        }
+        .ghost-btn {
+            background: transparent;
+            color: var(--ink-2);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 7px 10px;
+            font-size: 12px;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            transition: background var(--transition), color var(--transition);
+        }
+        .ghost-btn:hover { background: var(--surface-2); color: var(--ink); }
+
+        /* ============================================================
+           Status (a11y) — hidden but kept live
+           ============================================================ */
+        .sr-status {
+            position: absolute;
+            left: -9999px;
+            width: 1px;
+            height: 1px;
+        }
+
+        /* ============================================================
+           Focus ring
+           ============================================================ */
+        :focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 2px;
+            border-radius: 4px;
+        }
+        button:focus:not(:focus-visible) { outline: none; }
+
+        /* ============================================================
+           Responsive
+           ============================================================ */
+        @media (max-width: 1000px) {
+            html, body { overflow: auto; }
+            .app { height: auto; min-height: 100vh; }
+            .app-body { flex-direction: column; }
+            .preview {
+                min-height: 360px;
+                height: 60vh;
+            }
+            .inspector {
+                width: 100%;
+                border-left: none;
+                border-top: 1px solid var(--border);
+            }
+            .insp-body { max-height: none; }
+            .history {
+                flex-wrap: wrap;
+                height: auto;
+                min-height: 116px;
+            }
+            .history-left { width: 100%; border-right: none; border-bottom: 1px solid var(--border); }
+            .history-right { width: 100%; border-left: none; border-top: 1px solid var(--border); flex-direction: row; }
+            .ghost-btn { flex: 1; }
+        }
+
+        @media (max-width: 600px) {
+            .header { padding: 0 12px; height: 56px; }
+            .tagline, .sep-v, .pill-lang { display: none; }
+            .logo-text { font-size: 22px; }
+            .pv-top-left .pill:nth-child(2) { display: none; }
+            .pv-btm-left { display: none; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            * { transition-duration: 0.01ms !important; }
+        }
+    </style>
+</head>
+<body>
+    <div class="app">
+
+        <!-- ============================================================
+             HEADER
+             ============================================================ -->
+        <header class="header" role="banner">
+            <div class="header-left">
+                <a class="logo" href="/" aria-label="BubblePop — accueil">
+                    <svg class="logo-mark" viewBox="0 0 44 36" aria-hidden="true">
+                        <defs>
+                            <linearGradient id="lg" x1="0" y1="0" x2="1" y2="1">
+                                <stop offset="0%" stop-color="var(--accent)"/>
+                                <stop offset="100%" stop-color="var(--accent-lo)"/>
+                            </linearGradient>
+                        </defs>
+                        <ellipse cx="22" cy="16" rx="20" ry="12" fill="url(#lg)"/>
+                        <path d="M14 25 L11 34 L20 27 Z" fill="url(#lg)"/>
+                        <circle cx="14" cy="16" r="2" fill="#0A0B0F"/>
+                        <circle cx="22" cy="16" r="2" fill="#0A0B0F"/>
+                        <circle cx="30" cy="16" r="2" fill="#0A0B0F"/>
+                    </svg>
+                    <span class="logo-text">BubblePop</span>
+                </a>
+                <div class="sep-v"></div>
+                <span class="tagline">Generate transparent comic speech bubbles in seconds</span>
+            </div>
+            <div class="header-right">
+                <div class="seg" aria-label="Annuler / refaire">
+                    <button class="h-btn" id="undoBtn" aria-label="Annuler" disabled>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14L4 9l5-5"/><path d="M4 9h11a5 5 0 0 1 0 10h-3"/></svg>
+                    </button>
+                    <button class="h-btn" id="redoBtn" aria-label="Refaire" disabled>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14l5-5-5-5"/><path d="M20 9H9a5 5 0 0 0 0 10h3"/></svg>
+                    </button>
+                </div>
+                <button class="h-btn h-btn-bordered theme-toggle" id="themeToggle" aria-label="Basculer le thème">
+                    <svg id="themeIcon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"></svg>
+                    <span id="themeLabel">Clair</span>
+                </button>
+                <button class="h-btn h-btn-bordered" id="shareBtn" aria-label="Partager">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="12" r="2.2"/><circle cx="18" cy="6" r="2.2"/><circle cx="18" cy="18" r="2.2"/><path d="M8 11l8-4"/><path d="M8 13l8 4"/></svg>
+                </button>
+                <button class="h-btn h-btn-bordered" id="helpBtn" aria-label="Aide">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.8.4-1 1-1 1.7"/><circle cx="12" cy="17" r=".5" fill="currentColor" stroke="none"/></svg>
+                </button>
+                <button class="pill-lang" id="langBtn" aria-label="Langue">
+                    FR
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+                </button>
+                <div class="avatar" aria-hidden="true">B</div>
+            </div>
+        </header>
+
+        <!-- ============================================================
+             BODY : Toolbar + Preview + Inspector
+             ============================================================ -->
+        <div class="app-body">
+
+            <!-- Preview -->
+            <section class="preview" role="region" aria-label="Aperçu">
+                <div class="checker" aria-hidden="true"></div>
+                <div class="grid-guides" aria-hidden="true"></div>
+
+                <div class="pv-top-left">
+                    <span class="pill pill-display">PANEL 01</span>
+                    <span class="pill" id="sizePill">2000 × 2000 px</span>
+                </div>
+
+                <div class="pv-top-right">
+                    <div class="zoom-ctl">
+                        <button class="zoom-btn" id="zoomOut" aria-label="Dézoomer">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"><path d="M5 12h14"/></svg>
+                        </button>
+                        <span class="zoom-val" id="zoomVal">100%</span>
+                        <button class="zoom-btn" id="zoomIn" aria-label="Zoomer">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="canvas-wrap">
+                    <div class="canvas-stage" id="canvasStage">
+                        <canvas id="canvas" width="2000" height="2000" aria-label="Aperçu de la bulle"></canvas>
+                        <div class="selection-box" aria-hidden="true"></div>
+                        <div class="handle tl" aria-hidden="true"></div>
+                        <div class="handle tr" aria-hidden="true"></div>
+                        <div class="handle bl" aria-hidden="true"></div>
+                        <div class="handle br" aria-hidden="true"></div>
+                    </div>
+                </div>
+
+                <div class="pv-btm-left">
+                    <span class="pill"><span aria-hidden="true">⇧</span> maintenir pour panoramique</span>
+                </div>
+                <div class="pv-btm-right">
+                    <span class="pill"><span class="pill-dot" style="background: var(--success);"></span> Fond transparent · prêt à exporter</span>
+                </div>
+            </section>
+
+            <!-- Inspector -->
+            <aside class="inspector" role="complementary" aria-label="Propriétés">
+                <div class="insp-header">
+                    <span class="insp-title">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l9 5-9 5-9-5 9-5z"/><path d="M3 13l9 5 9-5"/></svg>
+                        Propriétés
+                    </span>
+                    <button class="h-btn" aria-label="Plus d'options">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="1.2"/><circle cx="12" cy="12" r="1.2"/><circle cx="19" cy="12" r="1.2"/></svg>
+                    </button>
+                </div>
+
+                <div class="insp-body" id="inspBody">
+
+                    <!-- Texte -->
+                    <div data-section="text">
+                        <div class="field-label">
+                            <span class="lbl">Texte de la bulle</span>
+                            <span class="tag">Auto-redim</span>
+                        </div>
+                        <textarea id="text" class="bubble-text" placeholder="Tapez votre texte ici…" maxlength="500" spellcheck="false">Bonjour !</textarea>
+                        <div class="field-meta">
+                            <span class="left"><span id="charCount">9</span> / 120 caractères</span>
+                            <span class="right">Saisie en direct</span>
+                        </div>
+                    </div>
+
+                    <!-- Style de bulle -->
+                    <div data-section="style">
+                        <div class="field-label">
+                            <span class="lbl">Style de bulle</span>
+                        </div>
+                        <div class="style-grid" id="styleGrid">
+                            <button class="style-tile active" data-bubble="1" aria-label="Parole">
+                                <div class="style-tile-img"><img src="bulles BD/1.png" alt=""></div>
+                                <span class="style-tile-label">Parole</span>
+                                <div class="check-badge"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-11"/></svg></div>
+                            </button>
+                            <button class="style-tile" data-bubble="2" aria-label="Pensée">
+                                <div class="style-tile-img"><img src="bulles BD/2.png" alt=""></div>
+                                <span class="style-tile-label">Pensée</span>
+                            </button>
+                            <button class="style-tile" data-bubble="3" aria-label="Murmure">
+                                <div class="style-tile-img"><img src="bulles BD/3.png" alt=""></div>
+                                <span class="style-tile-label">Murmure</span>
+                            </button>
+                            <button class="style-tile" data-bubble="4" aria-label="Cri">
+                                <div class="style-tile-img"><img src="bulles BD/4.png" alt=""></div>
+                                <span class="style-tile-label">Cri</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Police -->
+                    <div data-section="font">
+                        <div class="field-label">
+                            <span class="lbl">Police</span>
+                            <span class="tag">5 disponibles</span>
+                        </div>
+                        <div class="font-list" id="fontList">
+                            <button class="font-row" data-font="Comic Relief">
+                                <span class="font-sample" style="font-family: 'Comic Relief', cursive;">Aa</span>
+                                <span class="font-name">Comic Relief</span>
+                            </button>
+                            <button class="font-row active" data-font="Bangers">
+                                <span class="font-sample" style="font-family: 'Bangers', sans-serif; font-size: 26px;">Aa</span>
+                                <span class="font-name">Bangers</span>
+                            </button>
+                            <button class="font-row" data-font="Komika Axis">
+                                <span class="font-sample" style="font-family: 'Komika Axis', sans-serif; font-size: 20px;">Aa</span>
+                                <span class="font-name">Komika Axis</span>
+                            </button>
+                            <button class="font-row" data-font="Architects Daughter">
+                                <span class="font-sample" style="font-family: 'Architects Daughter', cursive;">Aa</span>
+                                <span class="font-name">Architects Hand</span>
+                            </button>
+                            <button class="font-row" data-font="Permanent Marker">
+                                <span class="font-sample" style="font-family: 'Permanent Marker', cursive;">Aa</span>
+                                <span class="font-name">Permanent Marker</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Couleur du texte -->
+                    <div data-section="color">
+                        <div class="field-label">
+                            <span class="lbl">Couleur du texte</span>
+                        </div>
+                        <div class="swatches" id="colorSwatches">
+                            <button class="swatch active" data-color="#000000" aria-label="Noir">
+                                <span class="swatch-inner" style="background:#0F1116;"></span>
+                            </button>
+                            <button class="swatch" data-color="#FFFFFF" aria-label="Blanc">
+                                <span class="swatch-inner" style="background:#FFFFFF;"></span>
+                            </button>
+                            <button class="swatch" data-color="#3B82F6" aria-label="Bleu">
+                                <span class="swatch-inner" style="background:#3B82F6;"></span>
+                            </button>
+                            <button class="swatch" data-color="#F87171" aria-label="Rouge">
+                                <span class="swatch-inner" style="background:#F87171;"></span>
+                            </button>
+                            <button class="swatch" data-color="#FACC15" aria-label="Jaune">
+                                <span class="swatch-inner" style="background:#FACC15;"></span>
+                            </button>
+                            <label class="swatch-custom" aria-label="Couleur personnalisée">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
+                                <input type="color" id="textColor" value="#000000">
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Style typo (B/I) -->
+                    <div data-section="typo">
+                        <div class="field-label">
+                            <span class="lbl">Style typographique</span>
+                        </div>
+                        <div class="style-row">
+                            <button class="style-toggle active" id="boldBtn" aria-pressed="true" aria-label="Gras"><span class="b">B</span></button>
+                            <button class="style-toggle" id="italicBtn" aria-pressed="false" aria-label="Italique"><span class="i">I</span></button>
+                        </div>
+                    </div>
+
+                    <!-- Taille -->
+                    <div data-section="size">
+                        <div class="field-label">
+                            <span class="lbl">Taille</span>
+                            <span class="tag" id="sizeTag">Auto</span>
+                        </div>
+                        <div class="size-wrap">
+                            <label class="auto-check">
+                                <input type="checkbox" id="autoSize" checked>
+                                Auto
+                            </label>
+                            <input type="range" id="manualSize" class="slider" min="20" max="400" value="120" disabled aria-label="Taille de la police">
+                            <span class="size-val" id="sizeValue">auto</span>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="insp-footer">
+                    <button class="btn-primary" id="downloadBtn">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M5 21h14"/></svg>
+                        Exporter PNG transparent
+                    </button>
+                    <div class="insp-meta">
+                        <span style="display:inline-flex; align-items:center; gap:6px;">
+                            <span class="pill-dot" style="background: var(--success);"></span>
+                            <span id="metaInfo">PNG · 2000 × 2000 px · fond alpha</span>
+                        </span>
+                        <button class="copy" id="copyBtn" aria-label="Copier dans le presse-papiers">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+                            Copier
+                        </button>
+                    </div>
+                </div>
+            </aside>
+        </div>
+
+        <!-- ============================================================
+             HISTORY STRIP
+             ============================================================ -->
+        <section class="history" role="region" aria-label="Historique">
+            <div class="history-left">
+                <div class="history-title">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/><path d="M12 8v4l3 2"/></svg>
+                    Historique
+                </div>
+                <span class="history-sub" id="historySub">0 bulles · session locale</span>
+            </div>
+            <div class="history-strip" id="historyStrip">
+                <span class="history-empty">Pas encore de bulle dans l'historique — exporte ta première création !</span>
+            </div>
+            <div class="history-right">
+                <button class="ghost-btn" id="clearHistoryBtn">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16"/><path d="M9 7V4h6v3"/><path d="M6 7l1 13h10l1-13"/></svg>
+                    Vider
+                </button>
+                <button class="ghost-btn" id="exportZipBtn">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M5 21h14"/></svg>
+                    ZIP
+                </button>
+            </div>
+        </section>
+
+        <div class="sr-status" role="status" aria-live="polite" id="status"></div>
+    </div>
+
+    <script>
+        // ============================================================
+        // Configuration des zones de texte par bulle
+        // (Rectangle inscrit DANS le tracé de chaque bulle, % de l'image)
+        // ============================================================
+        const BUBBLE_CONFIG = {
+            1: { x: 0.22, y: 0.22, w: 0.56, h: 0.36 },
+            2: { x: 0.28, y: 0.28, w: 0.44, h: 0.20 },
+            3: { x: 0.22, y: 0.22, w: 0.56, h: 0.36 },
+            4: { x: 0.30, y: 0.24, w: 0.40, h: 0.26 }
+        };
+        const RENDER_SIZE = 2000;
+        const HISTORY_KEY = 'bubblepop:history';
+        const THEME_KEY = 'bubblepop:theme';
+        const MAX_HISTORY = 9;
+        const MAX_TEXT_LEN = 500;
+
+        // Listes blanches : tout ce qui vient de localStorage est filtré
+        // contre ces valeurs autorisées avant utilisation (defense in depth
+        // contre une corruption du storage par une extension malveillante).
+        const ALLOWED_FONTS = ['Comic Relief', 'Bangers', 'Komika Axis', 'Architects Daughter', 'Permanent Marker'];
+        const ALLOWED_BUBBLES = [1, 2, 3, 4];
+        const HEX_COLOR_RE = /^#[0-9A-Fa-f]{6}$/;
+
+        function sanitizeSnapshot(s) {
+            if (!s || typeof s !== 'object') return null;
+            return {
+                text: typeof s.text === 'string' ? s.text.slice(0, MAX_TEXT_LEN) : '',
+                bubble: ALLOWED_BUBBLES.includes(s.bubble) ? s.bubble : 1,
+                font: ALLOWED_FONTS.includes(s.font) ? s.font : 'Bangers',
+                color: typeof s.color === 'string' && HEX_COLOR_RE.test(s.color) ? s.color : '#000000',
+                bold: !!s.bold,
+                italic: !!s.italic,
+                autoSize: s.autoSize !== false,
+                manualSize: Number.isFinite(s.manualSize) ? Math.max(20, Math.min(400, s.manualSize | 0)) : 120,
+                ts: Number.isFinite(s.ts) ? s.ts : Date.now()
+            };
+        }
+
+        // ============================================================
+        // DOM
+        // ============================================================
+        const $ = (id) => document.getElementById(id);
+        const canvas = $('canvas');
+        const ctx = canvas.getContext('2d');
+        const textInput = $('text');
+        const charCount = $('charCount');
+        const statusEl = $('status');
+        const downloadBtn = $('downloadBtn');
+        const copyBtn = $('copyBtn');
+        const styleGrid = $('styleGrid');
+        const fontList = $('fontList');
+        const colorSwatches = $('colorSwatches');
+        const textColorInput = $('textColor');
+        const boldBtn = $('boldBtn');
+        const italicBtn = $('italicBtn');
+        const autoSizeCheckbox = $('autoSize');
+        const manualSizeInput = $('manualSize');
+        const sizeValueEl = $('sizeValue');
+        const sizeTag = $('sizeTag');
+        const themeToggle = $('themeToggle');
+        const themeIcon = $('themeIcon');
+        const themeLabel = $('themeLabel');
+        const historyStrip = $('historyStrip');
+        const historySub = $('historySub');
+        const clearHistoryBtn = $('clearHistoryBtn');
+        const exportZipBtn = $('exportZipBtn');
+        const zoomVal = $('zoomVal');
+        const zoomIn = $('zoomIn');
+        const zoomOut = $('zoomOut');
+
+        const bubbleImages = {};
+        let selectedBubble = 1;
+        let selectedFont = 'Bangers';
+        let zoom = 100;
+
+        const textStyle = {
+            color: '#000000',
+            bold: true,
+            italic: false,
+            autoSize: true,
+            manualSize: 120
+        };
+
+        // ============================================================
+        // Thème (sombre / clair) — persistance + préférence système
+        // ============================================================
+        const ICON_SUN  = '<circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="M4.5 4.5l1.5 1.5"/><path d="M18 18l1.5 1.5"/><path d="M4.5 19.5l1.5-1.5"/><path d="M18 6l1.5-1.5"/>';
+        const ICON_MOON = '<path d="M20 14.5A8 8 0 1 1 9.5 4 6 6 0 0 0 20 14.5z"/>';
+
+        function applyTheme(mode) {
+            document.documentElement.setAttribute('data-theme', mode);
+            if (mode === 'dark') {
+                themeIcon.innerHTML = ICON_SUN;
+                themeLabel.textContent = 'Clair';
+                document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0A0B0F');
+            } else {
+                themeIcon.innerHTML = ICON_MOON;
+                themeLabel.textContent = 'Sombre';
+                document.querySelector('meta[name="theme-color"]').setAttribute('content', '#F8F6EF');
+            }
+        }
+        function initTheme() {
+            const stored = localStorage.getItem(THEME_KEY);
+            if (stored === 'dark' || stored === 'light') {
+                applyTheme(stored);
+            } else {
+                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                applyTheme(prefersDark ? 'dark' : 'light');
+            }
+        }
+        themeToggle.addEventListener('click', () => {
+            const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+            applyTheme(next);
+            localStorage.setItem(THEME_KEY, next);
+        });
+        initTheme();
+
+        // ============================================================
+        // Police : utilitaires
+        // ============================================================
+        function buildFont(size, fontFamily) {
+            const weight = textStyle.bold ? 'bold' : 'normal';
+            const style = textStyle.italic ? 'italic' : 'normal';
+            return `${style} ${weight} ${size}px "${fontFamily}", sans-serif`;
+        }
+
+        // ============================================================
+        // Chargement des images de bulles
+        // ============================================================
+        function loadBubbleImages() {
+            return Promise.all([1, 2, 3, 4].map(num => {
+                return new Promise((resolve) => {
+                    const img = new Image();
+                    img.onload = () => { bubbleImages[num] = img; resolve(); };
+                    img.onerror = () => {
+                        console.error(`Erreur chargement bulles BD/${num}.png`);
+                        resolve();
+                    };
+                    img.src = `bulles BD/${num}.png`;
+                });
+            }));
+        }
+
+        // ============================================================
+        // Word-wrap + ajustement automatique
+        // ============================================================
+        function wrapText(text, maxWidth) {
+            const paragraphs = text.split('\n');
+            const lines = [];
+            paragraphs.forEach(paragraph => {
+                if (!paragraph) { lines.push(''); return; }
+                const words = paragraph.split(' ');
+                let currentLine = '';
+                words.forEach(word => {
+                    const testLine = currentLine ? currentLine + ' ' + word : word;
+                    if (ctx.measureText(testLine).width > maxWidth && currentLine) {
+                        lines.push(currentLine);
+                        currentLine = word;
+                    } else {
+                        currentLine = testLine;
+                    }
+                });
+                if (currentLine) lines.push(currentLine);
+            });
+            return lines;
+        }
+        function fitText(text, maxWidth, maxHeight, fontFamily) {
+            let lo = 10, hi = 400, best = 10, bestLines = [text];
+            while (lo <= hi) {
+                const mid = Math.floor((lo + hi) / 2);
+                ctx.font = buildFont(mid, fontFamily);
+                const lines = wrapText(text, maxWidth);
+                const lineHeight = mid * 1.2;
+                const totalHeight = lines.length * lineHeight;
+                const maxLineWidth = Math.max(...lines.map(l => ctx.measureText(l).width));
+                if (totalHeight <= maxHeight && maxLineWidth <= maxWidth) {
+                    best = mid;
+                    bestLines = lines;
+                    lo = mid + 1;
+                } else {
+                    hi = mid - 1;
+                }
+            }
+            return { fontSize: best, lines: bestLines };
+        }
+
+        // ============================================================
+        // Génération de la bulle (canvas principal)
+        // ============================================================
+        function generateBubble() {
+            const text = textInput.value || ' ';
+            const bubbleImg = bubbleImages[selectedBubble];
+            if (!bubbleImg) {
+                statusEl.textContent = 'Image de bulle non chargée';
+                return;
+            }
+
+            canvas.width = RENDER_SIZE;
+            canvas.height = RENDER_SIZE;
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.drawImage(bubbleImg, 0, 0, canvas.width, canvas.height);
+
+            const cfg = BUBBLE_CONFIG[selectedBubble];
+            const zoneX = cfg.x * canvas.width;
+            const zoneY = cfg.y * canvas.height;
+            const zoneW = cfg.w * canvas.width;
+            const zoneH = cfg.h * canvas.height;
+
+            let fontSize, lines;
+            if (textStyle.autoSize) {
+                ({ fontSize, lines } = fitText(text, zoneW, zoneH, selectedFont));
+            } else {
+                fontSize = textStyle.manualSize;
+                ctx.font = buildFont(fontSize, selectedFont);
+                lines = wrapText(text, zoneW);
+            }
+
+            ctx.font = buildFont(fontSize, selectedFont);
+            ctx.fillStyle = textStyle.color;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+
+            const lineHeight = fontSize * 1.2;
+            const totalHeight = lines.length * lineHeight;
+            const centerX = zoneX + zoneW / 2;
+            const startY = zoneY + (zoneH - totalHeight) / 2 + lineHeight / 2;
+
+            lines.forEach((line, i) => {
+                ctx.fillText(line, centerX, startY + i * lineHeight);
+            });
+
+            sizeValueEl.textContent = `${fontSize}px`;
+            if (textStyle.autoSize) {
+                manualSizeInput.value = fontSize;
+                sizeTag.textContent = 'Auto';
+            } else {
+                sizeTag.textContent = 'Manuel';
+            }
+            statusEl.textContent = `Taille : ${fontSize}px · ${lines.length} ligne(s)`;
+        }
+
+        // ============================================================
+        // Saisie de texte
+        // ============================================================
+        textInput.addEventListener('input', () => {
+            charCount.textContent = textInput.value.length;
+            generateBubble();
+        });
+
+        // ============================================================
+        // Sélection de la bulle
+        // ============================================================
+        styleGrid.addEventListener('click', (e) => {
+            const tile = e.target.closest('.style-tile');
+            if (!tile) return;
+            styleGrid.querySelectorAll('.style-tile').forEach(t => {
+                t.classList.remove('active');
+                t.querySelector('.check-badge')?.remove();
+            });
+            tile.classList.add('active');
+            const badge = document.createElement('div');
+            badge.className = 'check-badge';
+            badge.innerHTML = '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-11"/></svg>';
+            tile.appendChild(badge);
+            selectedBubble = parseInt(tile.dataset.bubble, 10);
+            generateBubble();
+        });
+
+        // ============================================================
+        // Sélection de la police
+        // ============================================================
+        fontList.addEventListener('click', (e) => {
+            const row = e.target.closest('.font-row');
+            if (!row) return;
+            fontList.querySelectorAll('.font-row').forEach(r => r.classList.remove('active'));
+            row.classList.add('active');
+            selectedFont = row.dataset.font;
+            generateBubble();
+        });
+
+        // ============================================================
+        // Sélection couleur (swatches + custom)
+        // ============================================================
+        function setColorActive(color) {
+            colorSwatches.querySelectorAll('.swatch').forEach(s => {
+                s.classList.toggle('active', s.dataset.color?.toLowerCase() === color.toLowerCase());
+            });
+        }
+        colorSwatches.addEventListener('click', (e) => {
+            const swatch = e.target.closest('.swatch');
+            if (!swatch) return;
+            const color = swatch.dataset.color;
+            textStyle.color = color;
+            textColorInput.value = color;
+            setColorActive(color);
+            generateBubble();
+        });
+        textColorInput.addEventListener('input', () => {
+            textStyle.color = textColorInput.value;
+            setColorActive(textColorInput.value);
+            generateBubble();
+        });
+
+        // ============================================================
+        // Bold / Italic
+        // ============================================================
+        boldBtn.addEventListener('click', () => {
+            textStyle.bold = !textStyle.bold;
+            boldBtn.classList.toggle('active', textStyle.bold);
+            boldBtn.setAttribute('aria-pressed', textStyle.bold);
+            generateBubble();
+        });
+        italicBtn.addEventListener('click', () => {
+            textStyle.italic = !textStyle.italic;
+            italicBtn.classList.toggle('active', textStyle.italic);
+            italicBtn.setAttribute('aria-pressed', textStyle.italic);
+            generateBubble();
+        });
+
+        // ============================================================
+        // Taille (auto/manuel)
+        // ============================================================
+        autoSizeCheckbox.addEventListener('change', () => {
+            textStyle.autoSize = autoSizeCheckbox.checked;
+            manualSizeInput.disabled = textStyle.autoSize;
+            generateBubble();
+        });
+        manualSizeInput.addEventListener('input', () => {
+            textStyle.manualSize = parseInt(manualSizeInput.value, 10);
+            if (textStyle.autoSize) {
+                textStyle.autoSize = false;
+                autoSizeCheckbox.checked = false;
+                manualSizeInput.disabled = false;
+            }
+            generateBubble();
+        });
+
+        // ============================================================
+        // Zoom (visuel — affecte uniquement la prévisualisation)
+        // ============================================================
+        const canvasStage = $('canvasStage');
+        function applyZoom() {
+            zoomVal.textContent = `${zoom}%`;
+            canvasStage.style.transform = `scale(${zoom / 100})`;
+            canvasStage.style.transformOrigin = 'center';
+        }
+        zoomIn.addEventListener('click', () => { zoom = Math.min(200, zoom + 25); applyZoom(); });
+        zoomOut.addEventListener('click', () => { zoom = Math.max(25, zoom - 25); applyZoom(); });
+
+        // ============================================================
+        // Historique (localStorage, max 9 entrées)
+        // ============================================================
+        function loadHistory() {
+            try {
+                const raw = JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]');
+                if (!Array.isArray(raw)) return [];
+                return raw
+                    .slice(0, MAX_HISTORY)
+                    .map(sanitizeSnapshot)
+                    .filter(Boolean);
+            } catch (e) {
+                return [];
+            }
+        }
+        function saveHistory(items) {
+            localStorage.setItem(HISTORY_KEY, JSON.stringify(items));
+        }
+        function renderHistory() {
+            const items = loadHistory();
+            historySub.textContent = `${items.length} bulle${items.length > 1 ? 's' : ''} · session locale`;
+            historyStrip.innerHTML = '';
+            if (items.length === 0) {
+                const empty = document.createElement('span');
+                empty.className = 'history-empty';
+                empty.textContent = "Pas encore de bulle dans l'historique — exporte ta première création !";
+                historyStrip.appendChild(empty);
+                return;
+            }
+            items.forEach((item, i) => {
+                const thumb = document.createElement('button');
+                thumb.className = 'thumb' + (i === 0 ? ' active' : '');
+                thumb.setAttribute('aria-label', `Restaurer : ${item.text || '(bulle)'}`);
+                thumb.dataset.idx = i;
+
+                const bg = document.createElement('div');
+                bg.className = 'thumb-img';
+                thumb.appendChild(bg);
+
+                const thumbCanvas = document.createElement('canvas');
+                thumbCanvas.width = 248;
+                thumbCanvas.height = 168;
+                thumb.appendChild(thumbCanvas);
+                renderThumbnail(thumbCanvas, item);
+
+                if (i === 0) {
+                    const badge = document.createElement('span');
+                    badge.className = 'thumb-badge';
+                    badge.textContent = 'ACTUEL';
+                    thumb.appendChild(badge);
+                }
+                historyStrip.appendChild(thumb);
+            });
+        }
+        function renderThumbnail(thumbCanvas, item) {
+            const tctx = thumbCanvas.getContext('2d');
+            tctx.clearRect(0, 0, thumbCanvas.width, thumbCanvas.height);
+            const img = bubbleImages[item.bubble];
+            if (!img) return;
+            tctx.drawImage(img, 0, 0, thumbCanvas.width, thumbCanvas.height);
+            const cfg = BUBBLE_CONFIG[item.bubble];
+            const zx = cfg.x * thumbCanvas.width;
+            const zy = cfg.y * thumbCanvas.height;
+            const zw = cfg.w * thumbCanvas.width;
+            const zh = cfg.h * thumbCanvas.height;
+            // approximation : tente une taille raisonnable pour la miniature
+            const weight = item.bold ? 'bold' : 'normal';
+            const style = item.italic ? 'italic' : 'normal';
+            let size = 18;
+            tctx.font = `${style} ${weight} ${size}px "${item.font}", sans-serif`;
+            const lines = (item.text || '').split('\n');
+            while (size > 8) {
+                const lw = Math.max(...lines.map(l => tctx.measureText(l).width));
+                if (lw <= zw && lines.length * size * 1.2 <= zh) break;
+                size--;
+                tctx.font = `${style} ${weight} ${size}px "${item.font}", sans-serif`;
+            }
+            tctx.fillStyle = item.color || '#000';
+            tctx.textAlign = 'center';
+            tctx.textBaseline = 'middle';
+            const lh = size * 1.2;
+            const startY = zy + (zh - lines.length * lh) / 2 + lh / 2;
+            lines.forEach((l, i) => {
+                tctx.fillText(l, zx + zw / 2, startY + i * lh);
+            });
+        }
+        function pushHistory(snapshot) {
+            const items = loadHistory();
+            items.unshift(snapshot);
+            const trimmed = items.slice(0, MAX_HISTORY);
+            saveHistory(trimmed);
+            renderHistory();
+        }
+        function snapshotState() {
+            return {
+                text: textInput.value,
+                bubble: selectedBubble,
+                font: selectedFont,
+                color: textStyle.color,
+                bold: textStyle.bold,
+                italic: textStyle.italic,
+                autoSize: textStyle.autoSize,
+                manualSize: textStyle.manualSize,
+                ts: Date.now()
+            };
+        }
+        function restoreSnapshot(raw) {
+            const s = sanitizeSnapshot(raw);
+            if (!s) return;
+            textInput.value = s.text;
+            charCount.textContent = textInput.value.length;
+            selectedBubble = s.bubble;
+            selectedFont = s.font;
+            textStyle.color = s.color;
+            textStyle.bold = s.bold;
+            textStyle.italic = s.italic;
+            textStyle.autoSize = s.autoSize;
+            textStyle.manualSize = s.manualSize;
+
+            // Sync UI
+            styleGrid.querySelectorAll('.style-tile').forEach(t => {
+                t.classList.toggle('active', parseInt(t.dataset.bubble, 10) === selectedBubble);
+                t.querySelector('.check-badge')?.remove();
+            });
+            const activeTile = styleGrid.querySelector(`.style-tile[data-bubble="${selectedBubble}"]`);
+            if (activeTile) {
+                const badge = document.createElement('div');
+                badge.className = 'check-badge';
+                badge.innerHTML = '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-11"/></svg>';
+                activeTile.appendChild(badge);
+            }
+            fontList.querySelectorAll('.font-row').forEach(r => {
+                r.classList.toggle('active', r.dataset.font === selectedFont);
+            });
+            setColorActive(textStyle.color);
+            textColorInput.value = textStyle.color;
+            boldBtn.classList.toggle('active', textStyle.bold);
+            italicBtn.classList.toggle('active', textStyle.italic);
+            autoSizeCheckbox.checked = textStyle.autoSize;
+            manualSizeInput.disabled = textStyle.autoSize;
+            manualSizeInput.value = textStyle.manualSize;
+
+            generateBubble();
+        }
+
+        historyStrip.addEventListener('click', (e) => {
+            const t = e.target.closest('.thumb');
+            if (!t) return;
+            const idx = parseInt(t.dataset.idx, 10);
+            const items = loadHistory();
+            if (items[idx]) restoreSnapshot(items[idx]);
+        });
+        clearHistoryBtn.addEventListener('click', () => {
+            if (loadHistory().length === 0) return;
+            if (confirm("Vider l'historique des bulles ?")) {
+                saveHistory([]);
+                renderHistory();
+            }
+        });
+        exportZipBtn.addEventListener('click', () => {
+            alert("L'export ZIP arrive bientôt. En attendant, télécharge chaque bulle individuellement.");
+        });
+
+        // ============================================================
+        // Export PNG
+        // toDataURL est synchrone → garde le user-gesture, contourne les
+        // restrictions Chrome sur les téléchargements async.
+        // Le lien est inséré dans le DOM avant .click() (Firefox ignore
+        // les clicks sur anchor détaché).
+        // ============================================================
+        function doExport() {
+            if (!canvas.width || !canvas.height) {
+                alert("La bulle n'est pas encore prête. Patiente une seconde puis réessaie.");
+                return;
+            }
+            let dataUrl;
+            try {
+                dataUrl = canvas.toDataURL('image/png');
+            } catch (err) {
+                console.error('[BubblePop] toDataURL a échoué :', err);
+                alert("Impossible d'exporter — canvas protégé. Si tu as ouvert le fichier via file:// directement, sers-le via un serveur local (ex: python -m http.server 8000).");
+                return;
+            }
+            if (!dataUrl || dataUrl.length < 100) {
+                alert("Le canvas semble vide. Tape du texte puis réessaie.");
+                return;
+            }
+            const link = document.createElement('a');
+            link.download = `bubblepop-${Date.now()}.png`;
+            link.href = dataUrl;
+            link.style.display = 'none';
+            document.body.appendChild(link);
+            link.click();
+            setTimeout(() => { try { document.body.removeChild(link); } catch (_) {} }, 100);
+            try { pushHistory(snapshotState()); } catch (e) { console.warn('[BubblePop] historique :', e); }
+        }
+        downloadBtn.addEventListener('click', doExport);
+
+        copyBtn.addEventListener('click', async () => {
+            try {
+                const blob = await new Promise(res => canvas.toBlob(res, 'image/png'));
+                if (!blob) throw new Error('toBlob a renvoyé null');
+                await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
+                const original = copyBtn.innerHTML;
+                copyBtn.innerHTML = original.replace('Copier', 'Copié ✓');
+                setTimeout(() => copyBtn.innerHTML = original, 1200);
+            } catch (e) {
+                console.error('Clipboard copy failed:', e);
+                alert('Copie indisponible — ton navigateur ne supporte pas ClipboardItem ou la permission est refusée.');
+            }
+        });
+
+        // ============================================================
+        // Initialisation
+        // ============================================================
+        async function init() {
+            statusEl.textContent = 'Chargement des polices et des bulles...';
+            try {
+                await Promise.all([
+                    document.fonts.ready,
+                    loadBubbleImages()
+                ]);
+                generateBubble();
+                renderHistory();
+            } catch (e) {
+                console.error(e);
+                statusEl.textContent = 'Erreur de chargement';
+            }
+        }
+        init();
+    </script>
+</body>
+</html>

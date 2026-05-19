@@ -1,0 +1,55 @@
+# ============================================================
+# Headers HTTP de sécurité — Netlify
+# ============================================================
+# Ce fichier est lu automatiquement par Netlify et ajoute les
+# headers ci-dessous à chaque réponse. Compatible également avec
+# Cloudflare Pages.
+#
+# Référence : https://docs.netlify.com/routing/headers/
+
+/*
+  # HSTS — force HTTPS pendant 2 ans, applicable à tous les sous-domaines,
+  # éligible à la preload list HSTS de Chrome/Firefox.
+  Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
+
+  # Empêche le clickjacking via <iframe> sur des sites tiers.
+  X-Frame-Options: DENY
+
+  # Désactive le MIME-type sniffing — bloque l'exécution de scripts
+  # déguisés en image, etc.
+  X-Content-Type-Options: nosniff
+
+  # Limite ce qui est envoyé dans l'en-tête Referer.
+  Referrer-Policy: strict-origin-when-cross-origin
+
+  # Désactive XSS reflection auditor (legacy, doublonné par CSP)
+  # mais utile pour vieux navigateurs.
+  X-XSS-Protection: 0
+
+  # Désactive toutes les APIs sensibles non utilisées par le site.
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), interest-cohort=(), browsing-topics=(), payment=(), usb=(), magnetometer=(), accelerometer=(), gyroscope=(), midi=(), fullscreen=(self)
+
+  # Isole le site dans son propre groupe de processus (Spectre / cross-origin).
+  Cross-Origin-Opener-Policy: same-origin
+  Cross-Origin-Resource-Policy: same-origin
+  Cross-Origin-Embedder-Policy: require-corp
+
+  # CSP doublonnée ici (déjà dans <meta>) car les en-têtes HTTP ont la
+  # priorité et fonctionnent même si le HTML est servi sans <head>.
+  Content-Security-Policy: default-src 'self' blob: data:; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: blob:; connect-src 'self' blob:; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'; upgrade-insecure-requests
+
+# ============================================================
+# Cache-Control par type de ressource
+# ============================================================
+
+/fonts/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/bulles BD/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/og-image.png
+  Cache-Control: public, max-age=2592000
+
+/*.html
+  Cache-Control: public, max-age=0, must-revalidate
