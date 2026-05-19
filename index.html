@@ -32,11 +32,11 @@
          (CLAUDE.md interdit fichiers JS/CSS externes). -->
     <meta http-equiv="Content-Security-Policy" content="
         default-src 'self' blob: data:;
-        script-src 'self' 'unsafe-inline';
+        script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com;
         style-src 'self' 'unsafe-inline';
         font-src 'self';
         img-src 'self' data: blob:;
-        connect-src 'self' blob:;
+        connect-src 'self' blob: https://cloudflareinsights.com;
         frame-ancestors 'none';
         base-uri 'self';
         form-action 'self';
@@ -988,6 +988,155 @@
         @media (prefers-reduced-motion: reduce) {
             * { transition-duration: 0.01ms !important; }
         }
+
+        /* ============================================================
+           Toast — feedback éphémère (Share copié, etc.)
+           ============================================================ */
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            background: var(--surface);
+            color: var(--ink);
+            border: 1px solid var(--border-hi);
+            border-radius: var(--radius);
+            padding: 12px 18px;
+            box-shadow: var(--shadow);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 200ms var(--transition), transform 200ms var(--transition);
+            z-index: 200;
+            font: 500 14px/1 var(--font-ui);
+            letter-spacing: .01em;
+        }
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        /* ============================================================
+           Modale (Help) — backdrop + dialog centré
+           ============================================================ */
+        .modal-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,.55);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            z-index: 300;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            animation: modalFade 180ms ease-out;
+        }
+        .modal-backdrop[hidden] { display: none; }
+        @keyframes modalFade { from { opacity: 0; } to { opacity: 1; } }
+        .modal {
+            background: var(--paper);
+            color: var(--ink);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            max-width: 560px;
+            width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
+            padding: 28px 28px 24px;
+            position: relative;
+            animation: modalRise 200ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        @keyframes modalRise { from { transform: translateY(12px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        .modal-close {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            width: 32px;
+            height: 32px;
+            border-radius: var(--radius-sm);
+            background: transparent;
+            border: 1px solid transparent;
+            color: var(--ink-2);
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 160ms, color 160ms, border-color 160ms;
+        }
+        .modal-close:hover { background: var(--surface-2); color: var(--ink); border-color: var(--border); }
+        .modal-title {
+            margin: 0 0 6px;
+            font: 700 22px/1.25 var(--font-ui);
+            letter-spacing: -.01em;
+        }
+        .modal-subtitle { color: var(--ink-2); font-size: 13px; margin: 0 0 18px; }
+        .modal h3 {
+            font: 600 11px/1 var(--font-ui);
+            text-transform: uppercase;
+            letter-spacing: .08em;
+            color: var(--ink-3);
+            margin: 22px 0 12px;
+        }
+        .shortcuts-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
+        .shortcuts-list li {
+            display: flex; align-items: center; gap: 10px;
+            font-size: 14px; color: var(--ink);
+        }
+        .shortcuts-list .shortcut-keys { display: inline-flex; gap: 4px; }
+        kbd {
+            background: var(--surface-2);
+            border: 1px solid var(--border);
+            border-bottom-width: 2px;
+            border-radius: 6px;
+            padding: 3px 8px;
+            font-family: var(--font-ui);
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--ink);
+            min-width: 24px;
+            text-align: center;
+            line-height: 1.2;
+        }
+        .modal details {
+            border-top: 1px solid var(--border);
+            padding: 12px 0;
+        }
+        .modal details:last-of-type { border-bottom: 1px solid var(--border); }
+        .modal summary {
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            list-style: none;
+            display: flex; align-items: center; justify-content: space-between;
+            gap: 12px;
+            color: var(--ink);
+        }
+        .modal summary::-webkit-details-marker { display: none; }
+        .modal summary::after {
+            content: '+';
+            color: var(--ink-3);
+            font-weight: 400;
+            font-size: 18px;
+            line-height: 1;
+            transition: transform 160ms;
+        }
+        .modal details[open] summary::after { content: '−'; }
+        .modal details p {
+            margin: 10px 0 0;
+            color: var(--ink-2);
+            font-size: 14px;
+            line-height: 1.55;
+        }
+        .contact-row { display: flex; flex-direction: column; gap: 8px; margin-top: 6px; }
+        .contact-link {
+            display: inline-flex; align-items: center; gap: 8px;
+            color: var(--accent);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        .contact-link:hover { text-decoration: underline; }
     </style>
 </head>
 <body>
@@ -1278,6 +1427,74 @@
         <div class="sr-status" role="status" aria-live="polite" id="status"></div>
     </div>
 
+    <!-- ============================================================
+         Toast — feedback éphémère (Share copié, etc.)
+         ============================================================ -->
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <!-- ============================================================
+         Modale d'aide — raccourcis, FAQ, contact
+         ============================================================ -->
+    <div class="modal-backdrop" id="helpModal" hidden role="dialog" aria-modal="true" aria-labelledby="helpTitle">
+        <div class="modal">
+            <button class="modal-close" id="helpCloseBtn" data-i18n-attr="aria-label:help.close">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18"/><path d="M6 6l12 12"/></svg>
+            </button>
+            <h2 class="modal-title" id="helpTitle" data-i18n="help.title">Aide</h2>
+            <p class="modal-subtitle" data-i18n="help.subtitle">Tout ce qu'il faut savoir pour créer des bulles en quelques clics.</p>
+
+            <h3 data-i18n="help.shortcuts.title">Raccourcis clavier</h3>
+            <ul class="shortcuts-list">
+                <li>
+                    <span class="shortcut-keys"><kbd>Ctrl</kbd>+<kbd>Z</kbd></span>
+                    <span data-i18n="help.shortcuts.undo">Annuler la dernière action</span>
+                </li>
+                <li>
+                    <span class="shortcut-keys"><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>Z</kbd></span>
+                    <span data-i18n="help.shortcuts.redo">Refaire l'action annulée</span>
+                </li>
+                <li>
+                    <span class="shortcut-keys"><kbd>Ctrl</kbd>+<kbd>Y</kbd></span>
+                    <span data-i18n="help.shortcuts.redoAlt">Refaire (alternative Windows)</span>
+                </li>
+            </ul>
+
+            <h3 data-i18n="help.faq.title">Questions fréquentes</h3>
+            <details>
+                <summary data-i18n="help.faq.q1">Comment exporter ma bulle ?</summary>
+                <p data-i18n="help.faq.a1">Clique sur le bouton bleu « Exporter PNG transparent » en bas du panneau de droite. Le fichier est téléchargé directement sur ton appareil, sans inscription.</p>
+            </details>
+            <details>
+                <summary data-i18n="help.faq.q2">Le PNG est-il vraiment transparent ?</summary>
+                <p data-i18n="help.faq.a2">Oui. L'image exportée a un fond alpha complet, prête à coller dans Photoshop, Figma, Canva, Premiere, After Effects ou n'importe quel éditeur d'image/vidéo.</p>
+            </details>
+            <details>
+                <summary data-i18n="help.faq.q3">Mes bulles sont-elles enregistrées en ligne ?</summary>
+                <p data-i18n="help.faq.a3">Non. Tout fonctionne dans ton navigateur. L'historique des 9 dernières bulles est stocké en local (localStorage) et ne quitte jamais ton appareil. Aucun compte, aucun upload.</p>
+            </details>
+            <details>
+                <summary data-i18n="help.faq.q4">Puis-je l'utiliser pour un projet commercial ?</summary>
+                <p data-i18n="help.faq.a4">Oui, librement. Vidéos YouTube, BD auto-éditée, posts réseaux, memes, contenus payants — aucune restriction d'usage.</p>
+            </details>
+            <details>
+                <summary data-i18n="help.faq.q5">Quels navigateurs sont compatibles ?</summary>
+                <p data-i18n="help.faq.a5">Toutes les versions récentes de Chrome, Firefox, Safari et Edge. Le rendu utilise HTML5 Canvas, supporté partout depuis 2014.</p>
+            </details>
+
+            <h3 data-i18n="help.contact.title">Contact &amp; support</h3>
+            <div class="contact-row">
+                <a class="contact-link" href="mailto:inkup.app.contact@gmail.com">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+                    inkup.app.contact@gmail.com
+                </a>
+                <a class="contact-link" id="kofiLink" href="#" target="_blank" rel="noopener" hidden>
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8H7a4 4 0 0 0 0 8h10a4 4 0 0 0 4-4V8z"/><path d="M7 8v4"/></svg>
+                    <span data-i18n="help.contact.kofi">Soutenir BubblePop sur Ko-fi</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
     <script>
         // ============================================================
         // Configuration des zones de texte par bulle
@@ -1294,6 +1511,10 @@
         const THEME_KEY = 'bubblepop:theme';
         const MAX_HISTORY = 9;
         const MAX_TEXT_LEN = 500;
+        // URL Ko-fi — vide tant que le compte n'est pas cree (Phase 3.6).
+        // Renseigner ici (ex: 'https://ko-fi.com/bubblepop') pour activer le
+        // bouton "Soutenir" dans la modale Help.
+        const KOFI_URL = '';
 
         // Listes blanches : tout ce qui vient de localStorage est filtré
         // contre ces valeurs autorisées avant utilisation (defense in depth
@@ -1404,7 +1625,31 @@
                 'export.empty': 'Le canvas semble vide. Tape du texte puis réessaie.',
                 'export.copyError': 'Copie indisponible — ton navigateur ne supporte pas ClipboardItem ou la permission est refusée.',
                 'init.loading': 'Chargement des polices et des bulles…',
-                'init.error': 'Erreur de chargement'
+                'init.error': 'Erreur de chargement',
+                'share.title': 'BubblePop — Générateur de bulles BD',
+                'share.text': "Crée des bulles de BD transparentes en ligne, gratuitement. 4 styles, 5 polices, PNG instantané.",
+                'share.copied': 'Lien copié dans le presse-papiers',
+                'share.error': "Impossible de copier le lien — copie l'URL manuellement.",
+                'help.title': 'Aide',
+                'help.subtitle': "Tout ce qu'il faut savoir pour créer des bulles en quelques clics.",
+                'help.close': 'Fermer',
+                'help.shortcuts.title': 'Raccourcis clavier',
+                'help.shortcuts.undo': 'Annuler la dernière action',
+                'help.shortcuts.redo': "Refaire l'action annulée",
+                'help.shortcuts.redoAlt': 'Refaire (alternative Windows)',
+                'help.faq.title': 'Questions fréquentes',
+                'help.faq.q1': 'Comment exporter ma bulle ?',
+                'help.faq.a1': "Clique sur le bouton bleu « Exporter PNG transparent » en bas du panneau de droite. Le fichier est téléchargé directement sur ton appareil, sans inscription.",
+                'help.faq.q2': 'Le PNG est-il vraiment transparent ?',
+                'help.faq.a2': "Oui. L'image exportée a un fond alpha complet, prête à coller dans Photoshop, Figma, Canva, Premiere, After Effects ou n'importe quel éditeur d'image/vidéo.",
+                'help.faq.q3': 'Mes bulles sont-elles enregistrées en ligne ?',
+                'help.faq.a3': "Non. Tout fonctionne dans ton navigateur. L'historique des 9 dernières bulles est stocké en local (localStorage) et ne quitte jamais ton appareil. Aucun compte, aucun upload.",
+                'help.faq.q4': 'Puis-je l\'utiliser pour un projet commercial ?',
+                'help.faq.a4': "Oui, librement. Vidéos YouTube, BD auto-éditée, posts réseaux, memes, contenus payants — aucune restriction d'usage.",
+                'help.faq.q5': 'Quels navigateurs sont compatibles ?',
+                'help.faq.a5': "Toutes les versions récentes de Chrome, Firefox, Safari et Edge. Le rendu utilise HTML5 Canvas, supporté partout depuis 2014.",
+                'help.contact.title': 'Contact & support',
+                'help.contact.kofi': 'Soutenir BubblePop sur Ko-fi'
             },
             en: {
                 'meta.title': 'BubblePop — Comic Speech Bubble Generator | Free PNG Transparent',
@@ -1485,7 +1730,31 @@
                 'export.empty': 'Canvas looks empty. Type some text and try again.',
                 'export.copyError': "Copy unavailable — your browser doesn't support ClipboardItem or permission was denied.",
                 'init.loading': 'Loading fonts and bubbles…',
-                'init.error': 'Loading error'
+                'init.error': 'Loading error',
+                'share.title': 'BubblePop — Comic Speech Bubble Generator',
+                'share.text': 'Create transparent comic speech bubbles online for free. 4 styles, 5 fonts, instant PNG.',
+                'share.copied': 'Link copied to clipboard',
+                'share.error': "Couldn't copy the link — copy the URL manually.",
+                'help.title': 'Help',
+                'help.subtitle': 'Everything you need to know to make bubbles in a few clicks.',
+                'help.close': 'Close',
+                'help.shortcuts.title': 'Keyboard shortcuts',
+                'help.shortcuts.undo': 'Undo last action',
+                'help.shortcuts.redo': 'Redo last undone action',
+                'help.shortcuts.redoAlt': 'Redo (Windows alternative)',
+                'help.faq.title': 'Frequently asked',
+                'help.faq.q1': 'How do I export my bubble?',
+                'help.faq.a1': 'Click the blue "Export transparent PNG" button at the bottom of the right panel. The file downloads straight to your device — no signup.',
+                'help.faq.q2': 'Is the PNG really transparent?',
+                'help.faq.a2': "Yes. The exported image has a full alpha background, ready to paste into Photoshop, Figma, Canva, Premiere, After Effects, or any image/video editor.",
+                'help.faq.q3': 'Are my bubbles stored online?',
+                'help.faq.a3': "No. Everything runs in your browser. Your last 9 bubbles are saved locally (localStorage) and never leave your device. No account, no upload.",
+                'help.faq.q4': 'Can I use it for commercial work?',
+                'help.faq.a4': "Yes, freely. YouTube videos, self-published comics, social posts, memes, paid content — no restrictions.",
+                'help.faq.q5': 'Which browsers are supported?',
+                'help.faq.a5': 'Any recent version of Chrome, Firefox, Safari, or Edge. Rendering uses HTML5 Canvas, supported everywhere since 2014.',
+                'help.contact.title': 'Contact & support',
+                'help.contact.kofi': 'Support BubblePop on Ko-fi'
             }
         };
         let currentLang = 'fr';
@@ -2210,6 +2479,85 @@
                 statusEl.textContent = t('init.error');
             }
         }
+        // ============================================================
+        // Toast — feedback éphémère
+        // ============================================================
+        const toastEl = document.getElementById('toast');
+        let toastTimer = null;
+        function showToast(message, ms = 2200) {
+            if (!toastEl) return;
+            toastEl.textContent = message;
+            toastEl.classList.add('show');
+            if (toastTimer) clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => toastEl.classList.remove('show'), ms);
+        }
+
+        // ============================================================
+        // Share — Web Share API si dispo, sinon copie URL + toast
+        // ============================================================
+        const shareBtn = document.getElementById('shareBtn');
+        shareBtn.addEventListener('click', async () => {
+            const shareData = {
+                title: t('share.title'),
+                text: t('share.text'),
+                url: location.origin + location.pathname
+            };
+            try {
+                if (navigator.share && typeof navigator.canShare === 'function' && navigator.canShare(shareData)) {
+                    await navigator.share(shareData);
+                    return;
+                }
+            } catch (e) {
+                // Annulation utilisateur ou erreur — on bascule sur copie
+                if (e && e.name === 'AbortError') return;
+            }
+            try {
+                await navigator.clipboard.writeText(shareData.url);
+                showToast(t('share.copied'));
+            } catch (e) {
+                showToast(t('share.error'));
+            }
+        });
+
+        // ============================================================
+        // Help modal — ouverture, fermeture (Escape / backdrop / X)
+        // ============================================================
+        const helpModal = document.getElementById('helpModal');
+        const helpBtn = document.getElementById('helpBtn');
+        const helpCloseBtn = document.getElementById('helpCloseBtn');
+        const kofiLink = document.getElementById('kofiLink');
+        let helpLastFocus = null;
+
+        function openHelp() {
+            helpLastFocus = document.activeElement;
+            helpModal.hidden = false;
+            // focus initial sur le bouton de fermeture pour navigation clavier
+            requestAnimationFrame(() => helpCloseBtn && helpCloseBtn.focus());
+        }
+        function closeHelp() {
+            helpModal.hidden = true;
+            if (helpLastFocus && typeof helpLastFocus.focus === 'function') {
+                helpLastFocus.focus();
+            }
+        }
+        helpBtn.addEventListener('click', openHelp);
+        helpCloseBtn.addEventListener('click', closeHelp);
+        helpModal.addEventListener('click', (e) => {
+            // click sur backdrop (hors .modal) ferme la modale
+            if (e.target === helpModal) closeHelp();
+        });
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && !helpModal.hidden) {
+                e.preventDefault();
+                closeHelp();
+            }
+        });
+        // Bouton Ko-fi : visible uniquement quand KOFI_URL est renseignee
+        if (KOFI_URL && kofiLink) {
+            kofiLink.href = KOFI_URL;
+            kofiLink.hidden = false;
+        }
+
         // i18n appliqué avant init() pour que les chaînes de chargement soient déjà traduites
         initI18n();
         // Valeur initiale du textarea = "Bonjour !" / "Hello!" selon la langue détectée
@@ -2226,5 +2574,14 @@
         updateCharCount();
         init();
     </script>
+
+    <!-- ============================================================
+         Cloudflare Web Analytics (privacy-friendly, sans cookies)
+         À activer en Phase 2.4 après création du site dans le dashboard CF.
+         Coller le snippet fourni par Cloudflare ci-dessous (script defer avec
+         data-cf-beacon='{"token": "XXXXX"}'). La CSP autorise déjà
+         static.cloudflareinsights.com et cloudflareinsights.com.
+         ============================================================ -->
+    <!-- CLOUDFLARE ANALYTICS — PASTE SNIPPET HERE -->
 </body>
 </html>
