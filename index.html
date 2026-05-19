@@ -14,6 +14,11 @@
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://bubblepop.app/">
 
+    <!-- Variantes linguistiques (hreflang) — Google/Bing peuvent indexer FR et EN séparément -->
+    <link rel="alternate" hreflang="fr" href="https://bubblepop.app/?lang=fr">
+    <link rel="alternate" hreflang="en" href="https://bubblepop.app/?lang=en">
+    <link rel="alternate" hreflang="x-default" href="https://bubblepop.app/">
+
     <meta name="theme-color" content="#0A0B0F">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -1546,9 +1551,23 @@
             }
         }
         function initI18n() {
+            // Priorité : ?lang= dans l'URL > localStorage > détection navigateur
+            const urlLang = new URLSearchParams(location.search).get('lang');
             const stored = localStorage.getItem(LANG_KEY);
             const detected = (navigator.language || 'en').toLowerCase().startsWith('fr') ? 'fr' : 'en';
-            applyI18n(stored === 'fr' || stored === 'en' ? stored : detected);
+            let lang;
+            if (urlLang === 'fr' || urlLang === 'en') lang = urlLang;
+            else if (stored === 'fr' || stored === 'en') lang = stored;
+            else lang = detected;
+            applyI18n(lang);
+        }
+        function syncLangUrl(lang) {
+            // Met à jour ?lang= dans l'URL sans recharger ni ajouter à l'historique
+            try {
+                const url = new URL(location.href);
+                url.searchParams.set('lang', lang);
+                history.replaceState(null, '', url);
+            } catch (_) {}
         }
 
         // ============================================================
@@ -2112,6 +2131,7 @@
             const next = currentLang === 'fr' ? 'en' : 'fr';
             applyI18n(next);
             localStorage.setItem(LANG_KEY, next);
+            syncLangUrl(next);
         });
         // Première mise à jour du compteur de caractères avec la langue appliquée
         updateCharCount();

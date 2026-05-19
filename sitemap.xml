@@ -3,11 +3,11 @@
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://bubblepop.app/</loc>
-    <lastmod>2026-05-18</lastmod>
+    <lastmod>2026-05-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://bubblepop.app/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://bubblepop.app/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://bubblepop.app/?lang=fr"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://bubblepop.app/?lang=en"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://bubblepop.app/"/>
   </url>
 </urlset>
