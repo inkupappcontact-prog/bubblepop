@@ -2034,12 +2034,98 @@
             generateBubble();
         }
 
+        // ============================================================
+        // Undo / Redo — stacks de snapshots (max 50), debounce 400ms
+        // Modèle : lastCommitted = dernier état stable. À chaque interaction,
+        // queueSnapshot() retarde un commitSnapshot() qui push lastCommitted
+        // dans undoStack puis met lastCommitted = état courant. undo/redo
+        // manipulent les piles et restaurent via restoreSnapshot.
+        // ============================================================
+        const undoStack = [];
+        const redoStack = [];
+        const UNDO_LIMIT = 50;
+        let lastCommitted = null;
+        let snapshotTimer = null;
+
+        function statesEqual(a, b) {
+            if (!a || !b) return false;
+            return a.text === b.text && a.bubble === b.bubble && a.font === b.font &&
+                   a.color === b.color && a.bold === b.bold && a.italic === b.italic &&
+                   a.autoSize === b.autoSize && a.manualSize === b.manualSize;
+        }
+        function updateUndoRedoBtns() {
+            const ub = document.getElementById('undoBtn');
+            const rb = document.getElementById('redoBtn');
+            if (ub) ub.disabled = undoStack.length === 0;
+            if (rb) rb.disabled = redoStack.length === 0;
+        }
+        function commitSnapshot() {
+            if (snapshotTimer) { clearTimeout(snapshotTimer); snapshotTimer = null; }
+            const current = snapshotState();
+            if (!lastCommitted) { lastCommitted = current; updateUndoRedoBtns(); return; }
+            if (statesEqual(current, lastCommitted)) return;
+            undoStack.push(lastCommitted);
+            if (undoStack.length > UNDO_LIMIT) undoStack.shift();
+            lastCommitted = current;
+            redoStack.length = 0;
+            updateUndoRedoBtns();
+        }
+        function queueSnapshot() {
+            if (snapshotTimer) clearTimeout(snapshotTimer);
+            snapshotTimer = setTimeout(commitSnapshot, 400);
+        }
+        function doUndo() {
+            commitSnapshot(); // flush toute saisie en cours
+            if (undoStack.length === 0) return;
+            redoStack.push(lastCommitted);
+            const prev = undoStack.pop();
+            lastCommitted = prev;
+            restoreSnapshot(prev);
+            updateUndoRedoBtns();
+        }
+        function doRedo() {
+            if (redoStack.length === 0) return;
+            undoStack.push(lastCommitted);
+            const next = redoStack.pop();
+            lastCommitted = next;
+            restoreSnapshot(next);
+            updateUndoRedoBtns();
+        }
+
+        document.getElementById('undoBtn').addEventListener('click', doUndo);
+        document.getElementById('redoBtn').addEventListener('click', doRedo);
+
+        // Raccourcis clavier — Ctrl/Cmd+Z, Ctrl/Cmd+Shift+Z, Ctrl+Y
+        // On override l'undo natif du textarea pour rester synchrone avec notre stack
+        window.addEventListener('keydown', (e) => {
+            const meta = e.ctrlKey || e.metaKey;
+            if (!meta) return;
+            const k = e.key.toLowerCase();
+            if (k === 'z' && !e.shiftKey) { e.preventDefault(); doUndo(); }
+            else if ((k === 'z' && e.shiftKey) || k === 'y') { e.preventDefault(); doRedo(); }
+        });
+
+        // Hook queueSnapshot sur les interactions existantes (debounced)
+        textInput.addEventListener('input', queueSnapshot);
+        manualSizeInput.addEventListener('input', queueSnapshot);
+        textColorInput.addEventListener('input', queueSnapshot);
+        // Hook commitSnapshot immédiat sur les clics discrets
+        styleGrid.addEventListener('click', () => { setTimeout(commitSnapshot, 0); });
+        fontList.addEventListener('click', () => { setTimeout(commitSnapshot, 0); });
+        colorSwatches.addEventListener('click', () => { setTimeout(commitSnapshot, 0); });
+        boldBtn.addEventListener('click', () => { setTimeout(commitSnapshot, 0); });
+        italicBtn.addEventListener('click', () => { setTimeout(commitSnapshot, 0); });
+        autoSizeCheckbox.addEventListener('change', () => { setTimeout(commitSnapshot, 0); });
+
         historyStrip.addEventListener('click', (e) => {
             const t = e.target.closest('.thumb');
             if (!t) return;
             const idx = parseInt(t.dataset.idx, 10);
             const items = loadHistory();
-            if (items[idx]) restoreSnapshot(items[idx]);
+            if (items[idx]) {
+                restoreSnapshot(items[idx]);
+                commitSnapshot();
+            }
         });
         clearHistoryBtn.addEventListener('click', () => {
             if (loadHistory().length === 0) return;
@@ -2116,6 +2202,9 @@
                 ]);
                 generateBubble();
                 renderHistory();
+                // Capture l'état initial dans lastCommitted (sans push dans undoStack)
+                commitSnapshot();
+                updateUndoRedoBtns();
             } catch (e) {
                 console.error(e);
                 statusEl.textContent = t('init.error');
