@@ -993,7 +993,7 @@
              ============================================================ -->
         <header class="header" role="banner">
             <div class="header-left">
-                <a class="logo" href="/" aria-label="BubblePop — accueil">
+                <a class="logo" href="/" data-i18n-attr="aria-label:header.logoAria">
                     <svg class="logo-mark" viewBox="0 0 44 36" aria-hidden="true">
                         <defs>
                             <linearGradient id="lg" x1="0" y1="0" x2="1" y2="1">
@@ -1010,28 +1010,28 @@
                     <span class="logo-text">BubblePop</span>
                 </a>
                 <div class="sep-v"></div>
-                <span class="tagline">Generate transparent comic speech bubbles in seconds</span>
+                <span class="tagline" data-i18n="header.tagline">Generate transparent comic speech bubbles in seconds</span>
             </div>
             <div class="header-right">
-                <div class="seg" aria-label="Annuler / refaire">
-                    <button class="h-btn" id="undoBtn" aria-label="Annuler" disabled>
+                <div class="seg" data-i18n-attr="aria-label:header.undoRedoGroup">
+                    <button class="h-btn" id="undoBtn" data-i18n-attr="aria-label:header.undo" disabled>
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14L4 9l5-5"/><path d="M4 9h11a5 5 0 0 1 0 10h-3"/></svg>
                     </button>
-                    <button class="h-btn" id="redoBtn" aria-label="Refaire" disabled>
+                    <button class="h-btn" id="redoBtn" data-i18n-attr="aria-label:header.redo" disabled>
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14l5-5-5-5"/><path d="M20 9H9a5 5 0 0 0 0 10h3"/></svg>
                     </button>
                 </div>
-                <button class="h-btn h-btn-bordered theme-toggle" id="themeToggle" aria-label="Basculer le thème">
+                <button class="h-btn h-btn-bordered theme-toggle" id="themeToggle" data-i18n-attr="aria-label:header.themeToggle">
                     <svg id="themeIcon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"></svg>
                     <span id="themeLabel">Clair</span>
                 </button>
-                <button class="h-btn h-btn-bordered" id="shareBtn" aria-label="Partager">
+                <button class="h-btn h-btn-bordered" id="shareBtn" data-i18n-attr="aria-label:header.share">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="12" r="2.2"/><circle cx="18" cy="6" r="2.2"/><circle cx="18" cy="18" r="2.2"/><path d="M8 11l8-4"/><path d="M8 13l8 4"/></svg>
                 </button>
-                <button class="h-btn h-btn-bordered" id="helpBtn" aria-label="Aide">
+                <button class="h-btn h-btn-bordered" id="helpBtn" data-i18n-attr="aria-label:header.help">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.8.4-1 1-1 1.7"/><circle cx="12" cy="17" r=".5" fill="currentColor" stroke="none"/></svg>
                 </button>
-                <button class="pill-lang" id="langBtn" aria-label="Langue">
+                <button class="pill-lang" id="langBtn" data-i18n-attr="aria-label:header.lang">
                     FR
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
                 </button>
@@ -1045,7 +1045,7 @@
         <div class="app-body">
 
             <!-- Preview -->
-            <section class="preview" role="region" aria-label="Aperçu">
+            <section class="preview" role="region" data-i18n-attr="aria-label:preview.aria">
                 <div class="checker" aria-hidden="true"></div>
                 <div class="grid-guides" aria-hidden="true"></div>
 
@@ -1056,11 +1056,11 @@
 
                 <div class="pv-top-right">
                     <div class="zoom-ctl">
-                        <button class="zoom-btn" id="zoomOut" aria-label="Dézoomer">
+                        <button class="zoom-btn" id="zoomOut" data-i18n-attr="aria-label:preview.zoomOut">
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"><path d="M5 12h14"/></svg>
                         </button>
                         <span class="zoom-val" id="zoomVal">100%</span>
-                        <button class="zoom-btn" id="zoomIn" aria-label="Zoomer">
+                        <button class="zoom-btn" id="zoomIn" data-i18n-attr="aria-label:preview.zoomIn">
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
                         </button>
                     </div>
@@ -1068,7 +1068,7 @@
 
                 <div class="canvas-wrap">
                     <div class="canvas-stage" id="canvasStage">
-                        <canvas id="canvas" width="2000" height="2000" aria-label="Aperçu de la bulle"></canvas>
+                        <canvas id="canvas" width="2000" height="2000" data-i18n-attr="aria-label:preview.canvasAria"></canvas>
                         <div class="selection-box" aria-hidden="true"></div>
                         <div class="handle tl" aria-hidden="true"></div>
                         <div class="handle tr" aria-hidden="true"></div>
@@ -1078,21 +1078,21 @@
                 </div>
 
                 <div class="pv-btm-left">
-                    <span class="pill"><span aria-hidden="true">⇧</span> maintenir pour panoramique</span>
+                    <span class="pill"><span aria-hidden="true">⇧</span> <span data-i18n="preview.panHint">maintenir pour panoramique</span></span>
                 </div>
                 <div class="pv-btm-right">
-                    <span class="pill"><span class="pill-dot" style="background: var(--success);"></span> Fond transparent · prêt à exporter</span>
+                    <span class="pill"><span class="pill-dot" style="background: var(--success);"></span> <span data-i18n="preview.exportReady">Fond transparent · prêt à exporter</span></span>
                 </div>
             </section>
 
             <!-- Inspector -->
-            <aside class="inspector" role="complementary" aria-label="Propriétés">
+            <aside class="inspector" role="complementary" data-i18n-attr="aria-label:inspector.aria">
                 <div class="insp-header">
                     <span class="insp-title">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l9 5-9 5-9-5 9-5z"/><path d="M3 13l9 5 9-5"/></svg>
-                        Propriétés
+                        <span data-i18n="inspector.title">Propriétés</span>
                     </span>
-                    <button class="h-btn" aria-label="Plus d'options">
+                    <button class="h-btn" data-i18n-attr="aria-label:inspector.moreOptions">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="1.2"/><circle cx="12" cy="12" r="1.2"/><circle cx="19" cy="12" r="1.2"/></svg>
                     </button>
                 </div>
@@ -1102,38 +1102,38 @@
                     <!-- Texte -->
                     <div data-section="text">
                         <div class="field-label">
-                            <span class="lbl">Texte de la bulle</span>
-                            <span class="tag">Auto-redim</span>
+                            <span class="lbl" data-i18n="inspector.text.label">Texte de la bulle</span>
+                            <span class="tag" data-i18n="inspector.text.tag">Auto-redim</span>
                         </div>
-                        <textarea id="text" class="bubble-text" placeholder="Tapez votre texte ici…" maxlength="500" spellcheck="false">Bonjour !</textarea>
+                        <textarea id="text" class="bubble-text" data-i18n-attr="placeholder:inspector.text.placeholder" maxlength="500" spellcheck="false">Bonjour !</textarea>
                         <div class="field-meta">
-                            <span class="left"><span id="charCount">9</span> / 120 caractères</span>
-                            <span class="right">Saisie en direct</span>
+                            <span class="left" id="charCount">9 / 120 caractères</span>
+                            <span class="right" data-i18n="inspector.text.live">Saisie en direct</span>
                         </div>
                     </div>
 
                     <!-- Style de bulle -->
                     <div data-section="style">
                         <div class="field-label">
-                            <span class="lbl">Style de bulle</span>
+                            <span class="lbl" data-i18n="inspector.style.label">Style de bulle</span>
                         </div>
                         <div class="style-grid" id="styleGrid">
-                            <button class="style-tile active" data-bubble="1" aria-label="Parole">
+                            <button class="style-tile active" data-bubble="1" data-i18n-attr="aria-label:inspector.style.parole">
                                 <div class="style-tile-img"><img src="bulles BD/1.png" alt=""></div>
-                                <span class="style-tile-label">Parole</span>
+                                <span class="style-tile-label" data-i18n="inspector.style.parole">Parole</span>
                                 <div class="check-badge"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-11"/></svg></div>
                             </button>
-                            <button class="style-tile" data-bubble="2" aria-label="Pensée">
+                            <button class="style-tile" data-bubble="2" data-i18n-attr="aria-label:inspector.style.pensee">
                                 <div class="style-tile-img"><img src="bulles BD/2.png" alt=""></div>
-                                <span class="style-tile-label">Pensée</span>
+                                <span class="style-tile-label" data-i18n="inspector.style.pensee">Pensée</span>
                             </button>
-                            <button class="style-tile" data-bubble="3" aria-label="Murmure">
+                            <button class="style-tile" data-bubble="3" data-i18n-attr="aria-label:inspector.style.murmure">
                                 <div class="style-tile-img"><img src="bulles BD/3.png" alt=""></div>
-                                <span class="style-tile-label">Murmure</span>
+                                <span class="style-tile-label" data-i18n="inspector.style.murmure">Murmure</span>
                             </button>
-                            <button class="style-tile" data-bubble="4" aria-label="Cri">
+                            <button class="style-tile" data-bubble="4" data-i18n-attr="aria-label:inspector.style.cri">
                                 <div class="style-tile-img"><img src="bulles BD/4.png" alt=""></div>
-                                <span class="style-tile-label">Cri</span>
+                                <span class="style-tile-label" data-i18n="inspector.style.cri">Cri</span>
                             </button>
                         </div>
                     </div>
@@ -1141,8 +1141,8 @@
                     <!-- Police -->
                     <div data-section="font">
                         <div class="field-label">
-                            <span class="lbl">Police</span>
-                            <span class="tag">5 disponibles</span>
+                            <span class="lbl" data-i18n="inspector.font.label">Police</span>
+                            <span class="tag" data-i18n="inspector.font.tag">5 disponibles</span>
                         </div>
                         <div class="font-list" id="fontList">
                             <button class="font-row" data-font="Comic Relief">
@@ -1171,25 +1171,25 @@
                     <!-- Couleur du texte -->
                     <div data-section="color">
                         <div class="field-label">
-                            <span class="lbl">Couleur du texte</span>
+                            <span class="lbl" data-i18n="inspector.color.label">Couleur du texte</span>
                         </div>
                         <div class="swatches" id="colorSwatches">
-                            <button class="swatch active" data-color="#000000" aria-label="Noir">
+                            <button class="swatch active" data-color="#000000" data-i18n-attr="aria-label:inspector.color.black">
                                 <span class="swatch-inner" style="background:#0F1116;"></span>
                             </button>
-                            <button class="swatch" data-color="#FFFFFF" aria-label="Blanc">
+                            <button class="swatch" data-color="#FFFFFF" data-i18n-attr="aria-label:inspector.color.white">
                                 <span class="swatch-inner" style="background:#FFFFFF;"></span>
                             </button>
-                            <button class="swatch" data-color="#3B82F6" aria-label="Bleu">
+                            <button class="swatch" data-color="#3B82F6" data-i18n-attr="aria-label:inspector.color.blue">
                                 <span class="swatch-inner" style="background:#3B82F6;"></span>
                             </button>
-                            <button class="swatch" data-color="#F87171" aria-label="Rouge">
+                            <button class="swatch" data-color="#F87171" data-i18n-attr="aria-label:inspector.color.red">
                                 <span class="swatch-inner" style="background:#F87171;"></span>
                             </button>
-                            <button class="swatch" data-color="#FACC15" aria-label="Jaune">
+                            <button class="swatch" data-color="#FACC15" data-i18n-attr="aria-label:inspector.color.yellow">
                                 <span class="swatch-inner" style="background:#FACC15;"></span>
                             </button>
-                            <label class="swatch-custom" aria-label="Couleur personnalisée">
+                            <label class="swatch-custom" data-i18n-attr="aria-label:inspector.color.custom">
                                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
                                 <input type="color" id="textColor" value="#000000">
                             </label>
@@ -1199,27 +1199,27 @@
                     <!-- Style typo (B/I) -->
                     <div data-section="typo">
                         <div class="field-label">
-                            <span class="lbl">Style typographique</span>
+                            <span class="lbl" data-i18n="inspector.typo.label">Style typographique</span>
                         </div>
                         <div class="style-row">
-                            <button class="style-toggle active" id="boldBtn" aria-pressed="true" aria-label="Gras"><span class="b">B</span></button>
-                            <button class="style-toggle" id="italicBtn" aria-pressed="false" aria-label="Italique"><span class="i">I</span></button>
+                            <button class="style-toggle active" id="boldBtn" aria-pressed="true" data-i18n-attr="aria-label:inspector.typo.bold"><span class="b">B</span></button>
+                            <button class="style-toggle" id="italicBtn" aria-pressed="false" data-i18n-attr="aria-label:inspector.typo.italic"><span class="i">I</span></button>
                         </div>
                     </div>
 
                     <!-- Taille -->
                     <div data-section="size">
                         <div class="field-label">
-                            <span class="lbl">Taille</span>
-                            <span class="tag" id="sizeTag">Auto</span>
+                            <span class="lbl" data-i18n="inspector.size.label">Taille</span>
+                            <span class="tag" id="sizeTag" data-i18n="inspector.size.tagAuto">Auto</span>
                         </div>
                         <div class="size-wrap">
                             <label class="auto-check">
                                 <input type="checkbox" id="autoSize" checked>
-                                Auto
+                                <span data-i18n="inspector.size.auto">Auto</span>
                             </label>
-                            <input type="range" id="manualSize" class="slider" min="20" max="400" value="120" disabled aria-label="Taille de la police">
-                            <span class="size-val" id="sizeValue">auto</span>
+                            <input type="range" id="manualSize" class="slider" min="20" max="400" value="120" disabled data-i18n-attr="aria-label:inspector.size.aria">
+                            <span class="size-val" id="sizeValue" data-i18n="inspector.size.valAuto">auto</span>
                         </div>
                     </div>
 
@@ -1228,16 +1228,16 @@
                 <div class="insp-footer">
                     <button class="btn-primary" id="downloadBtn">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M5 21h14"/></svg>
-                        Exporter PNG transparent
+                        <span data-i18n="inspector.export.button">Exporter PNG transparent</span>
                     </button>
                     <div class="insp-meta">
                         <span style="display:inline-flex; align-items:center; gap:6px;">
                             <span class="pill-dot" style="background: var(--success);"></span>
-                            <span id="metaInfo">PNG · 2000 × 2000 px · fond alpha</span>
+                            <span id="metaInfo" data-i18n="inspector.export.meta">PNG · 2000 × 2000 px · fond alpha</span>
                         </span>
-                        <button class="copy" id="copyBtn" aria-label="Copier dans le presse-papiers">
+                        <button class="copy" id="copyBtn" data-i18n-attr="aria-label:inspector.export.copyAria">
                             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
-                            Copier
+                            <span class="copy-label" data-i18n="inspector.export.copy">Copier</span>
                         </button>
                     </div>
                 </div>
@@ -1247,25 +1247,25 @@
         <!-- ============================================================
              HISTORY STRIP
              ============================================================ -->
-        <section class="history" role="region" aria-label="Historique">
+        <section class="history" role="region" data-i18n-attr="aria-label:history.aria">
             <div class="history-left">
                 <div class="history-title">
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/><path d="M12 8v4l3 2"/></svg>
-                    Historique
+                    <span data-i18n="history.title">Historique</span>
                 </div>
                 <span class="history-sub" id="historySub">0 bulles · session locale</span>
             </div>
             <div class="history-strip" id="historyStrip">
-                <span class="history-empty">Pas encore de bulle dans l'historique — exporte ta première création !</span>
+                <span class="history-empty" data-i18n="history.empty">Pas encore de bulle dans l'historique — exporte ta première création !</span>
             </div>
             <div class="history-right">
                 <button class="ghost-btn" id="clearHistoryBtn">
                     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16"/><path d="M9 7V4h6v3"/><path d="M6 7l1 13h10l1-13"/></svg>
-                    Vider
+                    <span data-i18n="history.clear">Vider</span>
                 </button>
                 <button class="ghost-btn" id="exportZipBtn">
                     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M5 21h14"/></svg>
-                    ZIP
+                    <span data-i18n="history.zip">ZIP</span>
                 </button>
             </div>
         </section>
@@ -1310,6 +1310,245 @@
                 manualSize: Number.isFinite(s.manualSize) ? Math.max(20, Math.min(400, s.manualSize | 0)) : 120,
                 ts: Number.isFinite(s.ts) ? s.ts : Date.now()
             };
+        }
+
+        // ============================================================
+        // i18n — Dictionnaire FR/EN + moteur d'application
+        // Détecte navigator.language, persiste dans localStorage 'bp:lang'.
+        // applyI18n(lang) parcourt tous les nœuds [data-i18n] / [data-i18n-attr]
+        // et met à jour aussi les meta tags (title, description, og:*, twitter:*).
+        // ============================================================
+        const LANG_KEY = 'bubblepop:lang';
+        const I18N = {
+            fr: {
+                'meta.title': 'BubblePop — Générateur de bulles BD | PNG transparent gratuit',
+                'meta.description': "Générez des bulles de BD en ligne gratuitement. PNG transparent pour vos vidéos, memes et BD. 4 styles, 5 polices comic, téléchargement instantané. Sans inscription.",
+                'meta.ogDescription': "Créez des bulles de BD en ligne gratuitement. PNG transparent, 4 styles, 5 polices, téléchargement instantané. Sans inscription.",
+                'header.logoAria': 'BubblePop — accueil',
+                'header.tagline': 'Générez des bulles de BD transparentes en quelques secondes',
+                'header.undoRedoGroup': 'Annuler / refaire',
+                'header.undo': 'Annuler',
+                'header.redo': 'Refaire',
+                'header.themeToggle': 'Basculer le thème',
+                'header.themeLight': 'Clair',
+                'header.themeDark': 'Sombre',
+                'header.share': 'Partager',
+                'header.help': 'Aide',
+                'header.lang': 'Langue',
+                'preview.aria': 'Aperçu',
+                'preview.zoomOut': 'Dézoomer',
+                'preview.zoomIn': 'Zoomer',
+                'preview.canvasAria': 'Aperçu de la bulle',
+                'preview.panHint': 'maintenir pour panoramique',
+                'preview.exportReady': 'Fond transparent · prêt à exporter',
+                'inspector.aria': 'Propriétés',
+                'inspector.title': 'Propriétés',
+                'inspector.moreOptions': "Plus d'options",
+                'inspector.text.label': 'Texte de la bulle',
+                'inspector.text.tag': 'Auto-redim',
+                'inspector.text.placeholder': 'Tapez votre texte ici…',
+                'inspector.text.default': 'Bonjour !',
+                'inspector.text.charCount': '{count} / 120 caractères',
+                'inspector.text.live': 'Saisie en direct',
+                'inspector.style.label': 'Style de bulle',
+                'inspector.style.parole': 'Parole',
+                'inspector.style.pensee': 'Pensée',
+                'inspector.style.murmure': 'Murmure',
+                'inspector.style.cri': 'Cri',
+                'inspector.font.label': 'Police',
+                'inspector.font.tag': '5 disponibles',
+                'inspector.color.label': 'Couleur du texte',
+                'inspector.color.black': 'Noir',
+                'inspector.color.white': 'Blanc',
+                'inspector.color.blue': 'Bleu',
+                'inspector.color.red': 'Rouge',
+                'inspector.color.yellow': 'Jaune',
+                'inspector.color.custom': 'Couleur personnalisée',
+                'inspector.typo.label': 'Style typographique',
+                'inspector.typo.bold': 'Gras',
+                'inspector.typo.italic': 'Italique',
+                'inspector.size.label': 'Taille',
+                'inspector.size.tagAuto': 'Auto',
+                'inspector.size.tagManual': 'Manuel',
+                'inspector.size.auto': 'Auto',
+                'inspector.size.aria': 'Taille de la police',
+                'inspector.size.valAuto': 'auto',
+                'inspector.export.button': 'Exporter PNG transparent',
+                'inspector.export.meta': 'PNG · 2000 × 2000 px · fond alpha',
+                'inspector.export.copyAria': 'Copier dans le presse-papiers',
+                'inspector.export.copy': 'Copier',
+                'inspector.export.copied': 'Copié ✓',
+                'history.aria': 'Historique',
+                'history.title': 'Historique',
+                'history.subZero': '0 bulle · session locale',
+                'history.subOne': '1 bulle · session locale',
+                'history.subN': '{count} bulles · session locale',
+                'history.empty': "Pas encore de bulle dans l'historique — exporte ta première création !",
+                'history.clear': 'Vider',
+                'history.zip': 'ZIP',
+                'history.restoreAria': 'Restaurer : {text}',
+                'history.unnamed': '(bulle)',
+                'history.current': 'ACTUEL',
+                'history.clearConfirm': "Vider l'historique des bulles ?",
+                'history.zipSoon': "L'export ZIP arrive bientôt. En attendant, télécharge chaque bulle individuellement.",
+                'status.bubbleNotLoaded': 'Image de bulle non chargée',
+                'status.size': 'Taille : {fontSize}px · {lines} lignes',
+                'status.sizeOne': 'Taille : {fontSize}px · 1 ligne',
+                'export.notReady': "La bulle n'est pas encore prête. Patiente une seconde puis réessaie.",
+                'export.canvasError': "Impossible d'exporter — canvas protégé. Si tu as ouvert le fichier via file:// directement, sers-le via un serveur local (ex: python -m http.server 8000).",
+                'export.empty': 'Le canvas semble vide. Tape du texte puis réessaie.',
+                'export.copyError': 'Copie indisponible — ton navigateur ne supporte pas ClipboardItem ou la permission est refusée.',
+                'init.loading': 'Chargement des polices et des bulles…',
+                'init.error': 'Erreur de chargement'
+            },
+            en: {
+                'meta.title': 'BubblePop — Comic Speech Bubble Generator | Free PNG Transparent',
+                'meta.description': 'Create comic speech bubbles online for free. Generate transparent PNG bubbles for your videos, memes, and comics. 4 styles, 5 comic fonts, instant download. No signup.',
+                'meta.ogDescription': 'Create comic speech bubbles online for free. Transparent PNG, 4 styles, 5 comic fonts, instant download. No signup required.',
+                'header.logoAria': 'BubblePop — home',
+                'header.tagline': 'Generate transparent comic speech bubbles in seconds',
+                'header.undoRedoGroup': 'Undo / redo',
+                'header.undo': 'Undo',
+                'header.redo': 'Redo',
+                'header.themeToggle': 'Toggle theme',
+                'header.themeLight': 'Light',
+                'header.themeDark': 'Dark',
+                'header.share': 'Share',
+                'header.help': 'Help',
+                'header.lang': 'Language',
+                'preview.aria': 'Preview',
+                'preview.zoomOut': 'Zoom out',
+                'preview.zoomIn': 'Zoom in',
+                'preview.canvasAria': 'Bubble preview',
+                'preview.panHint': 'hold to pan',
+                'preview.exportReady': 'Transparent background · ready to export',
+                'inspector.aria': 'Properties',
+                'inspector.title': 'Properties',
+                'inspector.moreOptions': 'More options',
+                'inspector.text.label': 'Bubble text',
+                'inspector.text.tag': 'Auto-fit',
+                'inspector.text.placeholder': 'Type your text here…',
+                'inspector.text.default': 'Hello!',
+                'inspector.text.charCount': '{count} / 120 characters',
+                'inspector.text.live': 'Live preview',
+                'inspector.style.label': 'Bubble style',
+                'inspector.style.parole': 'Speech',
+                'inspector.style.pensee': 'Thought',
+                'inspector.style.murmure': 'Whisper',
+                'inspector.style.cri': 'Shout',
+                'inspector.font.label': 'Font',
+                'inspector.font.tag': '5 available',
+                'inspector.color.label': 'Text color',
+                'inspector.color.black': 'Black',
+                'inspector.color.white': 'White',
+                'inspector.color.blue': 'Blue',
+                'inspector.color.red': 'Red',
+                'inspector.color.yellow': 'Yellow',
+                'inspector.color.custom': 'Custom color',
+                'inspector.typo.label': 'Typography style',
+                'inspector.typo.bold': 'Bold',
+                'inspector.typo.italic': 'Italic',
+                'inspector.size.label': 'Size',
+                'inspector.size.tagAuto': 'Auto',
+                'inspector.size.tagManual': 'Manual',
+                'inspector.size.auto': 'Auto',
+                'inspector.size.aria': 'Font size',
+                'inspector.size.valAuto': 'auto',
+                'inspector.export.button': 'Export transparent PNG',
+                'inspector.export.meta': 'PNG · 2000 × 2000 px · alpha background',
+                'inspector.export.copyAria': 'Copy to clipboard',
+                'inspector.export.copy': 'Copy',
+                'inspector.export.copied': 'Copied ✓',
+                'history.aria': 'History',
+                'history.title': 'History',
+                'history.subZero': '0 bubbles · local session',
+                'history.subOne': '1 bubble · local session',
+                'history.subN': '{count} bubbles · local session',
+                'history.empty': 'No bubble in history yet — export your first creation!',
+                'history.clear': 'Clear',
+                'history.zip': 'ZIP',
+                'history.restoreAria': 'Restore: {text}',
+                'history.unnamed': '(bubble)',
+                'history.current': 'CURRENT',
+                'history.clearConfirm': 'Clear bubble history?',
+                'history.zipSoon': 'ZIP export coming soon. In the meantime, download each bubble individually.',
+                'status.bubbleNotLoaded': 'Bubble image not loaded',
+                'status.size': 'Size: {fontSize}px · {lines} lines',
+                'status.sizeOne': 'Size: {fontSize}px · 1 line',
+                'export.notReady': "Bubble isn't ready yet. Wait a second and try again.",
+                'export.canvasError': "Can't export — protected canvas. If you opened the file via file:// directly, serve it via a local server (e.g., python -m http.server 8000).",
+                'export.empty': 'Canvas looks empty. Type some text and try again.',
+                'export.copyError': "Copy unavailable — your browser doesn't support ClipboardItem or permission was denied.",
+                'init.loading': 'Loading fonts and bubbles…',
+                'init.error': 'Loading error'
+            }
+        };
+        let currentLang = 'fr';
+        function t(key, vars) {
+            const dict = I18N[currentLang] || I18N.fr;
+            let s = dict[key];
+            if (s == null) s = (I18N.fr[key] != null ? I18N.fr[key] : key);
+            if (vars) {
+                for (const k in vars) s = s.split('{' + k + '}').join(String(vars[k]));
+            }
+            return s;
+        }
+        function applyI18n(lang) {
+            if (lang !== 'fr' && lang !== 'en') lang = 'fr';
+            currentLang = lang;
+            document.documentElement.setAttribute('lang', lang);
+            // textContent
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                el.textContent = t(el.getAttribute('data-i18n'));
+            });
+            // attributs (data-i18n-attr="placeholder:key,aria-label:key2")
+            document.querySelectorAll('[data-i18n-attr]').forEach(el => {
+                el.getAttribute('data-i18n-attr').split(',').forEach(pair => {
+                    const idx = pair.indexOf(':');
+                    if (idx < 0) return;
+                    const attr = pair.slice(0, idx).trim();
+                    const key = pair.slice(idx + 1).trim();
+                    if (attr && key) el.setAttribute(attr, t(key));
+                });
+            });
+            // Meta tags SEO
+            document.title = t('meta.title');
+            const md = document.querySelector('meta[name="description"]');
+            if (md) md.setAttribute('content', t('meta.description'));
+            const od = document.querySelector('meta[property="og:description"]');
+            if (od) od.setAttribute('content', t('meta.ogDescription'));
+            const td = document.querySelector('meta[name="twitter:description"]');
+            if (td) td.setAttribute('content', t('meta.ogDescription'));
+            const ol = document.querySelector('meta[property="og:locale"]');
+            if (ol) ol.setAttribute('content', lang === 'fr' ? 'fr_FR' : 'en_US');
+            const ola = document.querySelector('meta[property="og:locale:alternate"]');
+            if (ola) ola.setAttribute('content', lang === 'fr' ? 'en_US' : 'fr_FR');
+            // Bouton langue : affiche la langue ACTIVE en majuscules
+            const langBtn = document.getElementById('langBtn');
+            if (langBtn) {
+                const arrow = langBtn.querySelector('svg');
+                langBtn.textContent = lang.toUpperCase() + ' ';
+                if (arrow) langBtn.appendChild(arrow);
+                langBtn.setAttribute('aria-label', t('header.lang'));
+            }
+            // Synchroniser composants dynamiques si déjà initialisés
+            if (typeof renderHistory === 'function') {
+                try { renderHistory(); } catch (_) {}
+            }
+            if (typeof generateBubble === 'function' && typeof bubbleImages !== 'undefined' && bubbleImages[selectedBubble]) {
+                try { generateBubble(); } catch (_) {}
+            }
+            // Re-sync label thème selon le thème courant
+            const themeLabelEl = document.getElementById('themeLabel');
+            if (themeLabelEl) {
+                const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+                themeLabelEl.textContent = t(isDark ? 'header.themeLight' : 'header.themeDark');
+            }
+        }
+        function initI18n() {
+            const stored = localStorage.getItem(LANG_KEY);
+            const detected = (navigator.language || 'en').toLowerCase().startsWith('fr') ? 'fr' : 'en';
+            applyI18n(stored === 'fr' || stored === 'en' ? stored : detected);
         }
 
         // ============================================================
@@ -1367,11 +1606,11 @@
             document.documentElement.setAttribute('data-theme', mode);
             if (mode === 'dark') {
                 themeIcon.innerHTML = ICON_SUN;
-                themeLabel.textContent = 'Clair';
+                themeLabel.textContent = t('header.themeLight');
                 document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0A0B0F');
             } else {
                 themeIcon.innerHTML = ICON_MOON;
-                themeLabel.textContent = 'Sombre';
+                themeLabel.textContent = t('header.themeDark');
                 document.querySelector('meta[name="theme-color"]').setAttribute('content', '#F8F6EF');
             }
         }
@@ -1467,7 +1706,7 @@
             const text = textInput.value || ' ';
             const bubbleImg = bubbleImages[selectedBubble];
             if (!bubbleImg) {
-                statusEl.textContent = 'Image de bulle non chargée';
+                statusEl.textContent = t('status.bubbleNotLoaded');
                 return;
             }
 
@@ -1508,18 +1747,22 @@
             sizeValueEl.textContent = `${fontSize}px`;
             if (textStyle.autoSize) {
                 manualSizeInput.value = fontSize;
-                sizeTag.textContent = 'Auto';
+                sizeTag.textContent = t('inspector.size.tagAuto');
             } else {
-                sizeTag.textContent = 'Manuel';
+                sizeTag.textContent = t('inspector.size.tagManual');
             }
-            statusEl.textContent = `Taille : ${fontSize}px · ${lines.length} ligne(s)`;
+            const key = lines.length === 1 ? 'status.sizeOne' : 'status.size';
+            statusEl.textContent = t(key, { fontSize, lines: lines.length });
         }
 
         // ============================================================
         // Saisie de texte
         // ============================================================
+        function updateCharCount() {
+            charCount.textContent = t('inspector.text.charCount', { count: textInput.value.length });
+        }
         textInput.addEventListener('input', () => {
-            charCount.textContent = textInput.value.length;
+            updateCharCount();
             generateBubble();
         });
 
@@ -1643,19 +1886,23 @@
         }
         function renderHistory() {
             const items = loadHistory();
-            historySub.textContent = `${items.length} bulle${items.length > 1 ? 's' : ''} · session locale`;
+            let subKey;
+            if (items.length === 0) subKey = 'history.subZero';
+            else if (items.length === 1) subKey = 'history.subOne';
+            else subKey = 'history.subN';
+            historySub.textContent = t(subKey, { count: items.length });
             historyStrip.innerHTML = '';
             if (items.length === 0) {
                 const empty = document.createElement('span');
                 empty.className = 'history-empty';
-                empty.textContent = "Pas encore de bulle dans l'historique — exporte ta première création !";
+                empty.textContent = t('history.empty');
                 historyStrip.appendChild(empty);
                 return;
             }
             items.forEach((item, i) => {
                 const thumb = document.createElement('button');
                 thumb.className = 'thumb' + (i === 0 ? ' active' : '');
-                thumb.setAttribute('aria-label', `Restaurer : ${item.text || '(bulle)'}`);
+                thumb.setAttribute('aria-label', t('history.restoreAria', { text: item.text || t('history.unnamed') }));
                 thumb.dataset.idx = i;
 
                 const bg = document.createElement('div');
@@ -1671,7 +1918,7 @@
                 if (i === 0) {
                     const badge = document.createElement('span');
                     badge.className = 'thumb-badge';
-                    badge.textContent = 'ACTUEL';
+                    badge.textContent = t('history.current');
                     thumb.appendChild(badge);
                 }
                 historyStrip.appendChild(thumb);
@@ -1733,7 +1980,7 @@
             const s = sanitizeSnapshot(raw);
             if (!s) return;
             textInput.value = s.text;
-            charCount.textContent = textInput.value.length;
+            updateCharCount();
             selectedBubble = s.bubble;
             selectedFont = s.font;
             textStyle.color = s.color;
@@ -1777,13 +2024,13 @@
         });
         clearHistoryBtn.addEventListener('click', () => {
             if (loadHistory().length === 0) return;
-            if (confirm("Vider l'historique des bulles ?")) {
+            if (confirm(t('history.clearConfirm'))) {
                 saveHistory([]);
                 renderHistory();
             }
         });
         exportZipBtn.addEventListener('click', () => {
-            alert("L'export ZIP arrive bientôt. En attendant, télécharge chaque bulle individuellement.");
+            alert(t('history.zipSoon'));
         });
 
         // ============================================================
@@ -1795,7 +2042,7 @@
         // ============================================================
         function doExport() {
             if (!canvas.width || !canvas.height) {
-                alert("La bulle n'est pas encore prête. Patiente une seconde puis réessaie.");
+                alert(t('export.notReady'));
                 return;
             }
             let dataUrl;
@@ -1803,11 +2050,11 @@
                 dataUrl = canvas.toDataURL('image/png');
             } catch (err) {
                 console.error('[BubblePop] toDataURL a échoué :', err);
-                alert("Impossible d'exporter — canvas protégé. Si tu as ouvert le fichier via file:// directement, sers-le via un serveur local (ex: python -m http.server 8000).");
+                alert(t('export.canvasError'));
                 return;
             }
             if (!dataUrl || dataUrl.length < 100) {
-                alert("Le canvas semble vide. Tape du texte puis réessaie.");
+                alert(t('export.empty'));
                 return;
             }
             const link = document.createElement('a');
@@ -1826,12 +2073,15 @@
                 const blob = await new Promise(res => canvas.toBlob(res, 'image/png'));
                 if (!blob) throw new Error('toBlob a renvoyé null');
                 await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
-                const original = copyBtn.innerHTML;
-                copyBtn.innerHTML = original.replace('Copier', 'Copié ✓');
-                setTimeout(() => copyBtn.innerHTML = original, 1200);
+                const labelEl = copyBtn.querySelector('.copy-label');
+                if (labelEl) {
+                    const original = labelEl.textContent;
+                    labelEl.textContent = t('inspector.export.copied');
+                    setTimeout(() => { labelEl.textContent = t('inspector.export.copy'); }, 1200);
+                }
             } catch (e) {
                 console.error('Clipboard copy failed:', e);
-                alert('Copie indisponible — ton navigateur ne supporte pas ClipboardItem ou la permission est refusée.');
+                alert(t('export.copyError'));
             }
         });
 
@@ -1839,7 +2089,7 @@
         // Initialisation
         // ============================================================
         async function init() {
-            statusEl.textContent = 'Chargement des polices et des bulles...';
+            statusEl.textContent = t('init.loading');
             try {
                 await Promise.all([
                     document.fonts.ready,
@@ -1849,9 +2099,22 @@
                 renderHistory();
             } catch (e) {
                 console.error(e);
-                statusEl.textContent = 'Erreur de chargement';
+                statusEl.textContent = t('init.error');
             }
         }
+        // i18n appliqué avant init() pour que les chaînes de chargement soient déjà traduites
+        initI18n();
+        // Valeur initiale du textarea = "Bonjour !" / "Hello!" selon la langue détectée
+        // (on ne touche pas au textarea si l'utilisateur change de langue après coup)
+        if (textInput.value === 'Bonjour !') textInput.value = t('inspector.text.default');
+        // Listener bascule de langue (FR ↔ EN)
+        document.getElementById('langBtn').addEventListener('click', () => {
+            const next = currentLang === 'fr' ? 'en' : 'fr';
+            applyI18n(next);
+            localStorage.setItem(LANG_KEY, next);
+        });
+        // Première mise à jour du compteur de caractères avec la langue appliquée
+        updateCharCount();
         init();
     </script>
 </body>
