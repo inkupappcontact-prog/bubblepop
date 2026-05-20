@@ -21,18 +21,27 @@ Ce fichier fournit le contexte du projet à Claude Code pour ce répertoire.
 ```
 app texte bulle/
 ├── index.html             # Application complète (HTML + CSS + JS inline)
+├── 404.html               # Page 404 personnalisée
 ├── robots.txt             # SEO
 ├── sitemap.xml            # SEO
 ├── og-image.png           # Image 1200x630 pour Open Graph (partages sociaux)
-├── make_og_image.py       # Script de génération de og-image.png (à relancer si modif)
-├── make_transparent.py    # Script utilitaire (rend le blanc transparent dans un PNG)
-├── bulles BD/             # Images des bulles
+├── _headers               # Headers HTTP (Netlify/Cloudflare Pages)
+├── _redirects             # Redirections (Netlify/Cloudflare Pages)
+├── vercel.json            # Config headers/cache Vercel
+├── README.md              # Doc publique
+├── LICENSE                # Licence
+├── bulles BD/             # Images des bulles (chemin référencé dans index.html — NE PAS RENOMMER)
 │   ├── 1.png              # 5000x5000 px — Parole
 │   ├── 2.png              # 5000x5000 px — Pensée
 │   ├── 3.png              # 5000x5000 px — Murmure
 │   ├── 4.png              # Cri (fond rendu transparent)
-│   └── 4_original.png     # Sauvegarde avant transparence
-└── fonts/                 # Polices Comic locales (à créer si on veut migrer hors Google Fonts)
+│   ├── 4_original.png     # Sauvegarde avant transparence (gitignored)
+│   └── thumbs/            # Miniatures 256×256 pour le sélecteur de style
+├── fonts/                 # Polices auto-hébergées (woff2)
+└── scripts/               # Scripts Python utilitaires (hors prod)
+    ├── make_og_image.py       # Génère og-image.png
+    ├── make_transparent.py    # Rend le blanc transparent dans un PNG
+    └── make_bubble_thumbs.py  # Génère bulles BD/thumbs/*.png (256×256)
 ```
 
 ## Fonctionnalités
