@@ -1195,8 +1195,9 @@
 
         <!-- ============================================================
              BODY : Toolbar + Preview + Inspector
+             Landmark <main> requis pour l'a11y (Lighthouse).
              ============================================================ -->
-        <div class="app-body">
+        <main class="app-body" id="mainContent">
 
             <!-- Preview -->
             <section class="preview" role="region" data-i18n-attr="aria-label:preview.aria">
@@ -1396,7 +1397,7 @@
                     </div>
                 </div>
             </aside>
-        </div>
+        </main>
 
         <!-- ============================================================
              HISTORY STRIP
