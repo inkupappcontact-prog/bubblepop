@@ -1274,20 +1274,20 @@
                         </div>
                         <div class="style-grid" id="styleGrid">
                             <button class="style-tile active" data-bubble="1" data-i18n-attr="aria-label:inspector.style.parole">
-                                <div class="style-tile-img"><img src="bulles BD/1.png" alt=""></div>
+                                <div class="style-tile-img"><img src="bulles BD/thumbs/1.png" alt="" width="256" height="256"></div>
                                 <span class="style-tile-label" data-i18n="inspector.style.parole">Parole</span>
                                 <div class="check-badge"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-11"/></svg></div>
                             </button>
                             <button class="style-tile" data-bubble="2" data-i18n-attr="aria-label:inspector.style.pensee">
-                                <div class="style-tile-img"><img src="bulles BD/2.png" alt=""></div>
+                                <div class="style-tile-img"><img src="bulles BD/thumbs/2.png" alt="" width="256" height="256"></div>
                                 <span class="style-tile-label" data-i18n="inspector.style.pensee">Pensée</span>
                             </button>
                             <button class="style-tile" data-bubble="3" data-i18n-attr="aria-label:inspector.style.murmure">
-                                <div class="style-tile-img"><img src="bulles BD/3.png" alt=""></div>
+                                <div class="style-tile-img"><img src="bulles BD/thumbs/3.png" alt="" width="256" height="256"></div>
                                 <span class="style-tile-label" data-i18n="inspector.style.murmure">Murmure</span>
                             </button>
                             <button class="style-tile" data-bubble="4" data-i18n-attr="aria-label:inspector.style.cri">
-                                <div class="style-tile-img"><img src="bulles BD/4.png" alt=""></div>
+                                <div class="style-tile-img"><img src="bulles BD/thumbs/4.png" alt="" width="256" height="256"></div>
                                 <span class="style-tile-label" data-i18n="inspector.style.cri">Cri</span>
                             </button>
                         </div>
@@ -1929,20 +1929,44 @@
         }
 
         // ============================================================
-        // Chargement des images de bulles
+        // Chargement des images de bulles (lazy)
+        // Les PNG pleine résolution 5000x5000 (~130 KB chacun) ne sont
+        // chargées qu'à la demande. Les thumbnails 256x256 dans le
+        // sélecteur sont des fichiers séparés (bulles BD/thumbs/*.png).
         // ============================================================
+        function loadBubbleImage(num) {
+            if (bubbleImages[num]) return Promise.resolve(bubbleImages[num]);
+            return new Promise((resolve) => {
+                const img = new Image();
+                img.onload = () => { bubbleImages[num] = img; resolve(img); };
+                img.onerror = () => {
+                    console.error(`Erreur chargement bulles BD/${num}.png`);
+                    resolve(null);
+                };
+                img.src = `bulles BD/${num}.png`;
+            });
+        }
+        // Charge la bulle initiale puis précharge les autres en idle
+        // pour que le sélecteur reste réactif sans bloquer le LCP.
         function loadBubbleImages() {
-            return Promise.all([1, 2, 3, 4].map(num => {
-                return new Promise((resolve) => {
-                    const img = new Image();
-                    img.onload = () => { bubbleImages[num] = img; resolve(); };
-                    img.onerror = () => {
-                        console.error(`Erreur chargement bulles BD/${num}.png`);
-                        resolve();
-                    };
-                    img.src = `bulles BD/${num}.png`;
-                });
-            }));
+            return loadBubbleImage(selectedBubble).then(() => {
+                const preloadOthers = () => {
+                    const toLoad = [1, 2, 3, 4].filter(n => !bubbleImages[n]);
+                    Promise.all(toLoad.map(n => loadBubbleImage(n))).then(() => {
+                        // Re-render l'historique : les vignettes des bulles
+                        // qui n'étaient pas encore chargées au render initial
+                        // peuvent maintenant s'afficher.
+                        if (typeof renderHistory === 'function') {
+                            try { renderHistory(); } catch (_) {}
+                        }
+                    });
+                };
+                if ('requestIdleCallback' in window) {
+                    requestIdleCallback(preloadOthers, { timeout: 3000 });
+                } else {
+                    setTimeout(preloadOthers, 1500);
+                }
+            });
         }
 
         // ============================================================
@@ -2058,7 +2082,7 @@
         // ============================================================
         // Sélection de la bulle
         // ============================================================
-        styleGrid.addEventListener('click', (e) => {
+        styleGrid.addEventListener('click', async (e) => {
             const tile = e.target.closest('.style-tile');
             if (!tile) return;
             styleGrid.querySelectorAll('.style-tile').forEach(t => {
@@ -2071,6 +2095,12 @@
             badge.innerHTML = '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-11"/></svg>';
             tile.appendChild(badge);
             selectedBubble = parseInt(tile.dataset.bubble, 10);
+            // Chargement à la volée si la pleine résolution n'est pas encore prête
+            // (cas où l'utilisateur sélectionne une bulle avant la fin du préchargement idle).
+            if (!bubbleImages[selectedBubble]) {
+                statusEl.textContent = t('init.loading');
+                await loadBubbleImage(selectedBubble);
+            }
             generateBubble();
         });
 
@@ -2301,7 +2331,13 @@
             manualSizeInput.disabled = textStyle.autoSize;
             manualSizeInput.value = textStyle.manualSize;
 
-            generateBubble();
+            // Si la bulle restaurée n'est pas encore chargée (préchargement idle
+            // pas terminé), on la charge à la volée puis on re-render.
+            if (!bubbleImages[selectedBubble]) {
+                loadBubbleImage(selectedBubble).then(() => generateBubble());
+            } else {
+                generateBubble();
+            }
         }
 
         // ============================================================
