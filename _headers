@@ -31,8 +31,12 @@
 
   # Isole le site dans son propre groupe de processus (Spectre / cross-origin).
   Cross-Origin-Opener-Policy: same-origin
-  Cross-Origin-Resource-Policy: same-origin
   Cross-Origin-Embedder-Policy: require-corp
+  # NB : Cross-Origin-Resource-Policy n'est PAS défini ici car
+  # Cloudflare Pages concatène les valeurs entre blocs (au lieu
+  # d'override), ce qui empêchait l'override cross-origin sur
+  # /og-image.png nécessaire aux bots OG (Facebook/X/LinkedIn/Discord).
+  # CORP est défini par chemin ci-dessous.
 
   # CSP doublonnée ici (déjà dans <meta>) car les en-têtes HTTP ont la
   # priorité et fonctionnent même si le HTML est servi sans <head>.
@@ -44,16 +48,22 @@
 
 /fonts/*
   Cache-Control: public, max-age=31536000, immutable
+  Cross-Origin-Resource-Policy: same-origin
 
 /bulles BD/*
   Cache-Control: public, max-age=31536000, immutable
+  Cross-Origin-Resource-Policy: same-origin
 
 /og-image.png
   Cache-Control: public, max-age=2592000
-  # Override du CORP same-origin du bloc /* : les bots OG (Facebook,
-  # X, LinkedIn, Discord, etc.) doivent pouvoir charger l'image
-  # depuis un autre domaine pour générer les aperçus.
+  # Les bots OG (Facebook, X, LinkedIn, Discord, etc.) doivent pouvoir
+  # charger cette image depuis un autre domaine pour générer les aperçus.
   Cross-Origin-Resource-Policy: cross-origin
 
 /*.html
   Cache-Control: public, max-age=0, must-revalidate
+  Cross-Origin-Resource-Policy: same-origin
+
+# Note : `/` (qui sert index.html) n'a plus de Cross-Origin-Resource-Policy.
+# Perte mineure côté Mozilla Observatory (~5 points). Trade-off accepté
+# pour que les bots OG puissent charger /og-image.png.
