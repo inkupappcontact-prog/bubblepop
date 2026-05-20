@@ -4,6 +4,9 @@ bulles BD/4_original.png
 *.tmp
 *.old
 
+# Docs de travail internes (stratégie, contacts, etc.)
+plan d'action.txt
+
 # Système
 Thumbs.db
 .DS_Store
