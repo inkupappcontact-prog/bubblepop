@@ -1,0 +1,13 @@
+# ============================================================
+# Redirections — Cloudflare Pages
+# ============================================================
+# Ce fichier est lu par Cloudflare Pages au déploiement.
+# Référence : https://developers.cloudflare.com/pages/configuration/redirects/
+#
+# Format : <source> <destination> <code>
+#   - 301 = permanent (recommandé SEO)
+#   - Le suffixe "!" force la redirection même si une ressource existe
+#   - :splat capture le wildcard `*` de la source
+
+# Redirection www → apex (canonical = https://getbubblepop.com)
+https://www.getbubblepop.com/*  https://getbubblepop.com/:splat  301!
