@@ -50,6 +50,10 @@
 
 /og-image.png
   Cache-Control: public, max-age=2592000
+  # Override du CORP same-origin du bloc /* : les bots OG (Facebook,
+  # X, LinkedIn, Discord, etc.) doivent pouvoir charger l'image
+  # depuis un autre domaine pour générer les aperçus.
+  Cross-Origin-Resource-Policy: cross-origin
 
 /*.html
   Cache-Control: public, max-age=0, must-revalidate
