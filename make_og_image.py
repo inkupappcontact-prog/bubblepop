@@ -4,11 +4,11 @@ import os
 W, H = 1200, 630
 OUT = r"C:\Users\bloui\Desktop\app texte bulle\og-image.png"
 
-# Dégradé violet (vertical) cohérent avec l'app
-img = Image.new("RGB", (W, H), "#667eea")
+# Dégradé bleu (vertical) cohérent avec l'accent de l'app (#3B82F6 → #1D4ED8)
+img = Image.new("RGB", (W, H), "#60A5FA")
 draw = ImageDraw.Draw(img)
-c1 = (102, 126, 234)  # #667eea
-c2 = (118, 75, 162)   # #764ba2
+c1 = (96, 165, 250)   # #60A5FA — bleu clair (haut)
+c2 = (29, 78, 216)    # #1D4ED8 — accent-lo de l'app (bas)
 for y in range(H):
     t = y / H
     r = int(c1[0] + (c2[0] - c1[0]) * t)
@@ -28,8 +28,8 @@ for y in range(bh):
         if r > 240 and g > 240 and b > 240:
             px[x, y] = (255, 255, 255, 0)
 
-# Redimensionne la bulle (assez petite pour rentrer dans 630px de haut avec marge)
-bubble_w = 480
+# Redimensionne la bulle (plus grosse pour meilleure présence visuelle)
+bubble_w = 580
 bubble_h = int(bh * (bubble_w / bw))
 bubble = bubble.resize((bubble_w, bubble_h), Image.LANCZOS)
 
