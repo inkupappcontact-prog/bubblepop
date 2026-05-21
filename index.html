@@ -941,6 +941,40 @@
         }
 
         /* ============================================================
+           Footer — liens légaux + contact
+           ============================================================ */
+        .footer {
+            flex-shrink: 0;
+            background: var(--surface);
+            border-top: 1px solid var(--border);
+            padding: 10px 18px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 14px;
+            font-size: 12px;
+            color: var(--ink-3);
+            flex-wrap: wrap;
+        }
+        .footer-left { font-weight: 500; letter-spacing: 0.02em; }
+        .footer-nav {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            flex-wrap: wrap;
+        }
+        .footer-link {
+            color: var(--ink-3);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: color 160ms ease;
+        }
+        .footer-link:hover { color: var(--ink); }
+        .footer-link svg { opacity: 0.8; }
+
+        /* ============================================================
            Focus ring
            ============================================================ */
         :focus-visible {
@@ -1426,6 +1460,24 @@
         </section>
 
         <div class="sr-status" role="status" aria-live="polite" id="status"></div>
+
+        <!-- ============================================================
+             FOOTER — liens légaux + contact
+             ============================================================ -->
+        <footer class="footer" role="contentinfo">
+            <div class="footer-left">
+                <span data-i18n="footer.copyright">© 2026 BubblePop · InkUp</span>
+            </div>
+            <nav class="footer-nav" data-i18n-attr="aria-label:footer.nav">
+                <a class="footer-link" href="/privacy.html" data-i18n="footer.privacy">Confidentialité</a>
+                <a class="footer-link" href="/legal.html" data-i18n="footer.legal">Mentions légales</a>
+                <a class="footer-link" href="https://github.com/inkupappcontact-prog/bubblepop" target="_blank" rel="noopener">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2.2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1.1-.8.1-.7.1-.7 1.2.1 1.9 1.2 1.9 1.2 1.1 1.9 2.9 1.4 3.6 1 .1-.8.4-1.4.8-1.7-2.7-.3-5.5-1.3-5.5-5.9 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.7 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .3"/></svg>
+                    GitHub
+                </a>
+                <a class="footer-link" href="mailto:inkup.app.contact@gmail.com" data-i18n="footer.contact">Contact</a>
+            </nav>
+        </footer>
     </div>
 
     <!-- ============================================================
@@ -1650,7 +1702,12 @@
                 'help.faq.q5': 'Quels navigateurs sont compatibles ?',
                 'help.faq.a5': "Toutes les versions récentes de Chrome, Firefox, Safari et Edge. Le rendu utilise HTML5 Canvas, supporté partout depuis 2014.",
                 'help.contact.title': 'Contact & support',
-                'help.contact.kofi': 'Soutenir BubblePop sur Ko-fi'
+                'help.contact.kofi': 'Soutenir BubblePop sur Ko-fi',
+                'footer.copyright': '© 2026 BubblePop · InkUp',
+                'footer.nav': 'Liens légaux et contact',
+                'footer.privacy': 'Confidentialité',
+                'footer.legal': 'Mentions légales',
+                'footer.contact': 'Contact'
             },
             en: {
                 'meta.title': 'BubblePop — Comic Speech Bubble Generator | Free PNG Transparent',
@@ -1755,7 +1812,12 @@
                 'help.faq.q5': 'Which browsers are supported?',
                 'help.faq.a5': 'Any recent version of Chrome, Firefox, Safari, or Edge. Rendering uses HTML5 Canvas, supported everywhere since 2014.',
                 'help.contact.title': 'Contact & support',
-                'help.contact.kofi': 'Support BubblePop on Ko-fi'
+                'help.contact.kofi': 'Support BubblePop on Ko-fi',
+                'footer.copyright': '© 2026 BubblePop · InkUp',
+                'footer.nav': 'Legal links and contact',
+                'footer.privacy': 'Privacy',
+                'footer.legal': 'Legal notice',
+                'footer.contact': 'Contact'
             }
         };
         let currentLang = 'fr';
