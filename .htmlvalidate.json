@@ -1,0 +1,11 @@
+{
+  "extends": ["html-validate:recommended"],
+  "rules": {
+    "no-implicit-button-type": "off",
+    "no-inline-style": "off",
+    "no-redundant-role": "off",
+    "text-content": "off",
+    "element-permitted-content": "off",
+    "attr-quotes": "off"
+  }
+}

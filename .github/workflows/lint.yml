@@ -1,0 +1,24 @@
+name: Lint
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Lint HTML (html-validate)
+        run: npx --yes html-validate@11 index.html privacy.html legal.html support.html 404.html
+
+      - name: Lint sitemap.xml (xmllint)
+        run: xmllint --noout sitemap.xml
