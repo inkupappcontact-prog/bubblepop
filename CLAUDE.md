@@ -25,9 +25,8 @@ app texte bulle/
 ├── robots.txt             # SEO
 ├── sitemap.xml            # SEO
 ├── og-image.png           # Image 1200x630 pour Open Graph (partages sociaux)
-├── _headers               # Headers HTTP (Netlify/Cloudflare Pages)
-├── _redirects             # Redirections (Netlify/Cloudflare Pages)
-├── vercel.json            # Config headers/cache Vercel
+├── _headers               # Headers HTTP Cloudflare Pages
+├── _redirects             # Redirections Cloudflare Pages (www→apex + .html→propre)
 ├── README.md              # Doc publique
 ├── LICENSE                # Licence
 ├── bulles BD/             # Images des bulles (chemin référencé dans index.html — NE PAS RENOMMER)
@@ -94,12 +93,11 @@ Les polices sont chargées via `@font-face` dans le CSS inline.
 
 ## Déploiement
 
-L'application est un fichier HTML statique déployable partout :
-- Netlify / Vercel (drag-and-drop du dossier)
-- GitHub Pages
-- N'importe quel hébergement classique
+**Déploiement actuel** : Cloudflare Pages (`bubblepop.pages.dev`, domaine cible `getbubblepop.com`).
+Le build lit `_headers` (sécurité + cache) et `_redirects` (www→apex, normalisation `.html`).
 
-Aucune configuration serveur n'est requise.
+L'app étant un HTML statique, elle reste portable : GitHub Pages, n'importe quel hébergement
+classique, etc. Aucune configuration serveur requise.
 
 ## SEO
 
