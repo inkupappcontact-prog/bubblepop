@@ -11,3 +11,10 @@
 
 # Redirection www → apex (canonical = https://getbubblepop.com)
 https://www.getbubblepop.com/*  https://getbubblepop.com/:splat  301!
+
+# Normalisation .html → forme propre (évite le contenu dupliqué côté Google)
+# Cloudflare Pages ne fait PAS la redirection automatiquement : sans ces règles,
+# /privacy et /privacy.html servent tous deux un 200 avec le même HTML.
+/privacy.html   /privacy   308
+/legal.html     /legal     308
+/support.html   /support   308
