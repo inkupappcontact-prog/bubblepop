@@ -213,9 +213,14 @@
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        html, body { height: 100%; overflow: hidden; }
-
+        html { height: 100%; }
+        /* L'app principale prend 100vh ; la section éditoriale en dessous est
+           accessible au scroll. overflow-x: hidden évite tout débordement
+           horizontal accidentel. scroll-behavior: smooth pour les ancres. */
+        html, body { scroll-behavior: smooth; }
         body {
+            min-height: 100%;
+            overflow-x: hidden;
             font-family: var(--font-ui);
             background: var(--bg);
             color: var(--ink);
@@ -975,6 +980,124 @@
         .footer-link svg { opacity: 0.8; }
 
         /* ============================================================
+           About — section éditoriale en dessous de l'app (SEO + UX)
+           Affichée au scroll. Sur desktop, l'app remplit le viewport
+           initial ; cette section est révélée par scroll.
+           ============================================================ */
+        .about {
+            background: var(--surface);
+            border-top: 1px solid var(--border);
+            padding: 64px 24px 80px;
+            color: var(--ink);
+        }
+        .about-inner {
+            max-width: 920px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 56px;
+        }
+        .about-header { text-align: center; }
+        .about-header h2 {
+            font-family: var(--font-display);
+            font-size: 34px;
+            line-height: 1.15;
+            letter-spacing: 0.01em;
+            margin-bottom: 14px;
+            color: var(--ink);
+        }
+        .about-lede {
+            font-size: 16px;
+            line-height: 1.6;
+            color: var(--ink-2);
+            max-width: 620px;
+            margin: 0 auto;
+        }
+        .about-steps {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+        .about-step {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 24px 22px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .about-step .step-num {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px; height: 32px;
+            border-radius: 50%;
+            background: var(--accent-soft);
+            color: var(--accent);
+            font-weight: 700;
+            font-size: 14px;
+        }
+        .about-step h3 {
+            font-size: 17px;
+            font-weight: 600;
+            color: var(--ink);
+        }
+        .about-step p {
+            font-size: 14px;
+            line-height: 1.55;
+            color: var(--ink-2);
+        }
+        .about-features > h3,
+        .about-faq > h3 {
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: var(--ink);
+        }
+        .about-features ul {
+            list-style: none;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px 28px;
+        }
+        .about-features li {
+            font-size: 14.5px;
+            line-height: 1.55;
+            color: var(--ink-2);
+            padding-left: 22px;
+            position: relative;
+        }
+        .about-features li::before {
+            content: "✓";
+            position: absolute;
+            left: 0; top: 0;
+            color: var(--accent);
+            font-weight: 700;
+        }
+        .about-features li strong { color: var(--ink); font-weight: 600; }
+        .about-faq dl { display: flex; flex-direction: column; gap: 18px; }
+        .about-faq dt {
+            font-size: 15.5px;
+            font-weight: 600;
+            color: var(--ink);
+            margin-bottom: 4px;
+        }
+        .about-faq dd {
+            font-size: 14.5px;
+            line-height: 1.6;
+            color: var(--ink-2);
+            margin: 0;
+        }
+        @media (max-width: 720px) {
+            .about { padding: 44px 18px 60px; }
+            .about-inner { gap: 40px; }
+            .about-header h2 { font-size: 26px; }
+            .about-steps { grid-template-columns: 1fr; }
+            .about-features ul { grid-template-columns: 1fr; }
+        }
+
+        /* ============================================================
            Focus ring
            ============================================================ */
         :focus-visible {
@@ -1013,7 +1136,15 @@
 
         @media (max-width: 600px) {
             .header { padding: 0 12px; height: 56px; }
-            .tagline, .sep-v, .pill-lang { display: none; }
+            .sep-v, .pill-lang { display: none; }
+            /* H1 caché visuellement mais conservé dans le DOM pour SEO mobile-first
+               (mobile-first indexing : Google se base sur la version mobile) */
+            .tagline {
+                position: absolute;
+                width: 1px; height: 1px;
+                padding: 0; margin: -1px; overflow: hidden;
+                clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+            }
             .logo-text { font-size: 22px; }
             .pv-top-left .pill:nth-child(2) { display: none; }
             .pv-btm-left { display: none; }
@@ -1198,7 +1329,7 @@
                     <span class="logo-text">BubblePop</span>
                 </a>
                 <div class="sep-v"></div>
-                <span class="tagline" data-i18n="header.tagline">Generate transparent comic speech bubbles in seconds</span>
+                <h1 class="tagline" data-i18n="header.tagline">Generate transparent comic speech bubbles in seconds</h1>
             </div>
             <div class="header-right">
                 <div class="seg" data-i18n-attr="aria-label:header.undoRedoGroup">
@@ -1308,20 +1439,40 @@
                         </div>
                         <div class="style-grid" id="styleGrid">
                             <button class="style-tile active" data-bubble="1" data-i18n-attr="aria-label:inspector.style.parole">
-                                <div class="style-tile-img"><img src="bulles BD/thumbs/1.png" alt="" width="256" height="256"></div>
+                                <div class="style-tile-img">
+                                    <picture>
+                                        <source srcset="bulles BD/thumbs/1.webp" type="image/webp">
+                                        <img src="bulles BD/thumbs/1.png" alt="" width="256" height="256" decoding="async">
+                                    </picture>
+                                </div>
                                 <span class="style-tile-label" data-i18n="inspector.style.parole">Parole</span>
                                 <div class="check-badge"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-11"/></svg></div>
                             </button>
                             <button class="style-tile" data-bubble="2" data-i18n-attr="aria-label:inspector.style.pensee">
-                                <div class="style-tile-img"><img src="bulles BD/thumbs/2.png" alt="" width="256" height="256"></div>
+                                <div class="style-tile-img">
+                                    <picture>
+                                        <source srcset="bulles BD/thumbs/2.webp" type="image/webp">
+                                        <img src="bulles BD/thumbs/2.png" alt="" width="256" height="256" loading="lazy" decoding="async">
+                                    </picture>
+                                </div>
                                 <span class="style-tile-label" data-i18n="inspector.style.pensee">Pensée</span>
                             </button>
                             <button class="style-tile" data-bubble="3" data-i18n-attr="aria-label:inspector.style.murmure">
-                                <div class="style-tile-img"><img src="bulles BD/thumbs/3.png" alt="" width="256" height="256"></div>
+                                <div class="style-tile-img">
+                                    <picture>
+                                        <source srcset="bulles BD/thumbs/3.webp" type="image/webp">
+                                        <img src="bulles BD/thumbs/3.png" alt="" width="256" height="256" loading="lazy" decoding="async">
+                                    </picture>
+                                </div>
                                 <span class="style-tile-label" data-i18n="inspector.style.murmure">Murmure</span>
                             </button>
                             <button class="style-tile" data-bubble="4" data-i18n-attr="aria-label:inspector.style.cri">
-                                <div class="style-tile-img"><img src="bulles BD/thumbs/4.png" alt="" width="256" height="256"></div>
+                                <div class="style-tile-img">
+                                    <picture>
+                                        <source srcset="bulles BD/thumbs/4.webp" type="image/webp">
+                                        <img src="bulles BD/thumbs/4.png" alt="" width="256" height="256" loading="lazy" decoding="async">
+                                    </picture>
+                                </div>
                                 <span class="style-tile-label" data-i18n="inspector.style.cri">Cri</span>
                             </button>
                         </div>
@@ -1469,6 +1620,7 @@
                 <span data-i18n="footer.copyright">© 2026 BubblePop · InkUp</span>
             </div>
             <nav class="footer-nav" data-i18n-attr="aria-label:footer.nav">
+                <a class="footer-link" href="#about" data-i18n="footer.about">En savoir plus</a>
                 <a class="footer-link" href="/privacy" data-i18n="footer.privacy">Confidentialité</a>
                 <a class="footer-link" href="/legal" data-i18n="footer.legal">Mentions légales</a>
                 <a class="footer-link" href="https://github.com/inkupappcontact-prog/bubblepop" target="_blank" rel="noopener">
@@ -1483,6 +1635,69 @@
             </nav>
         </footer>
     </div>
+
+    <!-- ============================================================
+         ABOUT — section éditoriale (SEO + UX)
+         Visible au scroll. Sert le contenu textuel que Googlebot
+         indexe : H2/H3, FAQ, mots-clés naturels. Hors de .app pour
+         ne pas perturber le layout 100vh de l'app principale.
+         ============================================================ -->
+    <section id="about" class="about" aria-labelledby="aboutTitle">
+        <div class="about-inner">
+            <header class="about-header">
+                <h2 id="aboutTitle" data-i18n="about.title">Comic speech bubbles in three clicks</h2>
+                <p class="about-lede" data-i18n="about.lede">Free, online, no signup. BubblePop is built for creators who need clean transparent PNG speech bubbles — fast.</p>
+            </header>
+
+            <div class="about-block">
+                <div class="about-steps">
+                    <article class="about-step">
+                        <span class="step-num" aria-hidden="true">1</span>
+                        <h3 data-i18n="about.step1.title">Type your text</h3>
+                        <p data-i18n="about.step1.body">Write whatever your character says — a punch line, dialogue, or a scream. BubblePop auto-fits the font size so the text always reads cleanly.</p>
+                    </article>
+                    <article class="about-step">
+                        <span class="step-num" aria-hidden="true">2</span>
+                        <h3 data-i18n="about.step2.title">Pick a style and font</h3>
+                        <p data-i18n="about.step2.body">Four bubble styles — speech, thought, whisper, shout — and five comic-grade fonts. Everything previews live as you type.</p>
+                    </article>
+                    <article class="about-step">
+                        <span class="step-num" aria-hidden="true">3</span>
+                        <h3 data-i18n="about.step3.title">Export a transparent PNG</h3>
+                        <p data-i18n="about.step3.body">One click and you get a 2000×2000 PNG with a full alpha background — drop it straight into Premiere, Photoshop, Figma, Canva or any video editor.</p>
+                    </article>
+                </div>
+            </div>
+
+            <div class="about-block about-features">
+                <h3 data-i18n="about.features.title">Built for creators, not for sign-ups</h3>
+                <ul>
+                    <li><strong data-i18n="about.features.f1.title">Zero account.</strong> <span data-i18n="about.features.f1.body">Nothing to register, nothing to install. Open the page and create.</span></li>
+                    <li><strong data-i18n="about.features.f2.title">100% client-side.</strong> <span data-i18n="about.features.f2.body">Your text and exports stay in your browser. Nothing is uploaded to a server.</span></li>
+                    <li><strong data-i18n="about.features.f3.title">Commercial use allowed.</strong> <span data-i18n="about.features.f3.body">YouTube, self-published comics, memes, paid content — no restrictions.</span></li>
+                    <li><strong data-i18n="about.features.f4.title">Transparent background.</strong> <span data-i18n="about.features.f4.body">Drop the PNG on any footage without keying or masking.</span></li>
+                    <li><strong data-i18n="about.features.f5.title">Five comic fonts.</strong> <span data-i18n="about.features.f5.body">Comic Relief, Bangers, Komika, Komika Hands and Anime Ace BB — all self-hosted, no tracking.</span></li>
+                    <li><strong data-i18n="about.features.f6.title">Works on mobile.</strong> <span data-i18n="about.features.f6.body">The interface adapts to phones and tablets so you can create on the go.</span></li>
+                </ul>
+            </div>
+
+            <div class="about-block about-faq">
+                <h3 data-i18n="about.faq.title">Frequently asked questions</h3>
+                <dl>
+                    <dt data-i18n="about.faq.q1">Is BubblePop really free?</dt>
+                    <dd data-i18n="about.faq.a1">Yes. No paywall, no watermark, no usage cap. Export as many bubbles as you want.</dd>
+                    <dt data-i18n="about.faq.q2">What is the resolution of the exported PNG?</dt>
+                    <dd data-i18n="about.faq.a2">2000 × 2000 pixels with an alpha channel. That's enough for 4K video overlays and print at moderate sizes.</dd>
+                    <dt data-i18n="about.faq.q3">Do I need an account to download a bubble?</dt>
+                    <dd data-i18n="about.faq.a3">No account, no email, no sign-up. Click "Export transparent PNG" and the file lands in your downloads folder.</dd>
+                    <dt data-i18n="about.faq.q4">Can I use BubblePop bubbles for commercial work?</dt>
+                    <dd data-i18n="about.faq.a4">Yes, freely. Videos, comics, paid content, merch — no restrictions on commercial use.</dd>
+                    <dt data-i18n="about.faq.q5">Does BubblePop work offline?</dt>
+                    <dd data-i18n="about.faq.a5">Once the page is loaded, everything runs in your browser. You can keep creating bubbles without an internet connection until you reload the page.</dd>
+                </dl>
+            </div>
+        </div>
+    </section>
 
     <!-- ============================================================
          Toast — feedback éphémère (Share copié, etc.)
@@ -1712,7 +1927,40 @@
                 'footer.privacy': 'Confidentialité',
                 'footer.legal': 'Mentions légales',
                 'footer.support': 'Soutenir',
-                'footer.contact': 'Contact'
+                'footer.contact': 'Contact',
+                'footer.about': 'En savoir plus',
+                'about.title': 'Des bulles de BD en trois clics',
+                'about.lede': "Gratuit, en ligne, sans inscription. BubblePop est pensé pour les créateurs qui ont besoin de bulles de BD en PNG transparent — vite et bien.",
+                'about.step1.title': 'Écris ton texte',
+                'about.step1.body': "Tape ce que dit ton personnage — une punchline, un dialogue, un cri. BubblePop ajuste automatiquement la taille de la police pour que le texte reste lisible.",
+                'about.step2.title': 'Choisis un style et une police',
+                'about.step2.body': "Quatre styles de bulles — parole, pensée, murmure, cri — et cinq polices comic. Tout s'affiche en temps réel pendant que tu tapes.",
+                'about.step3.title': 'Exporte ton PNG transparent',
+                'about.step3.body': "Un clic et tu récupères un PNG 2000×2000 avec un fond alpha complet, prêt à glisser dans Premiere, Photoshop, Figma, Canva ou n'importe quel éditeur vidéo.",
+                'about.features.title': 'Pensé pour les créateurs, pas pour les inscriptions',
+                'about.features.f1.title': 'Zéro compte.',
+                'about.features.f1.body': "Rien à créer, rien à installer. Tu ouvres la page et tu crées.",
+                'about.features.f2.title': '100 % côté navigateur.',
+                'about.features.f2.body': "Ton texte et tes exports restent dans ton navigateur. Aucun upload vers un serveur.",
+                'about.features.f3.title': 'Usage commercial autorisé.',
+                'about.features.f3.body': "YouTube, BD auto-éditée, memes, contenu payant — aucune restriction.",
+                'about.features.f4.title': 'Fond transparent.',
+                'about.features.f4.body': "Pose le PNG sur n'importe quelle vidéo sans incrustation ni masque.",
+                'about.features.f5.title': 'Cinq polices comic.',
+                'about.features.f5.body': "Comic Relief, Bangers, Komika, Komika Hands et Anime Ace BB — toutes auto-hébergées, aucun tracking.",
+                'about.features.f6.title': 'Fonctionne sur mobile.',
+                'about.features.f6.body': "L'interface s'adapte aux téléphones et tablettes pour créer où que tu sois.",
+                'about.faq.title': 'Questions fréquentes',
+                'about.faq.q1': "BubblePop est-il vraiment gratuit ?",
+                'about.faq.a1': "Oui. Pas de paywall, pas de filigrane, pas de limite d'usage. Exporte autant de bulles que tu veux.",
+                'about.faq.q2': 'Quelle est la résolution du PNG exporté ?',
+                'about.faq.a2': "2000 × 2000 pixels avec couche alpha. Largement suffisant pour les overlays vidéo 4K et l'impression à taille raisonnable.",
+                'about.faq.q3': 'Faut-il créer un compte pour télécharger une bulle ?',
+                'about.faq.a3': "Aucun compte, aucun email, aucune inscription. Tu cliques sur « Exporter PNG transparent » et le fichier arrive dans ton dossier de téléchargements.",
+                'about.faq.q4': 'Puis-je utiliser les bulles BubblePop pour un projet commercial ?',
+                'about.faq.a4': "Oui, librement. Vidéos, BD, contenu payant, merch — aucune restriction d'usage commercial.",
+                'about.faq.q5': 'BubblePop fonctionne-t-il hors-ligne ?',
+                'about.faq.a5': "Une fois la page chargée, tout s'exécute dans ton navigateur. Tu peux continuer à créer des bulles sans connexion jusqu'à ce que tu recharges la page."
             },
             en: {
                 'meta.title': 'BubblePop — Comic Speech Bubble Generator | Free PNG Transparent',
@@ -1823,7 +2071,40 @@
                 'footer.privacy': 'Privacy',
                 'footer.legal': 'Legal notice',
                 'footer.support': 'Support',
-                'footer.contact': 'Contact'
+                'footer.contact': 'Contact',
+                'footer.about': 'Learn more',
+                'about.title': 'Comic speech bubbles in three clicks',
+                'about.lede': 'Free, online, no signup. BubblePop is built for creators who need clean transparent PNG speech bubbles — fast.',
+                'about.step1.title': 'Type your text',
+                'about.step1.body': 'Write whatever your character says — a punch line, dialogue, or a scream. BubblePop auto-fits the font size so the text always reads cleanly.',
+                'about.step2.title': 'Pick a style and font',
+                'about.step2.body': 'Four bubble styles — speech, thought, whisper, shout — and five comic-grade fonts. Everything previews live as you type.',
+                'about.step3.title': 'Export a transparent PNG',
+                'about.step3.body': 'One click and you get a 2000×2000 PNG with a full alpha background — drop it straight into Premiere, Photoshop, Figma, Canva or any video editor.',
+                'about.features.title': 'Built for creators, not for sign-ups',
+                'about.features.f1.title': 'Zero account.',
+                'about.features.f1.body': 'Nothing to register, nothing to install. Open the page and create.',
+                'about.features.f2.title': '100% client-side.',
+                'about.features.f2.body': 'Your text and exports stay in your browser. Nothing is uploaded to a server.',
+                'about.features.f3.title': 'Commercial use allowed.',
+                'about.features.f3.body': 'YouTube, self-published comics, memes, paid content — no restrictions.',
+                'about.features.f4.title': 'Transparent background.',
+                'about.features.f4.body': 'Drop the PNG on any footage without keying or masking.',
+                'about.features.f5.title': 'Five comic fonts.',
+                'about.features.f5.body': 'Comic Relief, Bangers, Komika, Komika Hands and Anime Ace BB — all self-hosted, no tracking.',
+                'about.features.f6.title': 'Works on mobile.',
+                'about.features.f6.body': 'The interface adapts to phones and tablets so you can create on the go.',
+                'about.faq.title': 'Frequently asked questions',
+                'about.faq.q1': 'Is BubblePop really free?',
+                'about.faq.a1': 'Yes. No paywall, no watermark, no usage cap. Export as many bubbles as you want.',
+                'about.faq.q2': 'What is the resolution of the exported PNG?',
+                'about.faq.a2': "2000 × 2000 pixels with an alpha channel. That's enough for 4K video overlays and print at moderate sizes.",
+                'about.faq.q3': 'Do I need an account to download a bubble?',
+                'about.faq.a3': 'No account, no email, no sign-up. Click "Export transparent PNG" and the file lands in your downloads folder.',
+                'about.faq.q4': 'Can I use BubblePop bubbles for commercial work?',
+                'about.faq.a4': 'Yes, freely. Videos, comics, paid content, merch — no restrictions on commercial use.',
+                'about.faq.q5': 'Does BubblePop work offline?',
+                'about.faq.a5': 'Once the page is loaded, everything runs in your browser. You can keep creating bubbles without an internet connection until you reload the page.'
             }
         };
         let currentLang = 'fr';
@@ -1998,20 +2279,36 @@
 
         // ============================================================
         // Chargement des images de bulles (lazy)
-        // Les PNG pleine résolution 5000x5000 (~130 KB chacun) ne sont
-        // chargées qu'à la demande. Les thumbnails 256x256 dans le
-        // sélecteur sont des fichiers séparés (bulles BD/thumbs/*.png).
+        // Format : WebP lossless si supporté (-79 % vs PNG), fallback PNG
+        // sinon. Les pleines résolutions ne sont chargées qu'à la demande,
+        // les thumbnails du sélecteur passent par <picture> côté HTML.
         // ============================================================
+        // Détection synchrone du support WebP via canvas.toDataURL.
+        // Fiable depuis Chrome 32 / Firefox 65 / Safari 14 / Edge 18.
+        const supportsWebP = (() => {
+            try {
+                const c = document.createElement('canvas');
+                return c.toDataURL('image/webp').indexOf('data:image/webp') === 0;
+            } catch (_) { return false; }
+        })();
+        const bubbleExt = supportsWebP ? 'webp' : 'png';
+
         function loadBubbleImage(num) {
             if (bubbleImages[num]) return Promise.resolve(bubbleImages[num]);
             return new Promise((resolve) => {
                 const img = new Image();
                 img.onload = () => { bubbleImages[num] = img; resolve(img); };
                 img.onerror = () => {
+                    // Fallback PNG si le WebP échoue (réseau, MIME, etc.)
+                    if (img.src.endsWith('.webp')) {
+                        console.warn(`WebP indisponible pour bulle ${num}, fallback PNG`);
+                        img.src = `bulles BD/${num}.png`;
+                        return;
+                    }
                     console.error(`Erreur chargement bulles BD/${num}.png`);
                     resolve(null);
                 };
-                img.src = `bulles BD/${num}.png`;
+                img.src = `bulles BD/${num}.${bubbleExt}`;
             });
         }
         // Charge la bulle initiale puis précharge les autres en idle
