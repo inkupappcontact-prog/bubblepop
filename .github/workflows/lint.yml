@@ -22,3 +22,6 @@ jobs:
 
       - name: Lint sitemap.xml (xmllint)
         run: xmllint --noout sitemap.xml
+
+      - name: Check footer coherence (4 pages)
+        run: node tools/check-footer.mjs

@@ -45,6 +45,8 @@ app texte bulle/
 │   ├── 4.png + 4.webp     # Cri (fond rendu transparent)
 │   └── thumbs/            # Miniatures 256×256 (.png + .webp) pour le sélecteur de style
 ├── fonts/                 # Polices auto-hébergées (woff2)
+├── tools/                 # Scripts Node utilisés en CI (zéro deps npm)
+│   └── check-footer.mjs   # Vérifie la cohérence du footer entre les 4 pages
 └── scripts/               # Scripts Python utilitaires (hors prod)
     ├── make_og_image.py             # Génère og-image.png
     ├── make_transparent.py          # Rend le blanc transparent dans un PNG
@@ -106,7 +108,7 @@ Toutes les polices sont chargées via `@font-face` dans le CSS inline d'`index.h
 - Ne pas ajouter de backend — l'app doit rester 100% statique
 - Ne pas casser la transparence du PNG exporté
 
-### Footer commun (à synchroniser manuellement)
+### Footer commun (à synchroniser manuellement, CI vérifie)
 Le footer est dupliqué dans `index.html`, `privacy.html`, `legal.html`, `support.html`.
 Pas de build step → pas de templating possible. Quand le footer change dans `index.html`,
 **répercuter le changement dans les 3 autres pages** (CSS + HTML).
@@ -114,6 +116,11 @@ Variantes :
 - `index.html` utilise i18n `data-i18n` (objet `I18N` + `applyI18n()`) et la variable CSS `--ink-3`.
 - Les 3 autres pages utilisent i18n `data-fr`/`data-en` (script inline qui setInnerHTML) et `--ink-2`.
 - Le lien de la page courante porte `aria-current="page"` (style désactivé via le sélecteur d'attribut).
+
+Filet de sécurité : `tools/check-footer.mjs` (exécuté en CI) extrait les `href` du footer
+de chaque page et vérifie qu'ils sont identiques (mêmes URLs, même ordre). Les ancres
+internes (`#xxx`) sont exclues car non-portables. Si tu ajoutes un lien dans `index.html`
+sans le répercuter, le CI échoue. Tester en local avec `node tools/check-footer.mjs`.
 
 ## Déploiement
 
