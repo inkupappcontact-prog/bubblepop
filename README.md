@@ -2,6 +2,9 @@
 
 > Free comic speech bubble generator — transparent PNG, no signup, runs entirely in your browser.
 
+[![Lint](https://github.com/inkupappcontact-prog/bubblepop/actions/workflows/lint.yml/badge.svg?branch=main)](https://github.com/inkupappcontact-prog/bubblepop/actions/workflows/lint.yml)
+[![License: CC BY-NC 4.0](https://img.shields.io/badge/License-CC%20BY--NC%204.0-lightgrey.svg)](LICENSE)
+
 **Live demo** → [getbubblepop.com](https://getbubblepop.com)
 
 ![BubblePop](og-image.png)
@@ -11,7 +14,7 @@
 Pick a bubble style, type your text, hit export. You get a transparent PNG ready to drop into Photoshop, Figma, Canva, Premiere, or any image/video editor.
 
 - 4 comic bubble styles : Speech, Thought, Whisper, Shout
-- 5 self-hosted comic fonts : Comic Relief, Bangers, Komika Axis, Architects Hand, Permanent Marker
+- 5 self-hosted comic fonts : Comic Relief, Bangers, Komika Axis, Architects Daughter, Permanent Marker
 - Auto-fit text + manual size override (20–400 px)
 - 6 quick text colors + custom color picker
 - Bold / Italic toggle

@@ -21,14 +21,23 @@ Ce fichier fournit le contexte du projet à Claude Code pour ce répertoire.
 ```
 app texte bulle/
 ├── index.html             # Application complète (HTML + CSS + JS inline)
+├── privacy.html           # Politique de confidentialité bilingue FR/EN
+├── legal.html             # Mentions légales bilingues FR/EN (identité éditeur)
+├── support.html           # Page de soutien (Ko-fi + GitHub Sponsors) bilingue FR/EN
 ├── 404.html               # Page 404 personnalisée
 ├── robots.txt             # SEO
-├── sitemap.xml            # SEO
+├── sitemap.xml            # SEO (5 URLs : root, privacy, legal, support)
 ├── og-image.png           # Image 1200x630 pour Open Graph (partages sociaux)
 ├── _headers               # Headers HTTP Cloudflare Pages
 ├── _redirects             # Redirections Cloudflare Pages (www→apex + .html→propre)
+├── .htmlvalidate.json     # Config html-validate (lint CI)
+├── .gitignore             # Bloque OPS.md / .env / plan d'action.txt / etc.
+├── .github/
+│   ├── FUNDING.yml        # Liens Ko-fi + GitHub Sponsors
+│   └── workflows/
+│       └── lint.yml       # CI : html-validate + xmllint sur push main + PR
 ├── README.md              # Doc publique
-├── LICENSE                # Licence
+├── LICENSE                # Licence (CC BY-NC 4.0)
 ├── bulles BD/             # Images des bulles (chemin référencé dans index.html — NE PAS RENOMMER)
 │   ├── 1.png + 1.webp     # 5000x5000 px — Parole       (.webp servi en priorité)
 │   ├── 2.png + 2.webp     # 5000x5000 px — Pensée
@@ -42,6 +51,9 @@ app texte bulle/
     ├── make_bubble_thumbs.py        # Génère bulles BD/thumbs/*.png (256×256)
     └── convert_bubbles_to_webp.py   # Convertit PNG → WebP lossless (-79%)
 ```
+
+Note : `plan d'action.txt` (stratégie produit/SEO) et `OPS.md` (credentials admin) vivent
+**hors du repo** (gitignored). L'`OPS.md` se trouve dans `~/Documents/bubblepop-ops/`.
 
 ## Fonctionnalités
 
@@ -66,15 +78,18 @@ app texte bulle/
 
 ## Polices intégrées
 
-| Police | Usage typique |
-|--------|---------------|
-| Comic Relief | Texte BD standard |
-| Bangers | Titres / cris |
-| Komika | Texte BD classique |
-| Komika Hands | Style manuscrit |
-| Anime Ace BB | Style manga / comics US |
+5 polices exposées à l'utilisateur dans le sélecteur de police, + Inter pour l'UI.
 
-Les polices sont chargées via `@font-face` dans le CSS inline.
+| Police                | Fichier (`fonts/`)                | Usage typique          |
+|-----------------------|------------------------------------|------------------------|
+| Comic Relief          | `comic-relief-400.woff2` + `-700`  | Texte BD standard      |
+| Bangers               | `bangers-400.woff2`                | Titres / cris          |
+| Komika Axis           | `komika-axis-400.woff`             | Texte BD classique     |
+| Architects Daughter   | `architects-daughter-400.woff2`    | Style manuscrit        |
+| Permanent Marker      | `permanent-marker-400.woff2`       | Feutre / marqueur      |
+| Inter (UI uniquement) | `inter-var.woff2`                  | Interface (non exposé) |
+
+Toutes les polices sont chargées via `@font-face` dans le CSS inline d'`index.html`.
 
 ## Règles de développement
 
@@ -107,6 +122,29 @@ Le build lit `_headers` (sécurité + cache) et `_redirects` (www→apex, normal
 
 L'app étant un HTML statique, elle reste portable : GitHub Pages, n'importe quel hébergement
 classique, etc. Aucune configuration serveur requise.
+
+**⚠️ Vérification post-déploiement** : Cloudflare cache agressivement les pages HTML.
+Après chaque commit qui touche au HTML/SEO (titre, meta, canonical, sitemap, footer),
+**vérifier le rendu en navigation privée** (skip cache navigateur + skip cache CF côté visiteur)
+sur `getbubblepop.com` (et non sur `bubblepop.pages.dev` qui est squatté — cf. memory).
+Si besoin de purger le cache CF : dashboard Cloudflare → Caching → Purge Everything.
+
+## CI / Lint
+
+Workflow GitHub Actions `.github/workflows/lint.yml` lancé sur push `main` et PR :
+
+- **html-validate@11** sur les 5 pages (`index.html`, `privacy.html`, `legal.html`, `support.html`, `404.html`)
+  — config dans `.htmlvalidate.json`. Désactive les règles d'opinion (boutons sans `type=`,
+  styles inline, ARIA redondants…) pour rester sur les régressions **structurelles**
+  (balises mal fermées, IDs dupliqués, srcset cassé, attributs invalides).
+- **xmllint --noout** sur `sitemap.xml` — détecte un XML cassé avant qu'il n'arrive
+  dans Google Search Console / Bing.
+
+Pour tester localement avant push (Node 20+ requis) :
+
+```bash
+npx --yes html-validate@11 index.html privacy.html legal.html support.html 404.html
+```
 
 ## SEO
 
