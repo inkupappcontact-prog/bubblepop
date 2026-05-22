@@ -31,17 +31,17 @@ app texte bulle/
 ├── README.md              # Doc publique
 ├── LICENSE                # Licence
 ├── bulles BD/             # Images des bulles (chemin référencé dans index.html — NE PAS RENOMMER)
-│   ├── 1.png              # 5000x5000 px — Parole
-│   ├── 2.png              # 5000x5000 px — Pensée
-│   ├── 3.png              # 5000x5000 px — Murmure
-│   ├── 4.png              # Cri (fond rendu transparent)
-│   ├── 4_original.png     # Sauvegarde avant transparence (gitignored)
-│   └── thumbs/            # Miniatures 256×256 pour le sélecteur de style
+│   ├── 1.png + 1.webp     # 5000x5000 px — Parole       (.webp servi en priorité)
+│   ├── 2.png + 2.webp     # 5000x5000 px — Pensée
+│   ├── 3.png + 3.webp     # 5000x5000 px — Murmure
+│   ├── 4.png + 4.webp     # Cri (fond rendu transparent)
+│   └── thumbs/            # Miniatures 256×256 (.png + .webp) pour le sélecteur de style
 ├── fonts/                 # Polices auto-hébergées (woff2)
 └── scripts/               # Scripts Python utilitaires (hors prod)
-    ├── make_og_image.py       # Génère og-image.png
-    ├── make_transparent.py    # Rend le blanc transparent dans un PNG
-    └── make_bubble_thumbs.py  # Génère bulles BD/thumbs/*.png (256×256)
+    ├── make_og_image.py             # Génère og-image.png
+    ├── make_transparent.py          # Rend le blanc transparent dans un PNG
+    ├── make_bubble_thumbs.py        # Génère bulles BD/thumbs/*.png (256×256)
+    └── convert_bubbles_to_webp.py   # Convertit PNG → WebP lossless (-79%)
 ```
 
 ## Fonctionnalités
