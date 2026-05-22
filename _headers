@@ -64,6 +64,18 @@
   Cache-Control: public, max-age=0, must-revalidate
   Cross-Origin-Resource-Policy: same-origin
 
+# robots.txt : lu par les crawlers (Google, Bing…). Change très
+# rarement → cache 24h (recommandation Google).
+/robots.txt
+  Cache-Control: public, max-age=86400
+  Cross-Origin-Resource-Policy: same-origin
+
+# sitemap.xml : lu par Googlebot pour découvrir les URLs. On veut que
+# les nouvelles URLs soient prises en compte vite → cache 1h.
+/sitemap.xml
+  Cache-Control: public, max-age=3600
+  Cross-Origin-Resource-Policy: same-origin
+
 # Note : `/` (qui sert index.html) n'a plus de Cross-Origin-Resource-Policy.
 # Perte mineure côté Mozilla Observatory (~5 points). Trade-off accepté
 # pour que les bots OG puissent charger /og-image.png.
