@@ -91,6 +91,15 @@ Les polices sont chargées via `@font-face` dans le CSS inline.
 - Ne pas ajouter de backend — l'app doit rester 100% statique
 - Ne pas casser la transparence du PNG exporté
 
+### Footer commun (à synchroniser manuellement)
+Le footer est dupliqué dans `index.html`, `privacy.html`, `legal.html`, `support.html`.
+Pas de build step → pas de templating possible. Quand le footer change dans `index.html`,
+**répercuter le changement dans les 3 autres pages** (CSS + HTML).
+Variantes :
+- `index.html` utilise i18n `data-i18n` (objet `I18N` + `applyI18n()`) et la variable CSS `--ink-3`.
+- Les 3 autres pages utilisent i18n `data-fr`/`data-en` (script inline qui setInnerHTML) et `--ink-2`.
+- Le lien de la page courante porte `aria-current="page"` (style désactivé via le sélecteur d'attribut).
+
 ## Déploiement
 
 **Déploiement actuel** : Cloudflare Pages (`bubblepop.pages.dev`, domaine cible `getbubblepop.com`).
