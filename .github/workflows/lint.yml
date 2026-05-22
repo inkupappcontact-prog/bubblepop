@@ -21,8 +21,11 @@ jobs:
       - name: Lint HTML (html-validate)
         run: npx --yes html-validate@11 index.html privacy.html legal.html support.html 404.html
 
-      - name: Lint sitemap.xml (xmllint)
-        run: xmllint --noout sitemap.xml
+      - name: Lint sitemap.xml (well-formed XML)
+        # python3 est pré-installé sur ubuntu-latest, contrairement à xmllint
+        # qui n'est pas garanti dans l'image runner. ET.parse() lève si le
+        # XML est mal formé.
+        run: python3 -c "import xml.etree.ElementTree as ET; ET.parse('sitemap.xml')"
 
       - name: Check footer coherence (4 pages)
         run: node tools/check-footer.mjs
