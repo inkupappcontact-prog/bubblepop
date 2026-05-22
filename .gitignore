@@ -29,6 +29,11 @@ venv/
 .env.*
 !.env.example
 
+# Fichier ops privé (credentials & URLs admin) — doit vivre HORS du repo
+# (ex: ~/Documents/bubblepop-ops/OPS.md). Défense en profondeur.
+OPS.md
+bubblepop-ops/
+
 # Cache navigateur / build (au cas où)
 node_modules/
 dist/
