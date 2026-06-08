@@ -1,5 +1,6 @@
 #!/usr/bin/env node
-// Vérifie que le footer est cohérent sur les 4 pages HTML.
+// Vérifie que le footer est cohérent sur toutes les pages HTML porteuses du
+// footer commun : les pages "chrome" (racine) + tous les articles de blog/.
 // CLAUDE.md interdit le templating (mono-fichier, pas de build step), donc
 // le footer est dupliqué manuellement. Ce script attrape l'oubli humain :
 // si un lien est ajouté/retiré dans index.html mais pas répercuté ailleurs,
@@ -9,12 +10,17 @@
 // diffèrent entre index (data-i18n résolu par JS) et les pages secondaires
 // (data-fr/data-en inline), donc on s'en tient au plus stable : les URLs.
 
-import { readFileSync } from 'node:fs';
+import { readFileSync, globSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
-const PAGES = ['index.html', 'privacy.html', 'legal.html', 'support.html'];
+
+// Articles de blog auto-découverts : tout nouvel article est vérifié sans
+// avoir à toucher ce script (globSync requiert Node 22+, déjà pinné en CI).
+const BLOG_PAGES = globSync('blog/*.html', { cwd: ROOT }).sort();
+// index.html en premier : il sert de référence (footer canonique).
+const PAGES = ['index.html', 'privacy.html', 'legal.html', 'support.html', ...BLOG_PAGES];
 
 // On exclut les ancres internes (`#xxx`) : ces liens pointent vers une section
 // de la page courante (ex: `#about` n'existe que sur index.html), ils sont par

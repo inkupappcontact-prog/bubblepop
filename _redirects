@@ -18,3 +18,8 @@ https://www.getbubblepop.com/*  https://getbubblepop.com/:splat  301!
 /privacy.html   /privacy   308
 /legal.html     /legal     308
 /support.html   /support   308
+
+# Blog : normalisation .html → forme propre (idem pages racine)
+/blog/index.html                                   /blog/                                          308
+/blog/how-to-add-a-speech-bubble-to-an-image.html  /blog/how-to-add-a-speech-bubble-to-an-image    308
+/blog/ajouter-une-bulle-de-bd-sur-une-image.html   /blog/ajouter-une-bulle-de-bd-sur-une-image     308

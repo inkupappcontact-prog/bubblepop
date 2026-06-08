@@ -28,4 +28,31 @@
     <changefreq>monthly</changefreq>
     <priority>0.4</priority>
   </url>
+  <url>
+    <loc>https://getbubblepop.com/blog/</loc>
+    <lastmod>2026-06-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://getbubblepop.com/blog/?lang=fr"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://getbubblepop.com/blog/?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://getbubblepop.com/blog/"/>
+  </url>
+  <url>
+    <loc>https://getbubblepop.com/blog/how-to-add-a-speech-bubble-to-an-image</loc>
+    <lastmod>2026-06-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://getbubblepop.com/blog/how-to-add-a-speech-bubble-to-an-image"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://getbubblepop.com/blog/ajouter-une-bulle-de-bd-sur-une-image"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://getbubblepop.com/blog/how-to-add-a-speech-bubble-to-an-image"/>
+  </url>
+  <url>
+    <loc>https://getbubblepop.com/blog/ajouter-une-bulle-de-bd-sur-une-image</loc>
+    <lastmod>2026-06-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://getbubblepop.com/blog/how-to-add-a-speech-bubble-to-an-image"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://getbubblepop.com/blog/ajouter-une-bulle-de-bd-sur-une-image"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://getbubblepop.com/blog/how-to-add-a-speech-bubble-to-an-image"/>
+  </url>
 </urlset>

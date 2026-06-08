@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ajouter une bulle de BD sur une image (gratuit, sans Photoshop)</title>
+    <meta name="description" content="Ajoutez une bulle de BD à n'importe quelle image gratuitement — sans Photoshop, sans inscription. Générez une bulle PNG transparente dans votre navigateur en moins d'une minute.">
+    <meta name="keywords" content="ajouter bulle BD image, bulle de BD sur photo, gratuit, sans photoshop, bulle PNG transparent, générateur bulle BD, légender image">
+    <meta name="author" content="BubblePop">
+    <meta name="robots" content="index, follow">
+
+    <link rel="canonical" href="https://getbubblepop.com/blog/ajouter-une-bulle-de-bd-sur-une-image">
+
+    <!-- Variantes linguistiques (hreflang) : pendant EN ↔ FR réciproque. -->
+    <link rel="alternate" hreflang="en" href="https://getbubblepop.com/blog/how-to-add-a-speech-bubble-to-an-image">
+    <link rel="alternate" hreflang="fr" href="https://getbubblepop.com/blog/ajouter-une-bulle-de-bd-sur-une-image">
+    <link rel="alternate" hreflang="x-default" href="https://getbubblepop.com/blog/how-to-add-a-speech-bubble-to-an-image">
+
+    <meta name="theme-color" content="#0A0B0F">
+
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 44 36'%3E%3Cellipse cx='22' cy='16' rx='20' ry='12' fill='%233B82F6'/%3E%3Cpath d='M14 25 L11 34 L20 27 Z' fill='%233B82F6'/%3E%3Ccircle cx='14' cy='16' r='2' fill='%230A0B0F'/%3E%3Ccircle cx='22' cy='16' r='2' fill='%230A0B0F'/%3E%3Ccircle cx='30' cy='16' r='2' fill='%230A0B0F'/%3E%3C/svg%3E">
+
+    <!-- ============================================================ -->
+    <!-- Open Graph / Twitter — article partageable                   -->
+    <!-- ============================================================ -->
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="BubblePop">
+    <meta property="og:title" content="Ajouter une bulle de BD sur une image (gratuit, sans Photoshop)">
+    <meta property="og:description" content="Générez une bulle PNG transparente dans votre navigateur et posez-la sur n'importe quelle photo — sans Photoshop, sans inscription, en moins d'une minute.">
+    <meta property="og:url" content="https://getbubblepop.com/blog/ajouter-une-bulle-de-bd-sur-une-image">
+    <meta property="og:image" content="https://getbubblepop.com/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="BubblePop - Générateur de bulles de BD">
+    <meta property="og:locale" content="fr_FR">
+    <meta property="article:published_time" content="2026-06-08">
+    <meta property="article:section" content="Tutoriels">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Ajouter une bulle de BD sur une image (gratuit, sans Photoshop)">
+    <meta name="twitter:description" content="Générez une bulle PNG transparente dans votre navigateur et posez-la sur n'importe quelle photo — sans Photoshop.">
+    <meta name="twitter:image" content="https://getbubblepop.com/og-image.png">
+    <meta name="twitter:image:alt" content="BubblePop - Générateur de bulles de BD">
+
+    <!-- ============================================================ -->
+    <!-- Données structurées : HowTo + fil d'Ariane                   -->
+    <!-- ============================================================ -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "HowTo",
+          "inLanguage": "fr",
+          "name": "Ajouter une bulle de BD sur une image (gratuit, sans Photoshop)",
+          "description": "Générez une bulle PNG transparente dans votre navigateur avec BubblePop et posez-la sur n'importe quelle image — sans Photoshop, sans inscription.",
+          "totalTime": "PT1M",
+          "estimatedCost": { "@type": "MonetaryAmount", "currency": "EUR", "value": "0" },
+          "tool": [{ "@type": "HowToTool", "name": "BubblePop (générateur de bulles de BD gratuit dans le navigateur)" }],
+          "supply": [{ "@type": "HowToSupply", "name": "N'importe quelle image (JPG, PNG ou capture d'écran)" }],
+          "step": [
+            {
+              "@type": "HowToStep",
+              "name": "Ouvrir le générateur de bulles",
+              "text": "Rendez-vous sur BubblePop. Tout se passe côté navigateur — rien à installer, aucun compte à créer.",
+              "url": "https://getbubblepop.com/blog/ajouter-une-bulle-de-bd-sur-une-image#step-open"
+            },
+            {
+              "@type": "HowToStep",
+              "name": "Saisir votre texte",
+              "text": "Tapez la réplique souhaitée. Le texte s'ajuste et se répartit automatiquement pour rester centré dans la bulle.",
+              "url": "https://getbubblepop.com/blog/ajouter-une-bulle-de-bd-sur-une-image#step-text"
+            },
+            {
+              "@type": "HowToStep",
+              "name": "Choisir un style de bulle",
+              "text": "Sélectionnez l'un des quatre styles : parole, pensée, murmure ou cri. Chacun a son contour et sa queue.",
+              "url": "https://getbubblepop.com/blog/ajouter-une-bulle-de-bd-sur-une-image#step-style"
+            },
+            {
+              "@type": "HowToStep",
+              "name": "Choisir une police BD",
+              "text": "Choisissez l'une des cinq polices BD pour accorder le lettrage au ton — bien grasse pour un cri, manuscrite pour un aparté.",
+              "url": "https://getbubblepop.com/blog/ajouter-une-bulle-de-bd-sur-une-image#step-font"
+            },
+            {
+              "@type": "HowToStep",
+              "name": "Exporter un PNG transparent",
+              "text": "Cliquez sur Télécharger. BubblePop exporte un PNG au fond transparent autour de la bulle : aucun cadre blanc à nettoyer.",
+              "url": "https://getbubblepop.com/blog/ajouter-une-bulle-de-bd-sur-une-image#step-export"
+            },
+            {
+              "@type": "HowToStep",
+              "name": "Poser la bulle sur votre image",
+              "text": "Ouvrez votre image dans un éditeur (Canva, Figma, Photopea, GIMP, voire PowerPoint), ajoutez le PNG par-dessus, puis déplacez et redimensionnez-le. Le fond transparent laisse la bulle se poser proprement sur la photo.",
+              "url": "https://getbubblepop.com/blog/ajouter-une-bulle-de-bd-sur-une-image#step-place"
+            }
+          ]
+        },
+        {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "BubblePop", "item": "https://getbubblepop.com/" },
+            { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://getbubblepop.com/blog/" },
+            { "@type": "ListItem", "position": 3, "name": "Ajouter une bulle de BD sur une image" }
+          ]
+        }
+      ]
+    }
+    </script>
+
+    <style>
+        @font-face {
+            font-family: 'Inter';
+            font-style: normal;
+            font-weight: 100 900;
+            font-display: swap;
+            src: url('../fonts/inter-var.woff2') format('woff2');
+        }
+
+        :root, [data-theme="dark"] {
+            --bg:       #0A0B0F;
+            --surface:  #181A23;
+            --ink:      #F5F5F2;
+            --ink-2:    #A0A4AE;
+            --border:   #262934;
+            --accent:   #3B82F6;
+            --accent-2: #1D4ED8;
+            --shadow:   0 18px 40px rgba(0,0,0,.55), 0 4px 12px rgba(0,0,0,.35);
+        }
+        [data-theme="light"] {
+            --bg:       #F8F6EF;
+            --surface:  #FFFFFF;
+            --ink:      #0F1116;
+            --ink-2:    #525664;
+            --border:   #E4DFD0;
+            --accent:   #3B82F6;
+            --accent-2: #1D4ED8;
+            --shadow:   0 12px 32px rgba(15,17,22,.08), 0 4px 12px rgba(15,17,22,.05);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body { min-height: 100%; }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--ink);
+            padding: 40px 24px 64px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        main { max-width: 720px; margin: 0 auto; }
+
+        /* Fil d'Ariane */
+        .breadcrumb {
+            font-size: 13px;
+            color: var(--ink-2);
+            margin-bottom: 28px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 8px;
+        }
+        .breadcrumb a { color: var(--ink-2); text-decoration: none; transition: color 160ms ease; }
+        .breadcrumb a:hover { color: var(--ink); }
+        .breadcrumb span[aria-current] { color: var(--ink); }
+        .breadcrumb .sep { opacity: 0.5; }
+
+        h1 {
+            font-size: clamp(28px, 4.5vw, 38px);
+            font-weight: 700;
+            line-height: 1.18;
+            margin-bottom: 10px;
+            letter-spacing: -0.01em;
+        }
+        .meta {
+            color: var(--ink-2);
+            font-size: 13px;
+            margin-bottom: 28px;
+        }
+        .lede {
+            color: var(--ink);
+            font-size: 17px;
+            line-height: 1.6;
+            margin-bottom: 28px;
+        }
+
+        h2 {
+            font-size: 22px;
+            font-weight: 700;
+            margin-top: 40px;
+            margin-bottom: 12px;
+            letter-spacing: -0.01em;
+        }
+        h3 {
+            font-size: 17px;
+            font-weight: 700;
+            margin-top: 20px;
+            margin-bottom: 6px;
+        }
+
+        p, li {
+            color: var(--ink);
+            font-size: 16px;
+            line-height: 1.7;
+            margin-bottom: 12px;
+        }
+        p strong, li strong { font-weight: 600; }
+
+        ul { padding-left: 22px; margin-bottom: 12px; }
+        ul li { margin-bottom: 6px; }
+
+        a.inline {
+            color: var(--accent);
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+            transition: border-color 160ms ease;
+        }
+        a.inline:hover { border-bottom-color: var(--accent); }
+
+        /* Étapes numérotées */
+        ol.steps {
+            list-style: none;
+            counter-reset: step;
+            padding: 0;
+            margin: 8px 0 8px;
+        }
+        ol.steps > li {
+            counter-increment: step;
+            position: relative;
+            padding: 0 0 4px 48px;
+            margin-bottom: 22px;
+        }
+        ol.steps > li::before {
+            content: counter(step);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--accent);
+            color: #fff;
+            font-weight: 700;
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        ol.steps > li h3 { margin-top: 0; }
+        ol.steps > li p:last-child { margin-bottom: 0; }
+
+        /* Encadré conseil */
+        .callout {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-left: 3px solid var(--accent);
+            border-radius: 12px;
+            padding: 16px 20px;
+            margin: 24px 0;
+            box-shadow: var(--shadow);
+        }
+        .callout p { margin-bottom: 8px; }
+        .callout p:last-child { margin-bottom: 0; }
+
+        /* FAQ */
+        .qa { margin-bottom: 18px; }
+        .qa h3 { margin-top: 0; }
+        .qa p { margin-bottom: 0; color: var(--ink-2); }
+
+        /* Appel à l'action */
+        .cta-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 24px;
+            margin: 36px 0 8px;
+            text-align: center;
+            box-shadow: var(--shadow);
+        }
+        .cta-card p { color: var(--ink-2); margin-bottom: 16px; }
+        .cta-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 13px 24px;
+            border-radius: 10px;
+            background: var(--accent);
+            color: #fff;
+            font-size: 15px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: transform 120ms ease, filter 120ms ease;
+        }
+        .cta-btn:hover { transform: translateY(-1px); filter: brightness(1.08); }
+
+        /* ============================================================
+           Footer commun (synchronisé avec index.html — voir CLAUDE.md)
+           ============================================================ */
+        .footer {
+            background: var(--surface);
+            border-top: 1px solid var(--border);
+            padding: 14px 22px;
+            margin-top: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 14px;
+            font-size: 12px;
+            color: var(--ink-2);
+            flex-wrap: wrap;
+        }
+        .footer-left { font-weight: 500; letter-spacing: 0.02em; }
+        .footer-nav {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            flex-wrap: wrap;
+        }
+        .footer-link {
+            color: var(--ink-2);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: color 160ms ease;
+        }
+        .footer-link:hover { color: var(--ink); }
+        .footer-link svg { opacity: 0.8; }
+        .footer-link[aria-current="page"] {
+            color: var(--ink-2);
+            opacity: 0.55;
+            pointer-events: none;
+            cursor: default;
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <nav class="breadcrumb" aria-label="Fil d'Ariane">
+            <a href="/">BubblePop</a>
+            <span class="sep" aria-hidden="true">›</span>
+            <a href="/blog/">Blog</a>
+            <span class="sep" aria-hidden="true">›</span>
+            <span aria-current="page">Ajouter une bulle de BD sur une image</span>
+        </nav>
+
+        <article>
+            <h1>Ajouter une bulle de BD sur une image (gratuit, sans Photoshop)</h1>
+            <p class="meta">Tutoriel · 3 min de lecture · Mis à jour le 8 juin 2026 · <a class="inline" href="/blog/how-to-add-a-speech-bubble-to-an-image">Read in English</a></p>
+
+            <p class="lede">
+                Que vous légendiez un mème, conceviez une miniature YouTube ou mettiez en page un webcomic,
+                une bulle de BD nette fait passer le message. Pas besoin de Photoshop ni d'un éditeur payant —
+                voici comment ajouter une bulle transparente sur n'importe quelle image en moins d'une minute,
+                directement dans votre navigateur.
+            </p>
+
+            <h2>Ce qu'il vous faut</h2>
+            <ul>
+                <li>N'importe quelle image — une photo, une capture d'écran, une image extraite d'une vidéo (JPG ou PNG).</li>
+                <li>Un générateur de bulles gratuit dans le navigateur. Nous utiliserons <a class="inline" href="/">BubblePop</a>.</li>
+                <li>Optionnel : un éditeur d'image pour combiner les deux — Canva, Figma, Photopea, GIMP ou même PowerPoint.</li>
+            </ul>
+            <p>
+                L'idée est simple : BubblePop produit la bulle sous forme de <strong>PNG transparent</strong>, et vous
+                posez ce PNG par-dessus votre image dans l'éditeur de votre choix. Aucun calque à aplatir, aucun cadre blanc à effacer.
+            </p>
+
+            <h2>Étape par étape</h2>
+            <ol class="steps">
+                <li id="step-open">
+                    <h3>Ouvrir le générateur de bulles</h3>
+                    <p>Rendez-vous sur <a class="inline" href="/">BubblePop</a>. Tout se passe à 100 % dans votre navigateur — rien à installer, aucun compte, aucun filigrane.</p>
+                </li>
+                <li id="step-text">
+                    <h3>Saisir votre texte</h3>
+                    <p>Tapez la réplique souhaitée. Le texte s'ajuste et se répartit automatiquement pour rester centré dans la bulle, qu'il soit long ou court.</p>
+                </li>
+                <li id="step-style">
+                    <h3>Choisir un style de bulle</h3>
+                    <p>Sélectionnez l'un des quatre styles — <strong>parole</strong>, <strong>pensée</strong>, <strong>murmure</strong> ou <strong>cri</strong>. Chacun a son contour et sa queue, pour coller au ton du moment.</p>
+                </li>
+                <li id="step-font">
+                    <h3>Choisir une police BD</h3>
+                    <p>Choisissez l'une des cinq polices BD. Une police d'affichage bien grasse pour un cri, une manuscrite pour un aparté décontracté — le lettrage raconte beaucoup.</p>
+                </li>
+                <li id="step-export">
+                    <h3>Exporter un PNG transparent</h3>
+                    <p>Cliquez sur <strong>Télécharger</strong>. BubblePop exporte un PNG haute résolution au fond transparent autour de la bulle : rien à nettoyer ensuite.</p>
+                </li>
+                <li id="step-place">
+                    <h3>Poser la bulle sur votre image</h3>
+                    <p>Ouvrez votre image dans n'importe quel éditeur, ajoutez le PNG téléchargé sur un calque au-dessus, puis déplacez et redimensionnez la bulle. Comme le fond est transparent, la bulle se pose proprement sur la photo — orientez la queue vers celui qui « parle » et c'est fini.</p>
+                </li>
+            </ol>
+
+            <div class="callout">
+                <p><strong>Pas d'éditeur sous la main ?</strong> Sur téléphone, la plupart des applis de galerie et de stories (Instagram, CapCut, Canva mobile) permettent d'ajouter un PNG en sticker directement sur une photo. La bulle transparente fonctionne pareil.</p>
+            </div>
+
+            <h2>Pourquoi un PNG transparent ?</h2>
+            <p>
+                Un JPG a toujours un fond rectangulaire opaque. Si vous collez une bulle JPG sur une photo, vous obtenez
+                un vilain cadre blanc (ou coloré) autour. Un <strong>PNG avec couche alpha</strong> stocke l'information
+                « aucun pixel ici », donc tout ce qui entoure la bulle est réellement transparent. C'est ce qui permet à
+                la bulle de flotter sur n'importe quel fond — une miniature sombre, une case de BD chargée, un calque coloré — sans halo.
+            </p>
+            <p>
+                Cela garde aussi la bulle <strong>réutilisable</strong> : le même PNG se pose sur n'importe quelle image, à n'importe quelle taille, autant de fois que vous voulez.
+            </p>
+
+            <h2>Astuces pour un rendu net</h2>
+            <ul>
+                <li><strong>Gardez un texte court.</strong> Une ou deux lignes brèves se lisent mieux. Les longs paragraphes réduisent la police et diluent l'impact.</li>
+                <li><strong>Accordez la police au ton.</strong> Les polices d'affichage épaisses crient ; les manuscrites légères chuchotent.</li>
+                <li><strong>Attention à la queue.</strong> Pivotez ou retournez la bulle dans votre éditeur pour que la queue pointe vers celui qui parle.</li>
+                <li><strong>Dimensionnez selon la plateforme.</strong> Les miniatures YouTube sont chargées — faites une bulle assez grande pour être lue d'un coup d'œil.</li>
+            </ul>
+
+            <h2>FAQ</h2>
+            <div class="qa">
+                <h3>C'est vraiment gratuit ?</h3>
+                <p>Oui. BubblePop est gratuit, sans inscription, sans filigrane et sans version payante. <a class="inline" href="/support">Les dons sont les bienvenus</a> mais jamais obligatoires.</p>
+            </div>
+            <div class="qa">
+                <h3>Faut-il Photoshop ?</h3>
+                <p>Non. Vous générez la bulle dans le navigateur et la combinez à votre image dans n'importe quel éditeur gratuit — ou directement dans une appli mobile qui gère les stickers PNG.</p>
+            </div>
+            <div class="qa">
+                <h3>Puis-je utiliser les bulles commercialement ?</h3>
+                <p>Oui — les PNG que vous exportez sont à vous, y compris pour un usage commercial comme des miniatures ou des BD pour des clients.</p>
+            </div>
+
+            <div class="cta-card">
+                <p>Prêt à légender votre image ?</p>
+                <a class="cta-btn" href="/">
+                    Ouvrir BubblePop
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
+                </a>
+            </div>
+
+            <p style="margin-top:28px;"><a class="inline" href="/blog/">← Plus de guides sur le blog BubblePop</a></p>
+        </article>
+    </main>
+
+    <footer class="footer" role="contentinfo">
+        <div class="footer-left">© 2026 BubblePop · InkUp</div>
+        <nav class="footer-nav" aria-label="Pied de page">
+            <a class="footer-link" href="/privacy" data-en="Privacy" data-fr="Confidentialité">Confidentialité</a>
+            <a class="footer-link" href="/legal" data-en="Legal" data-fr="Mentions légales">Mentions légales</a>
+            <a class="footer-link" href="https://github.com/inkupappcontact-prog/bubblepop" target="_blank" rel="noopener">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2.2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1.1-.8.1-.7.1-.7 1.2.1 1.9 1.2 1.9 1.2 1.1 1.9 2.9 1.4 3.6 1 .1-.8.4-1.4.8-1.7-2.7-.3-5.5-1.3-5.5-5.9 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.7 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .3"/></svg>
+                GitHub
+            </a>
+            <a class="footer-link" href="/support">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 8h1a4 4 0 0 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+                <span data-en="Support" data-fr="Soutenir">Soutenir</span>
+            </a>
+            <a class="footer-link" href="mailto:inkup.app.contact@gmail.com">Contact</a>
+        </nav>
+    </footer>
+
+    <script>
+        // Article mono-langue (FR) : on ne touche PAS à la langue, seulement au thème.
+        (function () {
+            try {
+                var theme = localStorage.getItem('bubblepop:theme');
+                if (theme !== 'dark' && theme !== 'light') {
+                    theme = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+                }
+                document.documentElement.setAttribute('data-theme', theme);
+                document.querySelector('meta[name="theme-color"]')
+                    .setAttribute('content', theme === 'dark' ? '#0A0B0F' : '#F8F6EF');
+            } catch (e) { /* failsafe : reste en dark */ }
+        })();
+    </script>
+</body>
+</html>

@@ -25,8 +25,12 @@ app texte bulle/
 ├── legal.html             # Mentions légales bilingues FR/EN (identité éditeur)
 ├── support.html           # Page de soutien (Ko-fi + GitHub Sponsors) bilingue FR/EN
 ├── 404.html               # Page 404 personnalisée
+├── blog/                  # SEO long-tail (Phase 5.2) — 1 article = 1 langue = 1 URL
+│   ├── index.html         # Hub du blog (bilingue runtime, liste des articles)
+│   ├── how-to-add-a-speech-bubble-to-an-image.html  # Article EN (HowTo + BreadcrumbList)
+│   └── ajouter-une-bulle-de-bd-sur-une-image.html   # Article FR (pendant hreflang de l'EN)
 ├── robots.txt             # SEO
-├── sitemap.xml            # SEO (5 URLs : root, privacy, legal, support)
+├── sitemap.xml            # SEO (7 URLs : root, privacy, legal, support, /blog/ + 2 articles EN/FR)
 ├── og-image.png           # Image 1200x630 pour Open Graph (partages sociaux)
 ├── _headers               # Headers HTTP Cloudflare Pages
 ├── _redirects             # Redirections Cloudflare Pages (www→apex + .html→propre)
@@ -50,7 +54,7 @@ app texte bulle/
 │   └── thumbs/            # Miniatures 256×256 (.png + .webp) pour le sélecteur de style
 ├── fonts/                 # Polices auto-hébergées (woff2)
 ├── tools/                 # Scripts Node utilisés en CI (zéro deps npm)
-│   └── check-footer.mjs   # Vérifie la cohérence du footer entre les 4 pages
+│   └── check-footer.mjs   # Vérifie la cohérence du footer (chrome + blog/*.html auto-découverts)
 ├── tests/                 # Tests E2E Playwright (dev/CI — 5 scénarios, chromium headless)
 │   ├── helpers.js         # gotoApp() : neutralise le beacon CF, force ?lang=, attend le canvas
 │   ├── smoke.spec.js      # chargement sans erreur console + canvas 2000×2000
@@ -155,13 +159,17 @@ Si besoin de purger le cache CF : dashboard Cloudflare → Caching → Purge Eve
 Deux workflows GitHub Actions sur push `main` et PR (Node 22) :
 
 **`.github/workflows/lint.yml`** :
-- **html-validate@11** sur les 5 pages (`index.html`, `privacy.html`, `legal.html`, `support.html`, `404.html`)
-  — config dans `.htmlvalidate.json`. Désactive les règles d'opinion (boutons sans `type=`,
+- **html-validate@11** sur les 5 pages racine (`index.html`, `privacy.html`, `legal.html`,
+  `support.html`, `404.html`) **+ tous les articles `blog/**/*.html`** (glob expansé par
+  html-validate → un nouvel article est linté sans toucher le workflow).
+  Config dans `.htmlvalidate.json`. Désactive les règles d'opinion (boutons sans `type=`,
   styles inline, ARIA redondants…) pour rester sur les régressions **structurelles**
-  (balises mal fermées, IDs dupliqués, srcset cassé, attributs invalides).
+  (balises mal fermées, IDs dupliqués, srcset cassé, attributs invalides). ⚠️ La règle
+  `long-title` reste active : titre ≤ 70 caractères.
 - **sitemap.xml** validé via `python3` (`xml.etree.ElementTree.parse`) — détecte un XML cassé
   avant qu'il n'arrive dans Google Search Console / Bing (`xmllint` n'est pas garanti sur le runner).
-- **check footer** : `node tools/check-footer.mjs` (cohérence des liens entre les 4 pages).
+- **check footer** : `node tools/check-footer.mjs` (cohérence des liens entre toutes les pages
+  porteuses du footer : chrome + `blog/*.html` auto-découverts via `globSync`).
 
 **`.github/workflows/e2e.yml`** :
 - **Playwright** (chromium headless) sur les 5 scénarios de `tests/` : chargement sans erreur console,
@@ -172,8 +180,8 @@ Deux workflows GitHub Actions sur push `main` et PR (Node 22) :
 Pour tester localement avant push (Node 20+ requis) :
 
 ```bash
-# Lint HTML
-npx --yes html-validate@11 index.html privacy.html legal.html support.html 404.html
+# Lint HTML (inclut les articles de blog via le glob)
+npx --yes html-validate@11 index.html privacy.html legal.html support.html 404.html "blog/**/*.html"
 
 # Tests E2E (la 1re fois : npm install puis npx playwright install chromium)
 npm test
@@ -188,6 +196,42 @@ L'app est référencée sous le nom **BubblePop** avec une stratégie internatio
 - **Favicons** : SVG inline en data-URI (bulle simple)
 - **Mots-clés cibles** : "speech bubble generator", "comic bubble", "générateur bulle BD", "transparent PNG"
 - **URL canonique** : `https://getbubblepop.com` (déjà appliquée dans `index.html`, `sitemap.xml`, `robots.txt`)
+
+## Blog (`/blog/`) — SEO long-tail (Phase 5.2)
+
+Mini-articles « How-to » statiques pour capter la recherche long-tail (créateurs de
+thumbnails, mèmes, webcomics). Dossier `blog/` : un fichier HTML par article + `index.html` (hub).
+
+**Règle d'or : 1 article = 1 langue = 1 URL.** Contrairement aux pages utilitaires
+(privacy/legal/support) qui *swappent* FR/EN au runtime via `data-fr`/`data-en`, le **contenu
+d'un article est en dur dans le HTML servi** (pas d'injection JS). Raison SEO : Google indexe le
+HTML rendu ; un article dont le but *est* le référencement doit être crawlable directement.
+Les variantes FR/EN d'un même sujet sont **deux fichiers distincts** reliés par `hreflang`
+réciproques (ex. l'EN `how-to-add-a-speech-bubble-to-an-image` ↔ le FR
+`ajouter-une-bulle-de-bd-sur-une-image`, + un lien de bascule visible dans le `.meta`). Le seul script
+inline d'un article gère **uniquement le thème** (dark/light), pas la langue (`<html lang>` figé).
+
+Le **hub `blog/index.html`** est l'exception : bilingue runtime (comme la home), lit `?lang=`
+puis `localStorage['bubblepop:lang']`. Il liste les articles en cartes (titre dans la langue
+native + badge `EN`/`FR`).
+
+**Anatomie d'un article** (modèle : `how-to-add-a-speech-bubble-to-an-image.html`) :
+- `<head>` SEO complet : `title` (**≤ 70 car.**, règle `long-title`), `description`, `keywords`,
+  `canonical` extensionless, `hreflang` (en + x-default ; ajouter `fr` quand la variante existe),
+  Open Graph (`og:type=article`), Twitter Card, JSON-LD **`HowTo` + `BreadcrumbList`** (dans un `@graph`).
+- CSS inline calqué sur les pages secondaires (mêmes variables, `--ink-2`) + bits article
+  (breadcrumb, `ol.steps`, FAQ, CTA). OG image : `og-image.png` générique réutilisée.
+- **Footer commun** identique aux 4 autres pages (synchronisé, vérifié par `check-footer.mjs`).
+
+**Checklist pour ajouter un article** :
+1. Créer `blog/<slug-riche-en-mots-clés>.html` (copier un article existant comme modèle).
+2. `_redirects` : ajouter `/blog/<slug>.html  /blog/<slug>  308` (normalisation extensionless).
+3. `sitemap.xml` : ajouter l'URL `/blog/<slug>` (`lastmod` du jour) ; relier les paires FR/EN
+   par `<xhtml:link hreflang>` croisés quand les deux existent.
+4. `blog/index.html` : ajouter une carte dans `.post-list`.
+5. Le lint (`html-validate "blog/**/*.html"`) et `check-footer.mjs` couvrent le nouvel article
+   **automatiquement** (globs) — pas de workflow à modifier.
+6. Vérifier localement : `node tools/check-footer.mjs` + lint HTML + parse JSON-LD.
 
 ## Communication
 
