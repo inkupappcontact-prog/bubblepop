@@ -127,9 +127,11 @@ Toutes les polices sont chargées via `@font-face` dans le CSS inline d'`index.h
 - Ne pas casser la transparence du PNG exporté
 
 ### Footer commun (à synchroniser manuellement, CI vérifie)
-Le footer est dupliqué dans `index.html`, `privacy.html`, `legal.html`, `support.html`.
-Pas de build step → pas de templating possible. Quand le footer change dans `index.html`,
-**répercuter le changement dans les 3 autres pages** (CSS + HTML).
+Le footer est dupliqué dans `index.html`, `privacy.html`, `legal.html`, `support.html`
+**et chaque page de `blog/`** (hub + articles). Pas de build step → pas de templating possible.
+Quand le footer change dans `index.html`, **répercuter le changement dans toutes les autres
+pages** (CSS + HTML). Liens actuels (ordre, hors ancres internes) : `/blog/`, `/privacy`,
+`/legal`, GitHub, `/support`, `mailto:`.
 Variantes :
 - `index.html` utilise i18n `data-i18n` (objet `I18N` + `applyI18n()`) et la variable CSS `--ink-3`.
 - Les 3 autres pages utilisent i18n `data-fr`/`data-en` (script inline qui setInnerHTML) et `--ink-2`.
@@ -221,7 +223,7 @@ native + badge `EN`/`FR`).
   Open Graph (`og:type=article`), Twitter Card, JSON-LD **`HowTo` + `BreadcrumbList`** (dans un `@graph`).
 - CSS inline calqué sur les pages secondaires (mêmes variables, `--ink-2`) + bits article
   (breadcrumb, `ol.steps`, FAQ, CTA). OG image : `og-image.png` générique réutilisée.
-- **Footer commun** identique aux 4 autres pages (synchronisé, vérifié par `check-footer.mjs`).
+- **Footer commun** identique aux pages racine, lien `/blog/` inclus (synchronisé, vérifié par `check-footer.mjs`).
 
 **Checklist pour ajouter un article** :
 1. Créer `blog/<slug-riche-en-mots-clés>.html` (copier un article existant comme modèle).
