@@ -1,0 +1,40 @@
+name: E2E
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  e2e:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          # Playwright @1.60 requiert Node >=18 ; on aligne sur le job Lint (22).
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies (npm ci — versions figées par package-lock)
+        run: npm ci
+
+      - name: Install Playwright browser (chromium + deps système)
+        run: npx playwright install --with-deps chromium
+
+      - name: Run E2E tests
+        # webServer = `python3 -m http.server` (pré-installé sur ubuntu-latest),
+        # piloté par playwright.config.js. CI=true → retries:1 + rapport HTML.
+        run: npx playwright test
+
+      - name: Upload Playwright report
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 7

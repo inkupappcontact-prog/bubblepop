@@ -1,0 +1,18 @@
+{
+  "name": "bubblepop",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Outillage de dev pour BubblePop. L'app elle-même (index.html) reste un mono-fichier statique SANS dépendance : ce package.json existe UNIQUEMENT pour la suite de tests E2E Playwright et le CI. Rien ici n'est bundlé ni servi aux utilisateurs.",
+  "scripts": {
+    "test": "playwright test",
+    "test:ui": "playwright test --ui",
+    "test:headed": "playwright test --headed",
+    "serve": "python -m http.server 8000"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.60.0"
+  }
+}

@@ -38,3 +38,9 @@ bubblepop-ops/
 node_modules/
 dist/
 .cache/
+
+# Playwright (tests E2E — artefacts dev/CI, non versionnés)
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
