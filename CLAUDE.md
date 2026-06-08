@@ -31,11 +31,15 @@ app texte bulle/
 ├── _headers               # Headers HTTP Cloudflare Pages
 ├── _redirects             # Redirections Cloudflare Pages (www→apex + .html→propre)
 ├── .htmlvalidate.json     # Config html-validate (lint CI)
-├── .gitignore             # Bloque OPS.md / .env / plan d'action.txt / etc.
+├── package.json           # Dev-only : scripts npm + devDep Playwright (la PROD reste 0 dépendance)
+├── package-lock.json      # Lockfile des devDeps de test (npm ci en CI)
+├── playwright.config.js   # Config tests E2E (sert l'app via python http.server, chromium)
+├── .gitignore             # Bloque OPS.md / .env / plan d'action.txt / node_modules / artefacts Playwright
 ├── .github/
 │   ├── FUNDING.yml        # Liens Ko-fi + GitHub Sponsors
 │   └── workflows/
-│       └── lint.yml       # CI : html-validate + xmllint sur push main + PR
+│       ├── lint.yml       # CI : html-validate + sitemap + check footer (push main + PR)
+│       └── e2e.yml        # CI : tests E2E Playwright (chromium headless, push main + PR)
 ├── README.md              # Doc publique
 ├── LICENSE                # Licence (CC BY-NC 4.0)
 ├── bulles BD/             # Images des bulles (chemin référencé dans index.html — NE PAS RENOMMER)
@@ -47,6 +51,13 @@ app texte bulle/
 ├── fonts/                 # Polices auto-hébergées (woff2)
 ├── tools/                 # Scripts Node utilisés en CI (zéro deps npm)
 │   └── check-footer.mjs   # Vérifie la cohérence du footer entre les 4 pages
+├── tests/                 # Tests E2E Playwright (dev/CI — 5 scénarios, chromium headless)
+│   ├── helpers.js         # gotoApp() : neutralise le beacon CF, force ?lang=, attend le canvas
+│   ├── smoke.spec.js      # chargement sans erreur console + canvas 2000×2000
+│   ├── export.spec.js     # download d'un PNG valide > 50 KiB (signature PNG)
+│   ├── i18n.spec.js       # bascule FR/EN (<html lang> + libellés)
+│   ├── theme.spec.js      # toggle data-theme + persistance après reload
+│   └── undo-redo.spec.js  # Ctrl+Z / Ctrl+Shift+Z sur le sélecteur de style
 └── scripts/               # Scripts Python utilitaires (hors prod)
     ├── make_og_image.py             # Génère og-image.png
     ├── make_transparent.py          # Rend le blanc transparent dans un PNG
@@ -97,7 +108,10 @@ Toutes les polices sont chargées via `@font-face` dans le CSS inline d'`index.h
 
 ### À faire
 - **Conserver le mono-fichier** : tout le HTML, CSS et JS doit rester dans `index.html`
-- **Pas de dépendances externes** : aucun CDN, aucun package npm, aucune bibliothèque tierce
+- **Pas de dépendances externes en prod** : aucun CDN, aucun package npm, aucune bibliothèque tierce
+  servis à l'utilisateur. ⚠️ Cette règle vise le **runtime** (`index.html` et les pages servies).
+  L'outillage de **dev/CI** a le droit d'avoir des devDependencies : `package.json` + `tests/`
+  (Playwright E2E) en sont — ne pas les supprimer en croyant « respecter le 0-dépendance ».
 - **JavaScript vanilla pur** : pas de jQuery, pas de React, pas de Vue
 - **Compatibilité navigateurs modernes** : Chrome, Firefox, Safari, Edge récents
 - **Code commenté en français** quand un commentaire est nécessaire (le projet est francophone)
@@ -136,21 +150,33 @@ Après chaque commit qui touche au HTML/SEO (titre, meta, canonical, sitemap, fo
 sur `getbubblepop.com` (et non sur `bubblepop.pages.dev` qui est squatté — cf. memory).
 Si besoin de purger le cache CF : dashboard Cloudflare → Caching → Purge Everything.
 
-## CI / Lint
+## CI / Lint / Tests
 
-Workflow GitHub Actions `.github/workflows/lint.yml` lancé sur push `main` et PR :
+Deux workflows GitHub Actions sur push `main` et PR (Node 22) :
 
+**`.github/workflows/lint.yml`** :
 - **html-validate@11** sur les 5 pages (`index.html`, `privacy.html`, `legal.html`, `support.html`, `404.html`)
   — config dans `.htmlvalidate.json`. Désactive les règles d'opinion (boutons sans `type=`,
   styles inline, ARIA redondants…) pour rester sur les régressions **structurelles**
   (balises mal fermées, IDs dupliqués, srcset cassé, attributs invalides).
-- **xmllint --noout** sur `sitemap.xml` — détecte un XML cassé avant qu'il n'arrive
-  dans Google Search Console / Bing.
+- **sitemap.xml** validé via `python3` (`xml.etree.ElementTree.parse`) — détecte un XML cassé
+  avant qu'il n'arrive dans Google Search Console / Bing (`xmllint` n'est pas garanti sur le runner).
+- **check footer** : `node tools/check-footer.mjs` (cohérence des liens entre les 4 pages).
+
+**`.github/workflows/e2e.yml`** :
+- **Playwright** (chromium headless) sur les 5 scénarios de `tests/` : chargement sans erreur console,
+  export PNG, bascule i18n FR/EN, thème + persistance, undo/redo clavier.
+- L'app statique est servie par `python3 -m http.server` (piloté par `playwright.config.js`,
+  qui bascule sur `python` en local Windows). `CI=true` → 1 retry + rapport HTML en artefact.
 
 Pour tester localement avant push (Node 20+ requis) :
 
 ```bash
+# Lint HTML
 npx --yes html-validate@11 index.html privacy.html legal.html support.html 404.html
+
+# Tests E2E (la 1re fois : npm install puis npx playwright install chromium)
+npm test
 ```
 
 ## SEO
