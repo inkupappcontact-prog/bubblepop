@@ -1787,10 +1787,10 @@
         const THEME_KEY = 'bubblepop:theme';
         const MAX_HISTORY = 9;
         const MAX_TEXT_LEN = 500;
-        // URL Ko-fi — vide tant que le compte n'est pas cree (Phase 3.6).
-        // Renseigner ici (ex: 'https://ko-fi.com/bubblepop') pour activer le
-        // bouton "Soutenir" dans la modale Help.
-        const KOFI_URL = '';
+        // URL Ko-fi — active le bouton "Soutenir" dans la modale Help.
+        // Vider cette constante remasque le bouton (utile si la page de
+        // pourboires est temporairement indisponible).
+        const KOFI_URL = 'https://ko-fi.com/getbubblepop';
 
         // Listes blanches : tout ce qui vient de localStorage est filtré
         // contre ces valeurs autorisées avant utilisation (defense in depth
