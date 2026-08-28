@@ -9,6 +9,13 @@ plan initial, ce qui a été vérifié et comment. C'est la mémoire qui ne rent
 dans un message de commit ni dans une décision d'architecture, et c'est celle
 qu'on regrette le plus de ne pas avoir six mois plus tard.
 
+## Entrées
+
+| Date | Séance |
+|------|--------|
+| 2026-08-28 | [Mise en place de la traçabilité des modifications](2026-08-28-mise-en-place-tracabilite.md) |
+| 2026-08-28 | [Mise à niveau « application parfaitement utilisable »](2026-08-28-mise-a-niveau-utilisabilite.md) |
+
 ## Contenu attendu
 
 | Section | Contenu |

@@ -143,6 +143,10 @@ Première version publique, en ligne sur `getbubblepop.com`.
 
 ---
 
+<!--
+  Les liens ci-dessous supposent les tags `vX.Y.Z` correspondants. Ils sont
+  créés mais pas encore poussés — voir docs/journal/2026-08-28-mise-en-place-tracabilite.md.
+-->
 [Non publié]: https://github.com/inkupappcontact-prog/bubblepop/compare/v0.5.1...HEAD
 [0.5.1]: https://github.com/inkupappcontact-prog/bubblepop/compare/v0.5.0...v0.5.1
 [0.5.0]: https://github.com/inkupappcontact-prog/bubblepop/compare/v0.4.0...v0.5.0
