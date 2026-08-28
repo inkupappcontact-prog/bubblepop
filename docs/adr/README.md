@@ -20,6 +20,8 @@ une suite de couches, y compris les décisions abandonnées.
 | [0004](0004-historique-snapshots-debounce.md) | Annuler/refaire par instantanés regroupés par inactivité | Accepté | 2026-05-19 |
 | [0005](0005-listes-blanches-localstorage.md) | Filtrage par listes blanches de tout ce qui est relu du stockage local | Accepté | 2026-05-19 |
 | [0006](0006-blog-une-langue-une-url.md) | Blog : une langue = une URL, contenu en dur | Accepté | 2026-06-08 |
+| [0007](0007-encodeur-zip-natif.md) | Encodeur ZIP écrit à la main | Accepté | 2026-08-28 |
+| [0008](0008-rendu-partage-drawbubble.md) | Une seule fonction de rendu pour trois sorties | Accepté | 2026-08-28 |
 
 ## Écrire un nouvel ADR
 

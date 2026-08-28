@@ -34,6 +34,59 @@ La section « Non publié » se rédige avec `node tools/changelog.mjs` (voir
 
 ---
 
+## [0.6.0] — 2026-08-28
+
+Chantier « plus aucune commande sans effet, plus aucune affirmation fausse à
+l'écran ».
+
+### Ajouté
+
+- **Export ZIP de l'historique** : le bouton « ZIP » produit une véritable archive
+  contenant les bulles de l'historique en PNG 2000 × 2000. L'encodeur est écrit à
+  la main, sans dépendance ([ADR-0007](docs/adr/0007-encodeur-zip-natif.md)). Il
+  affichait jusque-là une alerte « bientôt disponible ».
+- **Déplacement de l'aperçu** à la souris et au doigt au-delà de 100 % de zoom,
+  borné à l'amplitude réelle du débordement ; un clic sur la valeur du zoom
+  réinitialise tout. L'indice d'interaction n'apparaît que lorsque le déplacement
+  est possible. L'export n'est pas affecté : il reste en 2000 × 2000.
+- Accessibilité : lien d'évitement en tête de page, et description vivante du
+  canevas (`role="img"` + `aria-label` régénéré à chaque rendu).
+- Tests de bout en bout portés de 5 à **16 scénarios** (archive ZIP réellement
+  valide, persistance de l'historique, accessibilité, zoom et déplacement,
+  découpage du texte).
+
+### Modifié
+
+- **Un seul rendu pour trois sorties** — canevas principal, vignettes
+  d'historique et export partagent la même fonction. Les vignettes montrent enfin
+  ce que produit l'export : elles étaient étirées et sans retour à la ligne
+  ([ADR-0008](docs/adr/0008-rendu-partage-drawbubble.md)).
+- Fin des boîtes de dialogue natives : les erreurs passent par un message
+  `role="alert"`, et le vidage de l'historique demande une confirmation en deux
+  temps sur le bouton lui-même.
+- L'en-tête est utilisable dès 360 px de large.
+
+### Corrigé
+
+- Un mot plus large que la zone de texte sortait du tracé de la bulle ; il est
+  désormais découpé.
+- Le compteur annonçait « / 120 caractères » alors que la limite est de 500.
+- La page listait des polices (« Komika Hands », « Anime Ace BB ») sans rapport
+  avec celles réellement embarquées.
+- Sous 600 px, le sélecteur de langue était masqué : la langue n'était plus
+  modifiable sur mobile.
+- Le débordement du texte en taille manuelle est maintenant signalé au lieu de
+  passer inaperçu.
+- Accessibilité : la zone de texte n'avait pour nom accessible que son texte
+  indicatif (`<label>` réel ajouté) ; la modale d'aide déclarait `aria-modal`
+  sans piéger le focus ; `aria-pressed` manquait sur les contrôles à bascule et
+  n'était pas resynchronisé après une annulation, l'état annoncé divergeant donc
+  de l'état réel ; contrastes portés à ≥ 4,5:1 dans les deux thèmes.
+
+### Retiré
+
+- Bouton « Plus d'options » de l'inspecteur, qui n'avait aucun écouteur.
+
 ## [0.5.1] — 2026-08-24
 
 ### Modifié
@@ -147,7 +200,8 @@ Première version publique, en ligne sur `getbubblepop.com`.
   Les liens ci-dessous supposent les tags `vX.Y.Z` correspondants. Ils sont
   créés mais pas encore poussés — voir docs/journal/2026-08-28-mise-en-place-tracabilite.md.
 -->
-[Non publié]: https://github.com/inkupappcontact-prog/bubblepop/compare/v0.5.1...HEAD
+[Non publié]: https://github.com/inkupappcontact-prog/bubblepop/compare/v0.6.0...HEAD
+[0.6.0]: https://github.com/inkupappcontact-prog/bubblepop/compare/v0.5.1...v0.6.0
 [0.5.1]: https://github.com/inkupappcontact-prog/bubblepop/compare/v0.5.0...v0.5.1
 [0.5.0]: https://github.com/inkupappcontact-prog/bubblepop/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/inkupappcontact-prog/bubblepop/compare/v0.3.0...v0.4.0

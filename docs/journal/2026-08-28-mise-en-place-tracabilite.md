@@ -13,10 +13,19 @@ natures différentes.
 
 ## Constat
 
-Le dépôt comptait 43 commits au format Conventional Commits, avec des corps de
+Le dépôt comptait 46 commits au format Conventional Commits, avec des corps de
 message qui portent réellement le *pourquoi* (`2821a56` explique le motif de
 rejet Stripe et la distinction juridique don/pourboire). La matière était donc
 saine ; il manquait les vues qui s'en déduisent.
+
+> **Rectification (2026-08-28).** Le travail a démarré sur un clone antérieur au
+> push du chantier d'utilisabilité : `main` y apparaissait à `2821a56`, soit
+> 43 commits. J'en ai conclu que ce chantier n'avait jamais été poussé, et j'ai
+> écrit cette conclusion dans les deux entrées de ce journal. Elle était fausse —
+> `main` était à `f110f62`, 46 commits, depuis 09:03 UTC. Le défaut de méthode
+> est simple à nommer : un `git log` local n'est un état du dépôt qu'après un
+> `git fetch`. La constatation aurait dû être faite contre `origin`, pas contre
+> le clone.
 
 Absents : aucun `CHANGELOG.md`, **aucun tag** (donc aucune borne de version,
 aucune release GitHub), aucune trace des décisions d'architecture, aucun journal.
@@ -39,7 +48,7 @@ directement dans le fichier produirait un changelog que personne ne lit.
 [ADR-0001](../adr/0001-mono-fichier-zero-dependance.md), et un script sans
 `node_modules` reste exécutable dans dix ans.
 
-**Tags non antidatés.** Les six tags rétroactifs pointent vers les bons commits
+**Tags non antidatés.** Les sept tags rétroactifs pointent vers les bons commits
 mais portent leur date de création réelle (2026-08-28), mentionnée dans le
 message du tag. Antidater les métadonnées pour faire croire à une pose au fil de
 l'eau aurait été un mensonge gratuit dans un dépôt public.
@@ -50,9 +59,9 @@ ils n'entrent pas dans le journal. Règle inscrite dans `docs/journal/README.md`
 
 ## Travaux
 
-- `CHANGELOG.md` : six versions rétroactives reconstituées depuis les 43 commits,
-  de `0.1.0` (2026-05-19) à `0.5.1` (2026-08-24), format Keep a Changelog + SemVer.
-- `docs/adr/` : six ADR, chacun avec ses alternatives écartées, plus l'index et
+- `CHANGELOG.md` : sept versions rétroactives reconstituées depuis les 46 commits,
+  de `0.1.0` (2026-05-19) à `0.6.0` (2026-08-28), format Keep a Changelog + SemVer.
+- `docs/adr/` : huit ADR, chacun avec ses alternatives écartées, plus l'index et
   la procédure d'écriture.
 - `docs/journal/` : la convention d'écriture, l'entrée de la séance du 28/08 sur
   l'utilisabilité, et celle-ci.
@@ -97,16 +106,24 @@ git tag -a v0.3.0 9d99cd7 -m "v0.3.0 — 2026-05-21"   # légal + financement
 git tag -a v0.4.0 5d06dda -m "v0.4.0 — 2026-05-22"   # SEO éditorial + CI
 git tag -a v0.5.0 3910f21 -m "v0.5.0 — 2026-06-08"   # tests E2E + blog
 git tag -a v0.5.1 2821a56 -m "v0.5.1 — 2026-08-24"   # conformité Stripe
+git tag -a v0.6.0 f110f62 -m "v0.6.0 — 2026-08-28"   # ZIP, pan, accessibilité
 git push origin --tags
 ```
 
-**2. Créer les releases GitHub** sur ces six tags, en collant la section
+Ces commandes s'exécutent depuis un poste dont les identifiants ont déjà
+l'écriture sur le dépôt — aucun nouveau jeton n'est nécessaire. Et un jeton ne
+s'inscrit jamais dans l'URL du dépôt distant (`git remote set-url origin
+https://<jeton>@github.com/...`) : il finirait en clair dans `.git/config` et
+dans l'historique du terminal. Le gestionnaire d'identifiants de Git ou
+l'authentification par l'outil GitHub officiel font ce travail sans exposer le
+secret.
+
+**2. Créer les releases GitHub** sur ces sept tags, en collant la section
 correspondante du `CHANGELOG.md`. C'est ce qui rend l'historique lisible sans
 cloner le dépôt.
 
-**3. Pousser la branche `chore/app-utilisable-dp`** (séance du 28/08 sur
-l'utilisabilité), restée locale : ses trois commits ne sont sauvegardés nulle
-part et n'apparaissent dans aucune de ces vues. Une fois fusionnée,
-`node tools/changelog.mjs` produira le brouillon de la version suivante, et les
-deux mécanismes qu'elle introduit (encodeur ZIP, rendu unique partagé) méritent
-chacun leur ADR.
+**3. ~~Pousser la branche `chore/app-utilisable-dp`~~** — sans objet : elle était
+déjà fusionnée dans `main` (voir la rectification plus haut). Le chantier est
+consigné en version [0.6.0](../../CHANGELOG.md) et ses deux mécanismes ont leur
+ADR — [0007](../adr/0007-encodeur-zip-natif.md) et
+[0008](../adr/0008-rendu-partage-drawbubble.md).

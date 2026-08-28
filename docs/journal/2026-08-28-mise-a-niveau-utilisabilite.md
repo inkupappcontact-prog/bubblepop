@@ -1,12 +1,16 @@
 # 2026-08-28 — Mise à niveau « application parfaitement utilisable »
 
-- **Branche** : `chore/app-utilisable-dp` — 3 commits
+- **Branche** : `chore/app-utilisable-dp` — 3 commits, fusionnés dans `main`
 - **Point de départ** : `2821a56` (`fix(compliance)`, 2026-08-24)
+- **Aboutissement** : `0b58f6a`, `1734bc6`, `f110f62` sur `main` (2026-08-28, 09:03 UTC)
 - **Périmètre** : `index.html`, `tests/`, `.gitignore`, `CLAUDE.md`, `README.md`
 
-> **Statut au moment de la rédaction de cette entrée** : les commits de cette
-> séance vivent sur une branche **locale**, non poussée sur `origin`. Voir
-> « État à la clôture ».
+> **Rectification (2026-08-28).** Cette entrée affirmait initialement que la
+> branche n'avait pas été poussée. C'était faux : les trois commits étaient déjà
+> sur `main` au moment où l'entrée a été écrite. L'erreur vient d'un clone
+> antérieur au push, dont le `git log` n'a jamais été confronté à `origin`. Les
+> passages concernés sont corrigés ci-dessous ; la correction est signalée plutôt
+> que masquée, un journal ne valant que par ce qu'on peut y vérifier.
 
 ## Objectif
 
@@ -63,7 +67,7 @@ taille : elles ne ressemblaient pas au résultat exporté.
 
 ## Travaux
 
-**Socle.** Extraction d'une fonction de rendu unique `drawBubble(ctx, size, state)`
+**Socle.** Extraction d'une fonction de rendu unique `drawBubble(c, w, h, state)`
 depuis `generateBubble()`, avec `wrapText()` et `fitText()` prenant désormais le
 contexte et l'état en paramètres au lieu de lire des variables globales. Trois
 sorties de tailles différentes partagent ce rendu : le canevas principal, les
@@ -131,16 +135,19 @@ qui tranche.
 
 ## État à la clôture
 
-- Arbre de travail propre, 3 commits sur `chore/app-utilisable-dp`, tous les
-  contrôles au vert.
-- **Reste ouvert** : la branche n'a pas été poussée sur `origin`. Tant qu'elle
-  reste locale, ce chantier n'existe pas pour le dépôt public — ni dans
-  l'historique, ni dans le `CHANGELOG.md`, et il n'est sauvegardé nulle part
-  ailleurs que sur le poste de travail. À pousser, puis à fusionner dans `main`
-  et à reporter dans la section « Non publié » du `CHANGELOG.md`
-  (`node tools/changelog.mjs` produit le brouillon).
+- Arbre de travail propre, tous les contrôles au vert, et les trois commits
+  poussés dans `main` le jour même à 09:03 UTC :
+
+  | SHA | Message |
+  |-----|---------|
+  | `0b58f6a` | `feat(app)` — export ZIP natif, pan de l'aperçu, accessibilité et fiabilité du rendu |
+  | `1734bc6` | `test(e2e)` — 11 scénarios de plus (suite portée de 5 à 16) |
+  | `f110f62` | `docs` — encodeur ZIP, pan, règles d'accessibilité et anti-UI morte |
+
 - Deux mécanismes supplémentaires sont désormais défendables ligne à ligne au
   même titre que la recherche dichotomique : l'encodeur ZIP (format binaire,
   petit-boutiste, CRC-32 par table, contrainte de synchronicité) et le rendu
-  unique partagé par trois sorties de tailles différentes. Ils mériteront chacun
-  un ADR à la fusion de la branche.
+  unique partagé par trois sorties de tailles différentes. Ils font chacun
+  l'objet d'un ADR : [ADR-0007](../adr/0007-encodeur-zip-natif.md) et
+  [ADR-0008](../adr/0008-rendu-partage-drawbubble.md).
+- Ce chantier constitue la version [0.6.0](../../CHANGELOG.md) du `CHANGELOG.md`.
