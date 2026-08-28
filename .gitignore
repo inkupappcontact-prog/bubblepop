@@ -16,6 +16,7 @@ desktop.ini
 .claude/
 .vscode/
 .idea/
+.vs/
 
 # Python (scripts utilitaires)
 __pycache__/
