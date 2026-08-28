@@ -11,6 +11,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          # fetch-depth: 0 → historique complet. Requis par changelog.mjs, qui
+          # lit les messages de commit depuis le dernier tag (le clone
+          # superficiel par défaut n'en contient qu'un).
+          fetch-depth: 0
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -31,3 +36,8 @@ jobs:
 
       - name: Check footer coherence (chrome + blog)
         run: node tools/check-footer.mjs
+
+      - name: Check commit message format (Conventional Commits)
+        # Le CHANGELOG est généré depuis les messages de commit : un message
+        # hors format devient une ligne manquante dans l'historique produit.
+        run: node tools/changelog.mjs --check

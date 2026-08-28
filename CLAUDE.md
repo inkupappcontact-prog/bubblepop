@@ -42,9 +42,13 @@ app texte bulle/
 ├── .github/
 │   ├── FUNDING.yml        # Liens Ko-fi + GitHub Sponsors
 │   └── workflows/
-│       ├── lint.yml       # CI : html-validate + sitemap + check footer (push main + PR)
+│       ├── lint.yml       # CI : html-validate + sitemap + footer + format des commits
 │       └── e2e.yml        # CI : tests E2E Playwright (chromium headless, push main + PR)
 ├── README.md              # Doc publique
+├── CHANGELOG.md           # Historique des versions (Keep a Changelog + SemVer)
+├── docs/                  # Traçabilité (hors app — jamais servi aux visiteurs)
+│   ├── adr/               # Décisions d'architecture (ADR) — immuables, index dans README.md
+│   └── journal/           # Journal des séances de travail (1 fichier = 1 séance)
 ├── LICENSE                # Licence (CC BY-NC 4.0)
 ├── bulles BD/             # Images des bulles (chemin référencé dans index.html — NE PAS RENOMMER)
 │   ├── 1.png + 1.webp     # 5000x5000 px — Parole       (.webp servi en priorité)
@@ -54,7 +58,8 @@ app texte bulle/
 │   └── thumbs/            # Miniatures 256×256 (.png + .webp) pour le sélecteur de style
 ├── fonts/                 # Polices auto-hébergées (woff2)
 ├── tools/                 # Scripts Node utilisés en CI (zéro deps npm)
-│   └── check-footer.mjs   # Vérifie la cohérence du footer (chrome + blog/*.html auto-découverts)
+│   ├── check-footer.mjs   # Vérifie la cohérence du footer (chrome + blog/*.html auto-découverts)
+│   └── changelog.mjs      # Brouillon de section CHANGELOG + --check du format des commits
 ├── tests/                 # Tests E2E Playwright (dev/CI — 5 scénarios, chromium headless)
 │   ├── helpers.js         # gotoApp() : neutralise le beacon CF, force ?lang=, attend le canvas
 │   ├── smoke.spec.js      # chargement sans erreur console + canvas 2000×2000
@@ -172,6 +177,9 @@ Deux workflows GitHub Actions sur push `main` et PR (Node 22) :
   avant qu'il n'arrive dans Google Search Console / Bing (`xmllint` n'est pas garanti sur le runner).
 - **check footer** : `node tools/check-footer.mjs` (cohérence des liens entre toutes les pages
   porteuses du footer : chrome + `blog/*.html` auto-découverts via `globSync`).
+- **format des commits** : `node tools/changelog.mjs --check` (Conventional Commits). ⚠️ Cette
+  étape exige l'historique Git : le `checkout` du workflow est en `fetch-depth: 0`. Sans tag
+  dans le dépôt, le contrôle porte sur les 50 derniers commits.
 
 **`.github/workflows/e2e.yml`** :
 - **Playwright** (chromium headless) sur les 5 scénarios de `tests/` : chargement sans erreur console,
@@ -188,6 +196,72 @@ npx --yes html-validate@11 index.html privacy.html legal.html support.html 404.h
 # Tests E2E (la 1re fois : npm install puis npx playwright install chromium)
 npm test
 ```
+
+## Historique des modifications
+
+Quatre supports, quatre questions distinctes. Ne pas les mélanger : c'est ce qui les
+rend consultables.
+
+| Support | Question | Rythme |
+|---------|----------|--------|
+| `git log` | Qu'est-ce qui a changé, ligne à ligne ? | Chaque commit |
+| `CHANGELOG.md` | Qu'est-ce qui a changé pour l'utilisateur ? | Chaque version |
+| `docs/adr/` | Pourquoi le code est-il construit ainsi ? | Chaque décision structurante |
+| `docs/journal/` | Comment s'est déroulé tel chantier ? | Chaque séance notable |
+
+**Le `git log` fait foi.** Les trois autres en sont des vues : ils se reconstituent
+depuis les commits, l'inverse est faux. D'où la règle sur les messages.
+
+### Messages de commit
+
+Format [Conventional Commits](https://www.conventionalcommits.org/fr/) —
+`type(portée): description`, types acceptés : `feat`, `fix`, `docs`, `style`,
+`refactor`, `perf`, `test`, `build`, `ci`, `chore`, `revert`. Vérifié en CI par
+`node tools/changelog.mjs --check`.
+
+Le **corps** du message porte le *pourquoi* : ce que le commit répare, ce qui a été
+mesuré, ce qui a été écarté. C'est ce qui rend le `CHANGELOG` rédigeable des mois
+plus tard (cf. `2821a56`, qui explique le motif de rejet Stripe). Une rupture de
+compatibilité se signale par `!` après la portée ou par un pied `BREAKING CHANGE:`.
+
+### Publier une version
+
+```bash
+node tools/changelog.mjs            # brouillon groupé depuis le dernier tag
+```
+
+Le script **ne modifie pas** `CHANGELOG.md` : il imprime un brouillon à relire. Un
+message de commit s'adresse à un développeur, une ligne de CHANGELOG à un
+utilisateur — la reformulation est le travail qui reste. Les commentaires HTML
+`<!-- hash -->` de la sortie servent au tri, ils se retirent avant de coller.
+
+1. Coller la section relue sous `## [Non publié]` dans `CHANGELOG.md`, la renommer
+   `## [X.Y.Z] — AAAA-MM-JJ`, et rouvrir une section `## [Non publié]` vide.
+2. Ajouter le lien de comparaison en bas de fichier.
+3. `git commit -m "chore(release): version X.Y.Z"`
+4. `git tag -a vX.Y.Z -m "vX.Y.Z"` puis `git push --follow-tags`
+5. Créer la *release* GitHub sur le tag, en collant la section du CHANGELOG.
+
+Le tag est ce qui borne la plage lue par `changelog.mjs` : sans tag, le script
+remonte les 50 derniers commits.
+
+**Versionnement** : majeure pour une refonte de l'interface ou une rupture du format
+persisté dans `localStorage` ; mineure pour une fonctionnalité visible ; correctif
+pour le reste.
+
+### Quand écrire un ADR
+
+Quand la décision est **coûteuse à revenir** ou **surprenante à la lecture du code**.
+Un ADR est immuable une fois accepté : s'il devient faux, on en écrit un nouveau qui
+le remplace, on ne réécrit pas l'ancien. Procédure et modèle dans
+`docs/adr/README.md`. Référencer l'ADR dans le commit qui applique la décision.
+
+### Quand écrire une entrée de journal
+
+Après une séance qui a produit autre chose que du code : un audit, des arbitrages,
+des mesures, des défauts trouvés hors du plan initial. **Technique uniquement** — pas
+d'identifiants, pas de chemins de poste de travail, pas de données personnelles : le
+dépôt est public, le contexte privé reste dans `~/Documents/bubblepop-ops/`.
 
 ## SEO
 

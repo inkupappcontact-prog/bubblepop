@@ -43,6 +43,12 @@ Opening `index.html` directly via `file://` works but disables PNG export becaus
 
 No tracking, no cookies, no analytics in the open-source build. The hosted version at `getbubblepop.com` uses Cloudflare Web Analytics (privacy-friendly, no cookies, anonymized). Your bubbles never leave your browser — the last 9 are kept in `localStorage`.
 
+## Changelog
+
+Version history is kept in [CHANGELOG.md](CHANGELOG.md) (Keep a Changelog + SemVer).
+The architecture decisions behind the app — why it is a single dependency-free file,
+why every image is rendered client-side — are recorded as ADRs in [docs/adr/](docs/adr/).
+
 ## Support this project
 
 BubblePop is free, ad-free and zero-tracking — and stays that way. If it saved you time, a coffee helps cover hosting and keeps it that way for everyone.
