@@ -60,13 +60,18 @@ app texte bulle/
 ├── tools/                 # Scripts Node utilisés en CI (zéro deps npm)
 │   ├── check-footer.mjs   # Vérifie la cohérence du footer (chrome + blog/*.html auto-découverts)
 │   └── changelog.mjs      # Brouillon de section CHANGELOG + --check du format des commits
-├── tests/                 # Tests E2E Playwright (dev/CI — 5 scénarios, chromium headless)
+├── tests/                 # Tests E2E Playwright (dev/CI — 16 scénarios, chromium headless)
 │   ├── helpers.js         # gotoApp() : neutralise le beacon CF, force ?lang=, attend le canvas
 │   ├── smoke.spec.js      # chargement sans erreur console + canvas 2000×2000
 │   ├── export.spec.js     # download d'un PNG valide > 50 KiB (signature PNG)
 │   ├── i18n.spec.js       # bascule FR/EN (<html lang> + libellés)
 │   ├── theme.spec.js      # toggle data-theme + persistance après reload
-│   └── undo-redo.spec.js  # Ctrl+Z / Ctrl+Shift+Z sur le sélecteur de style
+│   ├── undo-redo.spec.js  # Ctrl+Z / Ctrl+Shift+Z sur le sélecteur de style
+│   ├── zip.spec.js        # archive ZIP valide (signature PK, EOCD, noms) + cas vide
+│   ├── history.spec.js    # persistance localStorage + restauration + vidage 2 clics
+│   ├── a11y.spec.js       # skip link, label du textarea, piège de focus, aria-pressed
+│   ├── pan-zoom.spec.js   # pan actif > 100 %, glisser, réinitialisation
+│   └── wrap.spec.js       # mot trop long découpé + alerte de débordement en manuel
 └── scripts/               # Scripts Python utilitaires (hors prod)
     ├── make_og_image.py             # Génère og-image.png
     ├── make_transparent.py          # Rend le blanc transparent dans un PNG
@@ -92,6 +97,33 @@ Note : `plan d'action.txt` (stratégie produit/SEO) et `OPS.md` (credentials adm
 - Redimensionner proportionnellement la bulle selon la longueur du texte
 - Superposer le texte centré dans la zone de texte de la bulle
 - Exporter un PNG avec **fond transparent** autour de la bulle
+
+### Rendu : une seule fonction pour trois sorties
+`drawBubble(ctx, w, h, state)` dessine une bulle dans **n'importe quel** contexte 2D :
+le canevas principal (2000×2000), les vignettes de l'historique (248×168) et les
+canevas hors-écran de l'export ZIP. L'image est cadrée « contain » dans un carré
+centré, donc une vignette est fidèle au PNG exporté. `wrapText` / `fitText` prennent
+le contexte et l'état en paramètres — aucune lecture de globale, c'est ce qui rend
+le partage possible. Un mot plus large que la zone est découpé caractère par
+caractère (`breakLongWord`) pour ne jamais déborder du tracé.
+
+### Export ZIP de l'historique
+Encodeur ZIP **écrit à la main** dans `index.html` (aucune bibliothèque, règle
+0-dépendance en prod) : en-tête local `PK 03 04` + données, *central directory*
+`PK 01 02`, *end of central directory* `PK 05 06`, le tout en little-endian,
+méthode 0 (« stored » — les PNG sont déjà compressés). CRC-32 par table de 256
+entrées (polynôme `0xEDB88320`), horodatage MS-DOS. Chaque bulle est re-rendue via
+`drawBubble` puis convertie avec `toDataURL` + `atob` : **toute la chaîne reste
+synchrone** pour conserver le geste utilisateur (même contrainte que `doExport`).
+Seul chemin asynchrone : une image de bulle pas encore préchargée → chargement puis
+relance de l'export.
+
+### Zoom et déplacement (pan)
+Le zoom (25–200 %) et le déplacement sont **purement visuels** : ils s'appliquent en
+`transform` sur `.canvas-stage`, jamais au rendu. Le PNG exporté reste 2000×2000
+quel que soit l'état de l'aperçu. Le pan n'est actif qu'au-delà de 100 %, borné à
+l'amplitude réelle du débordement, et implémenté en Pointer Events (souris, stylet
+et tactile avec le même code). Clic sur la valeur du zoom = remise à zéro.
 
 ### Gestion du texte
 - Centrage automatique (horizontal + vertical) dans la zone de texte de la bulle
@@ -125,11 +157,33 @@ Toutes les polices sont chargées via `@font-face` dans le CSS inline d'`index.h
 - **Compatibilité navigateurs modernes** : Chrome, Firefox, Safari, Edge récents
 - **Code commenté en français** quand un commentaire est nécessaire (le projet est francophone)
 
+### Accessibilité (compétence évaluée — ne pas régresser)
+- Tout contrôle à bascule (tuile de style, ligne de police, pastille de couleur,
+  gras/italique) porte `aria-pressed`, écrit par `setPressed()` **en même temps** que la
+  classe `.active`. `restoreSnapshot()` repasse par `markStyleTile` / `markFontRow` /
+  `setPressed` : sans ça, l'état annoncé divergerait après une annulation.
+- La modale d'aide piège le focus (`trapModalFocus` sur Tab) et rend le focus au
+  déclencheur à la fermeture.
+- Lien d'évitement `.skip-link` en premier élément focusable, cible `#mainContent`.
+- Le canevas porte `role="img"` et un `aria-label` régénéré à chaque rendu avec le
+  texte réellement dessiné (appliqué **après** `applyI18n`, qui réécrit l'attribut).
+- Contrastes vérifiés ≥ 4.5:1 dans les deux thèmes. Trois tokens sont dédiés à ça :
+  `--ink-3` (texte secondaire), `--accent-ink` (accent utilisé comme **texte**) et
+  `--accent-strong` (bleu portant du texte blanc). Ne pas remettre `--accent` brut
+  en `color:` sur du texte : il plafonne à 3.7:1.
+- Plus de `alert()` ni `confirm()` : erreurs via `showToast(msg, ms, isError)`
+  (`role="alert"`), vidage de l'historique en confirmation deux clics sur le bouton.
+
 ### À éviter
 - Ne pas introduire de build step (Webpack, Vite, etc.)
 - Ne pas externaliser le CSS ou le JS dans des fichiers séparés
 - Ne pas ajouter de backend — l'app doit rester 100% statique
 - Ne pas casser la transparence du PNG exporté
+- **Ne pas laisser de commande sans effet dans l'interface** (bouton sans écouteur,
+  fonctionnalité « bientôt disponible », indice décrivant un geste non implémenté) :
+  soit on l'implémente, soit on la retire.
+- Ne pas laisser diverger l'interface et la réalité (compteur de caractères, liste
+  des polices, dimensions annoncées) : ce sont les premières choses vérifiées.
 
 ### Footer commun (à synchroniser manuellement, CI vérifie)
 Le footer est dupliqué dans `index.html`, `privacy.html`, `legal.html`, `support.html`
@@ -182,8 +236,9 @@ Deux workflows GitHub Actions sur push `main` et PR (Node 22) :
   dans le dépôt, le contrôle porte sur les 50 derniers commits.
 
 **`.github/workflows/e2e.yml`** :
-- **Playwright** (chromium headless) sur les 5 scénarios de `tests/` : chargement sans erreur console,
-  export PNG, bascule i18n FR/EN, thème + persistance, undo/redo clavier.
+- **Playwright** (chromium headless) sur les 16 scénarios de `tests/` : chargement sans erreur
+  console, export PNG, export ZIP (archive réellement valide), historique persistant,
+  accessibilité clavier, zoom/pan, retour à la ligne, i18n FR/EN, thème, undo/redo.
 - L'app statique est servie par `python3 -m http.server` (piloté par `playwright.config.js`,
   qui bascule sur `python` en local Windows). `CI=true` → 1 retry + rapport HTML en artefact.
 

@@ -22,11 +22,21 @@ Pick a bubble style, type your text, hit export. You get a transparent PNG ready
 - Bilingual UI : French / English with browser auto-detection (`?lang=fr|en` supported)
 - Undo / Redo with `Ctrl+Z` · `Ctrl+Shift+Z` · `Ctrl+Y`
 - Local history of the last 9 bubbles (nothing leaves your device)
+- Batch export of the whole history as a ZIP archive (hand-written ZIP encoder, no library)
+- Zoom 25–200 % with drag-to-pan preview (display only — the exported PNG is always 2000×2000)
+- Keyboard accessible end to end: skip link, focus trap in the help dialog, `aria-pressed` states, WCAG AA contrast in both themes
 - Native share or one-click copy of the URL
 
 ## Stack
 
-Pure HTML + CSS + JavaScript vanilla. Zero dependencies, zero build step, single `index.html`. Rendering uses the HTML5 Canvas API.
+Pure HTML + CSS + JavaScript vanilla. Zero dependencies, zero build step, single `index.html`. Rendering uses the HTML5 Canvas API — including the ZIP archive, which is assembled byte by byte (local headers, central directory, CRC-32) rather than pulled from a library.
+
+Tooling is dev-only: Playwright drives 16 end-to-end scenarios, and GitHub Actions runs HTML validation, sitemap parsing, footer consistency and the browser tests on every push. None of it ships to users.
+
+```bash
+npm install && npx playwright install chromium   # once
+npm test                                          # 16 E2E scenarios
+```
 
 ## Run locally
 

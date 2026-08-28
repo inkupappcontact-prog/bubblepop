@@ -163,6 +163,9 @@
         :root {
             --accent:        #3B82F6;
             --accent-lo:     #1D4ED8;
+            /* Bleu porteur de texte blanc : #3B82F6 ne donne que 3.68:1,
+               insuffisant sous 18 px (WCAG AA). #2563EB monte à 5.17:1. */
+            --accent-strong: #2563EB;
             --accent-soft:   rgba(59, 130, 246, 0.18);
             --accent-ring:   rgba(59, 130, 246, 0.30);
             --danger:        #F87171;
@@ -187,13 +190,16 @@
             --surface-2: #22252F;
             --ink:       #F5F5F2;
             --ink-2:     #A0A4AE;
-            --ink-3:     #6B6F7A;
+            --ink-3:     #8B909E;
             --border:    #262934;
             --border-hi: #363A48;
             --checker-a: #272A33;
             --checker-b: #1B1D26;
+            --accent-ink: #93B4FD;
             --shadow:    0 18px 40px rgba(0,0,0,.55), 0 4px 12px rgba(0,0,0,.35);
             --shadow-sm: 0 2px 8px rgba(0,0,0,.4);
+            --warn-ink:  #FCA5A5;
+            --warn-bg:   rgba(248, 113, 113, 0.18);
         }
 
         /* Mode clair */
@@ -204,15 +210,18 @@
             --surface-2: #F2EFE6;
             --ink:       #0F1116;
             --ink-2:     #525664;
-            --ink-3:     #9099A8;
+            --ink-3:     #5F6B7A;
             --border:    #E4DFD0;
             --border-hi: #0F1116;
             --checker-a: #DAD4C0;
             --checker-b: #EDE6CF;
+            --accent-ink: #1D4ED8;
             --shadow:    0 12px 32px rgba(15,17,22,.08), 0 4px 12px rgba(15,17,22,.05);
             --shadow-sm: 0 2px 6px rgba(15,17,22,.06);
             --accent-soft: rgba(59, 130, 246, 0.10);
             --glow:        0 0 24px rgba(59, 130, 246, 0.22);
+            --warn-ink:    #B42318;
+            --warn-bg:     rgba(180, 35, 24, 0.10);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -341,7 +350,7 @@
             width: 30px;
             height: 30px;
             border-radius: 50%;
-            background: linear-gradient(135deg, var(--accent), var(--accent-lo));
+            background: linear-gradient(135deg, var(--accent-strong), var(--accent-lo));
             display: flex;
             align-items: center;
             justify-content: center;
@@ -435,13 +444,17 @@
             justify-content: center;
         }
         .zoom-btn:hover { color: var(--ink); }
+        /* Bouton : un clic remet le zoom et le déplacement à zéro. */
         .zoom-val {
             padding: 0 10px;
             font-size: 11px;
             font-weight: 600;
             color: var(--ink);
             font-variant-numeric: tabular-nums;
+            background: none;
+            border: 0;
         }
+        .zoom-val:hover { color: var(--accent-ink); }
 
         .canvas-wrap {
             position: absolute;
@@ -451,6 +464,11 @@
             justify-content: center;
             padding: 60px;
         }
+        /* Déplacement (pan) : actif seulement au-delà de 100 % de zoom.
+           touch-action: none empêche le navigateur de confisquer le geste
+           tactile pour faire défiler la page pendant le glisser. */
+        .canvas-wrap.pannable { cursor: grab; touch-action: none; }
+        .canvas-wrap.panning  { cursor: grabbing; }
         .canvas-stage {
             position: relative;
             display: inline-block;
@@ -557,11 +575,13 @@
             font-weight: 700;
             letter-spacing: 0.10em;
             text-transform: uppercase;
-            color: var(--accent);
+            color: var(--accent-ink);
             background: var(--accent-soft);
             padding: 3px 7px;
             border-radius: 999px;
         }
+        /* Taille manuelle dont le texte sort de la bulle */
+        .tag.tag-warn { color: var(--warn-ink); background: var(--warn-bg); }
 
         /* Textarea Comic Noir */
         textarea.bubble-text {
@@ -591,7 +611,7 @@
             font-size: 11px;
         }
         .field-meta .left  { color: var(--ink-3); font-variant-numeric: tabular-nums; }
-        .field-meta .right { color: var(--accent); font-weight: 600; }
+        .field-meta .right { color: var(--accent-ink); font-weight: 600; }
 
         /* Grid 2×2 styles */
         .style-grid {
@@ -636,7 +656,7 @@
             font-weight: 500;
             color: var(--ink);
         }
-        .style-tile.active .style-tile-label { color: var(--accent); font-weight: 700; }
+        .style-tile.active .style-tile-label { color: var(--accent-ink); font-weight: 700; }
         .check-badge {
             position: absolute;
             top: 6px;
@@ -669,7 +689,7 @@
             background: var(--accent-soft);
             border-color: var(--accent);
         }
-        .font-row.active .font-name { color: var(--accent); font-weight: 700; }
+        .font-row.active .font-name { color: var(--accent-ink); font-weight: 700; }
         .font-sample {
             width: 30px;
             font-size: 22px;
@@ -742,7 +762,7 @@
         .style-toggle.active {
             background: var(--accent-soft);
             border-color: var(--accent);
-            color: var(--accent);
+            color: var(--accent-ink);
         }
         .style-toggle .b { font-weight: 900; }
         .style-toggle .i { font-style: italic; font-weight: 700; font-family: 'Times New Roman', serif; }
@@ -784,7 +804,7 @@
             width: 100%;
             padding: 11px 12px;
             border-radius: 10px;
-            background: var(--accent);
+            background: var(--accent-strong);
             color: #fff;
             border: none;
             box-shadow: var(--glow);
@@ -1037,7 +1057,7 @@
             width: 32px; height: 32px;
             border-radius: 50%;
             background: var(--accent-soft);
-            color: var(--accent);
+            color: var(--accent-ink);
             font-weight: 700;
             font-size: 14px;
         }
@@ -1075,7 +1095,7 @@
             content: "✓";
             position: absolute;
             left: 0; top: 0;
-            color: var(--accent);
+            color: var(--accent-ink);
             font-weight: 700;
         }
         .about-features li strong { color: var(--ink); font-weight: 600; }
@@ -1138,8 +1158,17 @@
         }
 
         @media (max-width: 600px) {
-            .header { padding: 0 12px; height: 56px; }
-            .sep-v, .pill-lang { display: none; }
+            /* L'en-tête doit tenir sur 360 px sans rien rendre inatteignable :
+               on retire le décor (séparateur, avatar, libellé du thème et
+               mot-symbole) mais on garde TOUTES les commandes, y compris le
+               sélecteur de langue — sur mobile il n'y a pas d'autre moyen de
+               changer de langue, et pas de clavier pour Ctrl+Z. */
+            .header { padding: 0 10px; height: 56px; }
+            .header-right { gap: 5px; }
+            .sep-v, .avatar, #themeLabel, .logo-text { display: none; }
+            .theme-toggle { padding: 7px 9px; }
+            .h-btn { padding: 7px 8px; }
+            .pill-lang { padding: 6px 8px; }
             /* H1 caché visuellement mais conservé dans le DOM pour SEO mobile-first
                (mobile-first indexing : Google se base sur la version mobile) */
             .tagline {
@@ -1148,9 +1177,11 @@
                 padding: 0; margin: -1px; overflow: hidden;
                 clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
             }
-            .logo-text { font-size: 22px; }
             .pv-top-left .pill:nth-child(2) { display: none; }
             .pv-btm-left { display: none; }
+            /* Confort tactile : cible d'au moins 44 px de haut (RGAA 13.x). */
+            .style-tile, .font-row, .ghost-btn { min-height: 44px; }
+            .swatch { width: 34px; height: 34px; }
         }
 
         @media (prefers-reduced-motion: reduce) {
@@ -1182,6 +1213,33 @@
             opacity: 1;
             transform: translateX(-50%) translateY(0);
         }
+        /* Bouton « Vider » en attente de confirmation (2e clic) */
+        .ghost-btn.armed { color: var(--warn-ink); border-color: var(--warn-ink); }
+
+        .toast.toast-error {
+            border-color: var(--warn-ink);
+            color: var(--warn-ink);
+        }
+
+        /* ============================================================
+           Lien d'évitement — premier élément focusable de la page,
+           visible uniquement au clavier (RGAA 12.7 / WCAG 2.4.1)
+           ============================================================ */
+        .skip-link {
+            position: absolute;
+            top: -60px;
+            left: 12px;
+            z-index: 500;
+            background: var(--accent-strong);
+            color: #fff;
+            padding: 10px 16px;
+            border-radius: var(--radius-sm);
+            font-size: 13px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: top var(--transition);
+        }
+        .skip-link:focus { top: 12px; }
 
         /* ============================================================
            Modale (Help) — backdrop + dialog centré
@@ -1299,7 +1357,7 @@
         .contact-row { display: flex; flex-direction: column; gap: 8px; margin-top: 6px; }
         .contact-link {
             display: inline-flex; align-items: center; gap: 8px;
-            color: var(--accent);
+            color: var(--accent-ink);
             text-decoration: none;
             font-size: 14px;
             font-weight: 500;
@@ -1308,6 +1366,7 @@
     </style>
 </head>
 <body>
+    <a class="skip-link" href="#mainContent" data-i18n="a11y.skip">Aller au contenu principal</a>
     <div class="app">
 
         <!-- ============================================================
@@ -1382,7 +1441,7 @@
                         <button class="zoom-btn" id="zoomOut" data-i18n-attr="aria-label:preview.zoomOut">
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"><path d="M5 12h14"/></svg>
                         </button>
-                        <span class="zoom-val" id="zoomVal">100%</span>
+                        <button class="zoom-val" id="zoomReset" data-i18n-attr="aria-label:preview.zoomReset"><span id="zoomVal">100%</span></button>
                         <button class="zoom-btn" id="zoomIn" data-i18n-attr="aria-label:preview.zoomIn">
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
                         </button>
@@ -1391,7 +1450,7 @@
 
                 <div class="canvas-wrap">
                     <div class="canvas-stage" id="canvasStage">
-                        <canvas id="canvas" width="2000" height="2000" data-i18n-attr="aria-label:preview.canvasAria"></canvas>
+                        <canvas id="canvas" width="2000" height="2000" role="img" data-i18n-attr="aria-label:preview.canvasAria"></canvas>
                         <div class="selection-box" aria-hidden="true"></div>
                         <div class="handle tl" aria-hidden="true"></div>
                         <div class="handle tr" aria-hidden="true"></div>
@@ -1400,8 +1459,8 @@
                     </div>
                 </div>
 
-                <div class="pv-btm-left">
-                    <span class="pill"><span aria-hidden="true">⇧</span> <span data-i18n="preview.panHint">maintenir pour panoramique</span></span>
+                <div class="pv-btm-left" id="panHint" hidden>
+                    <span class="pill"><span aria-hidden="true">✥</span> <span data-i18n="preview.panHint">glisser pour déplacer</span></span>
                 </div>
                 <div class="pv-btm-right">
                     <span class="pill"><span class="pill-dot" style="background: var(--success);"></span> <span data-i18n="preview.exportReady">Fond transparent · prêt à exporter</span></span>
@@ -1415,9 +1474,6 @@
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l9 5-9 5-9-5 9-5z"/><path d="M3 13l9 5 9-5"/></svg>
                         <span data-i18n="inspector.title">Propriétés</span>
                     </span>
-                    <button class="h-btn" data-i18n-attr="aria-label:inspector.moreOptions">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="1.2"/><circle cx="12" cy="12" r="1.2"/><circle cx="19" cy="12" r="1.2"/></svg>
-                    </button>
                 </div>
 
                 <div class="insp-body" id="inspBody">
@@ -1425,12 +1481,12 @@
                     <!-- Texte -->
                     <div data-section="text">
                         <div class="field-label">
-                            <span class="lbl" data-i18n="inspector.text.label">Texte de la bulle</span>
+                            <label class="lbl" for="text" data-i18n="inspector.text.label">Texte de la bulle</label>
                             <span class="tag" data-i18n="inspector.text.tag">Auto-redim</span>
                         </div>
                         <textarea id="text" class="bubble-text" data-i18n-attr="placeholder:inspector.text.placeholder" maxlength="500" spellcheck="false">Bonjour !</textarea>
                         <div class="field-meta">
-                            <span class="left" id="charCount">9 / 120 caractères</span>
+                            <span class="left" id="charCount">9 / 500 caractères</span>
                             <span class="right" data-i18n="inspector.text.live">Saisie en direct</span>
                         </div>
                     </div>
@@ -1441,7 +1497,7 @@
                             <span class="lbl" data-i18n="inspector.style.label">Style de bulle</span>
                         </div>
                         <div class="style-grid" id="styleGrid">
-                            <button class="style-tile active" data-bubble="1" data-i18n-attr="aria-label:inspector.style.parole">
+                            <button class="style-tile active" data-bubble="1" aria-pressed="true" data-i18n-attr="aria-label:inspector.style.parole">
                                 <div class="style-tile-img">
                                     <picture>
                                         <source srcset="bulles%20BD/thumbs/1.webp" type="image/webp">
@@ -1451,7 +1507,7 @@
                                 <span class="style-tile-label" data-i18n="inspector.style.parole">Parole</span>
                                 <div class="check-badge"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-11"/></svg></div>
                             </button>
-                            <button class="style-tile" data-bubble="2" data-i18n-attr="aria-label:inspector.style.pensee">
+                            <button class="style-tile" data-bubble="2" aria-pressed="false" data-i18n-attr="aria-label:inspector.style.pensee">
                                 <div class="style-tile-img">
                                     <picture>
                                         <source srcset="bulles%20BD/thumbs/2.webp" type="image/webp">
@@ -1460,7 +1516,7 @@
                                 </div>
                                 <span class="style-tile-label" data-i18n="inspector.style.pensee">Pensée</span>
                             </button>
-                            <button class="style-tile" data-bubble="3" data-i18n-attr="aria-label:inspector.style.murmure">
+                            <button class="style-tile" data-bubble="3" aria-pressed="false" data-i18n-attr="aria-label:inspector.style.murmure">
                                 <div class="style-tile-img">
                                     <picture>
                                         <source srcset="bulles%20BD/thumbs/3.webp" type="image/webp">
@@ -1469,7 +1525,7 @@
                                 </div>
                                 <span class="style-tile-label" data-i18n="inspector.style.murmure">Murmure</span>
                             </button>
-                            <button class="style-tile" data-bubble="4" data-i18n-attr="aria-label:inspector.style.cri">
+                            <button class="style-tile" data-bubble="4" aria-pressed="false" data-i18n-attr="aria-label:inspector.style.cri">
                                 <div class="style-tile-img">
                                     <picture>
                                         <source srcset="bulles%20BD/thumbs/4.webp" type="image/webp">
@@ -1488,23 +1544,23 @@
                             <span class="tag" data-i18n="inspector.font.tag">5 disponibles</span>
                         </div>
                         <div class="font-list" id="fontList">
-                            <button class="font-row" data-font="Comic Relief">
+                            <button class="font-row" data-font="Comic Relief" aria-pressed="false">
                                 <span class="font-sample" style="font-family: 'Comic Relief', cursive;">Aa</span>
                                 <span class="font-name">Comic Relief</span>
                             </button>
-                            <button class="font-row active" data-font="Bangers">
+                            <button class="font-row active" data-font="Bangers" aria-pressed="true">
                                 <span class="font-sample" style="font-family: 'Bangers', sans-serif; font-size: 26px;">Aa</span>
                                 <span class="font-name">Bangers</span>
                             </button>
-                            <button class="font-row" data-font="Komika Axis">
+                            <button class="font-row" data-font="Komika Axis" aria-pressed="false">
                                 <span class="font-sample" style="font-family: 'Komika Axis', sans-serif; font-size: 20px;">Aa</span>
                                 <span class="font-name">Komika Axis</span>
                             </button>
-                            <button class="font-row" data-font="Architects Daughter">
+                            <button class="font-row" data-font="Architects Daughter" aria-pressed="false">
                                 <span class="font-sample" style="font-family: 'Architects Daughter', cursive;">Aa</span>
-                                <span class="font-name">Architects Hand</span>
+                                <span class="font-name">Architects Daughter</span>
                             </button>
-                            <button class="font-row" data-font="Permanent Marker">
+                            <button class="font-row" data-font="Permanent Marker" aria-pressed="false">
                                 <span class="font-sample" style="font-family: 'Permanent Marker', cursive;">Aa</span>
                                 <span class="font-name">Permanent Marker</span>
                             </button>
@@ -1517,19 +1573,19 @@
                             <span class="lbl" data-i18n="inspector.color.label">Couleur du texte</span>
                         </div>
                         <div class="swatches" id="colorSwatches">
-                            <button class="swatch active" data-color="#000000" data-i18n-attr="aria-label:inspector.color.black">
+                            <button class="swatch active" data-color="#000000" aria-pressed="true" data-i18n-attr="aria-label:inspector.color.black">
                                 <span class="swatch-inner" style="background:#0F1116;"></span>
                             </button>
-                            <button class="swatch" data-color="#FFFFFF" data-i18n-attr="aria-label:inspector.color.white">
+                            <button class="swatch" data-color="#FFFFFF" aria-pressed="false" data-i18n-attr="aria-label:inspector.color.white">
                                 <span class="swatch-inner" style="background:#FFFFFF;"></span>
                             </button>
-                            <button class="swatch" data-color="#3B82F6" data-i18n-attr="aria-label:inspector.color.blue">
+                            <button class="swatch" data-color="#3B82F6" aria-pressed="false" data-i18n-attr="aria-label:inspector.color.blue">
                                 <span class="swatch-inner" style="background:#3B82F6;"></span>
                             </button>
-                            <button class="swatch" data-color="#F87171" data-i18n-attr="aria-label:inspector.color.red">
+                            <button class="swatch" data-color="#F87171" aria-pressed="false" data-i18n-attr="aria-label:inspector.color.red">
                                 <span class="swatch-inner" style="background:#F87171;"></span>
                             </button>
-                            <button class="swatch" data-color="#FACC15" data-i18n-attr="aria-label:inspector.color.yellow">
+                            <button class="swatch" data-color="#FACC15" aria-pressed="false" data-i18n-attr="aria-label:inspector.color.yellow">
                                 <span class="swatch-inner" style="background:#FACC15;"></span>
                             </button>
                             <label class="swatch-custom" data-i18n-attr="aria-label:inspector.color.custom">
@@ -1680,7 +1736,7 @@
                     <li><strong data-i18n="about.features.f2.title">100% client-side.</strong> <span data-i18n="about.features.f2.body">Your text and exports stay in your browser. Nothing is uploaded to a server.</span></li>
                     <li><strong data-i18n="about.features.f3.title">Commercial use allowed.</strong> <span data-i18n="about.features.f3.body">YouTube, self-published comics, memes, paid content — no restrictions.</span></li>
                     <li><strong data-i18n="about.features.f4.title">Transparent background.</strong> <span data-i18n="about.features.f4.body">Drop the PNG on any footage without keying or masking.</span></li>
-                    <li><strong data-i18n="about.features.f5.title">Five comic fonts.</strong> <span data-i18n="about.features.f5.body">Comic Relief, Bangers, Komika, Komika Hands and Anime Ace BB — all self-hosted, no tracking.</span></li>
+                    <li><strong data-i18n="about.features.f5.title">Five comic fonts.</strong> <span data-i18n="about.features.f5.body">Comic Relief, Bangers, Komika Axis, Architects Daughter and Permanent Marker — all self-hosted, no tracking.</span></li>
                     <li><strong data-i18n="about.features.f6.title">Works on mobile.</strong> <span data-i18n="about.features.f6.body">The interface adapts to phones and tablets so you can create on the go.</span></li>
                 </ul>
             </div>
@@ -1841,16 +1897,17 @@
                 'preview.zoomOut': 'Dézoomer',
                 'preview.zoomIn': 'Zoomer',
                 'preview.canvasAria': 'Aperçu de la bulle',
-                'preview.panHint': 'maintenir pour panoramique',
+                'preview.canvasLabel': 'Aperçu de la bulle : {text}',
+                'preview.zoomReset': 'Réinitialiser le zoom',
+                'preview.panHint': 'glisser pour déplacer',
                 'preview.exportReady': 'Fond transparent · prêt à exporter',
                 'inspector.aria': 'Propriétés',
                 'inspector.title': 'Propriétés',
-                'inspector.moreOptions': "Plus d'options",
                 'inspector.text.label': 'Texte de la bulle',
                 'inspector.text.tag': 'Auto-redim',
                 'inspector.text.placeholder': 'Tapez votre texte ici…',
                 'inspector.text.default': 'Bonjour !',
-                'inspector.text.charCount': '{count} / 120 caractères',
+                'inspector.text.charCount': '{count} / 500 caractères',
                 'inspector.text.live': 'Saisie en direct',
                 'inspector.style.label': 'Style de bulle',
                 'inspector.style.parole': 'Parole',
@@ -1872,6 +1929,7 @@
                 'inspector.size.label': 'Taille',
                 'inspector.size.tagAuto': 'Auto',
                 'inspector.size.tagManual': 'Manuel',
+                'inspector.size.tagOverflow': 'Déborde',
                 'inspector.size.auto': 'Auto',
                 'inspector.size.aria': 'Taille de la police',
                 'inspector.size.valAuto': 'auto',
@@ -1891,11 +1949,14 @@
                 'history.restoreAria': 'Restaurer : {text}',
                 'history.unnamed': '(bulle)',
                 'history.current': 'ACTUEL',
-                'history.clearConfirm': "Vider l'historique des bulles ?",
-                'history.zipSoon': "L'export ZIP arrive bientôt. En attendant, télécharge chaque bulle individuellement.",
+                'history.clearAsk': 'Confirmer ?',
+                'history.zipEmpty': "Aucune bulle à exporter — crée et exporte d'abord une bulle.",
+                'history.zipDone': 'Archive ZIP créée · {count} bulle(s)',
+                'history.zipError': "Impossible de créer l'archive ZIP.",
                 'status.bubbleNotLoaded': 'Image de bulle non chargée',
                 'status.size': 'Taille : {fontSize}px · {lines} lignes',
                 'status.sizeOne': 'Taille : {fontSize}px · 1 ligne',
+                'status.overflow': 'le texte déborde de la bulle',
                 'export.notReady': "La bulle n'est pas encore prête. Patiente une seconde puis réessaie.",
                 'export.canvasError': "Impossible d'exporter — canvas protégé. Si tu as ouvert le fichier via file:// directement, sers-le via un serveur local (ex: python -m http.server 8000).",
                 'export.empty': 'Le canvas semble vide. Tape du texte puis réessaie.',
@@ -1934,6 +1995,7 @@
                 'footer.contact': 'Contact',
                 'footer.about': 'En savoir plus',
                 'footer.blog': 'Blog',
+                'a11y.skip': 'Aller au contenu principal',
                 'about.title': 'Des bulles de BD en trois clics',
                 'about.lede': "Gratuit, en ligne, sans inscription. BubblePop est pensé pour les créateurs qui ont besoin de bulles de BD en PNG transparent — vite et bien.",
                 'about.step1.title': 'Écris ton texte',
@@ -1952,7 +2014,7 @@
                 'about.features.f4.title': 'Fond transparent.',
                 'about.features.f4.body': "Pose le PNG sur n'importe quelle vidéo sans incrustation ni masque.",
                 'about.features.f5.title': 'Cinq polices comic.',
-                'about.features.f5.body': "Comic Relief, Bangers, Komika, Komika Hands et Anime Ace BB — toutes auto-hébergées, aucun tracking.",
+                'about.features.f5.body': "Comic Relief, Bangers, Komika Axis, Architects Daughter et Permanent Marker — toutes auto-hébergées, aucun tracking.",
                 'about.features.f6.title': 'Fonctionne sur mobile.',
                 'about.features.f6.body': "L'interface s'adapte aux téléphones et tablettes pour créer où que tu sois.",
                 'about.faq.title': 'Questions fréquentes',
@@ -1986,16 +2048,17 @@
                 'preview.zoomOut': 'Zoom out',
                 'preview.zoomIn': 'Zoom in',
                 'preview.canvasAria': 'Bubble preview',
-                'preview.panHint': 'hold to pan',
+                'preview.canvasLabel': 'Bubble preview: {text}',
+                'preview.zoomReset': 'Reset zoom',
+                'preview.panHint': 'drag to pan',
                 'preview.exportReady': 'Transparent background · ready to export',
                 'inspector.aria': 'Properties',
                 'inspector.title': 'Properties',
-                'inspector.moreOptions': 'More options',
                 'inspector.text.label': 'Bubble text',
                 'inspector.text.tag': 'Auto-fit',
                 'inspector.text.placeholder': 'Type your text here…',
                 'inspector.text.default': 'Hello!',
-                'inspector.text.charCount': '{count} / 120 characters',
+                'inspector.text.charCount': '{count} / 500 characters',
                 'inspector.text.live': 'Live preview',
                 'inspector.style.label': 'Bubble style',
                 'inspector.style.parole': 'Speech',
@@ -2017,6 +2080,7 @@
                 'inspector.size.label': 'Size',
                 'inspector.size.tagAuto': 'Auto',
                 'inspector.size.tagManual': 'Manual',
+                'inspector.size.tagOverflow': 'Overflow',
                 'inspector.size.auto': 'Auto',
                 'inspector.size.aria': 'Font size',
                 'inspector.size.valAuto': 'auto',
@@ -2036,11 +2100,14 @@
                 'history.restoreAria': 'Restore: {text}',
                 'history.unnamed': '(bubble)',
                 'history.current': 'CURRENT',
-                'history.clearConfirm': 'Clear bubble history?',
-                'history.zipSoon': 'ZIP export coming soon. In the meantime, download each bubble individually.',
+                'history.clearAsk': 'Confirm?',
+                'history.zipEmpty': 'No bubble to export — create and export one first.',
+                'history.zipDone': 'ZIP archive created · {count} bubble(s)',
+                'history.zipError': "Couldn't build the ZIP archive.",
                 'status.bubbleNotLoaded': 'Bubble image not loaded',
                 'status.size': 'Size: {fontSize}px · {lines} lines',
                 'status.sizeOne': 'Size: {fontSize}px · 1 line',
+                'status.overflow': 'text overflows the bubble',
                 'export.notReady': "Bubble isn't ready yet. Wait a second and try again.",
                 'export.canvasError': "Can't export — protected canvas. If you opened the file via file:// directly, serve it via a local server (e.g., python -m http.server 8000).",
                 'export.empty': 'Canvas looks empty. Type some text and try again.',
@@ -2079,6 +2146,7 @@
                 'footer.contact': 'Contact',
                 'footer.about': 'Learn more',
                 'footer.blog': 'Blog',
+                'a11y.skip': 'Skip to main content',
                 'about.title': 'Comic speech bubbles in three clicks',
                 'about.lede': 'Free, online, no signup. BubblePop is built for creators who need clean transparent PNG speech bubbles — fast.',
                 'about.step1.title': 'Type your text',
@@ -2097,7 +2165,7 @@
                 'about.features.f4.title': 'Transparent background.',
                 'about.features.f4.body': 'Drop the PNG on any footage without keying or masking.',
                 'about.features.f5.title': 'Five comic fonts.',
-                'about.features.f5.body': 'Comic Relief, Bangers, Komika, Komika Hands and Anime Ace BB — all self-hosted, no tracking.',
+                'about.features.f5.body': 'Comic Relief, Bangers, Komika Axis, Architects Daughter and Permanent Marker — all self-hosted, no tracking.',
                 'about.features.f6.title': 'Works on mobile.',
                 'about.features.f6.body': 'The interface adapts to phones and tablets so you can create on the go.',
                 'about.faq.title': 'Frequently asked questions',
@@ -2226,6 +2294,8 @@
         const zoomVal = $('zoomVal');
         const zoomIn = $('zoomIn');
         const zoomOut = $('zoomOut');
+        const zoomReset = $('zoomReset');
+        const panHintEl = $('panHint');
 
         const bubbleImages = {};
         let selectedBubble = 1;
@@ -2277,10 +2347,13 @@
         // ============================================================
         // Police : utilitaires
         // ============================================================
-        function buildFont(size, fontFamily) {
-            const weight = textStyle.bold ? 'bold' : 'normal';
-            const style = textStyle.italic ? 'italic' : 'normal';
-            return `${style} ${weight} ${size}px "${fontFamily}", sans-serif`;
+        // `style` porte les drapeaux gras / italique. On le passe en paramètre
+        // (au lieu de lire la globale textStyle) pour que le canevas principal,
+        // les vignettes d'historique et l'export ZIP partagent la même fonction.
+        function buildFont(size, fontFamily, style) {
+            const weight = style.bold ? 'bold' : 'normal';
+            const slant = style.italic ? 'italic' : 'normal';
+            return `${slant} ${weight} ${size}px "${fontFamily}", sans-serif`;
         }
 
         // ============================================================
@@ -2342,8 +2415,26 @@
 
         // ============================================================
         // Word-wrap + ajustement automatique
+        // Ces fonctions reçoivent le contexte 2D en paramètre : elles sont
+        // partagées par le canevas principal, les vignettes de l'historique
+        // et l'export ZIP, qui dessinent chacun dans leur propre contexte.
         // ============================================================
-        function wrapText(text, maxWidth) {
+        // Découpe un mot plus large que la zone, caractère par caractère.
+        // Sans ça, un mot de 100 caractères sortirait du tracé de la bulle.
+        // Renvoie le tronçon encore en cours ; les autres sont poussés dans `out`.
+        function breakLongWord(c, word, maxWidth, out) {
+            let chunk = '';
+            for (const ch of word) {
+                if (chunk && c.measureText(chunk + ch).width > maxWidth) {
+                    out.push(chunk);
+                    chunk = ch;
+                } else {
+                    chunk += ch;
+                }
+            }
+            return chunk;
+        }
+        function wrapText(c, text, maxWidth) {
             const paragraphs = text.split('\n');
             const lines = [];
             paragraphs.forEach(paragraph => {
@@ -2351,8 +2442,14 @@
                 const words = paragraph.split(' ');
                 let currentLine = '';
                 words.forEach(word => {
+                    // Mot seul plus large que la zone : on le tronçonne.
+                    if (c.measureText(word).width > maxWidth) {
+                        if (currentLine) lines.push(currentLine);
+                        currentLine = breakLongWord(c, word, maxWidth, lines);
+                        return;
+                    }
                     const testLine = currentLine ? currentLine + ' ' + word : word;
-                    if (ctx.measureText(testLine).width > maxWidth && currentLine) {
+                    if (c.measureText(testLine).width > maxWidth && currentLine) {
                         lines.push(currentLine);
                         currentLine = word;
                     } else {
@@ -2363,15 +2460,17 @@
             });
             return lines;
         }
-        function fitText(text, maxWidth, maxHeight, fontFamily) {
+        // Recherche dichotomique : plus grande taille de police pour laquelle
+        // le texte, une fois découpé en lignes, tient encore dans la zone.
+        // ~10 essais au lieu des 390 d'un balayage linéaire de 10 à 400 px.
+        function fitText(c, text, maxWidth, maxHeight, state) {
             let lo = 10, hi = 400, best = 10, bestLines = [text];
             while (lo <= hi) {
                 const mid = Math.floor((lo + hi) / 2);
-                ctx.font = buildFont(mid, fontFamily);
-                const lines = wrapText(text, maxWidth);
-                const lineHeight = mid * 1.2;
-                const totalHeight = lines.length * lineHeight;
-                const maxLineWidth = Math.max(...lines.map(l => ctx.measureText(l).width));
+                c.font = buildFont(mid, state.font, state);
+                const lines = wrapText(c, text, maxWidth);
+                const totalHeight = lines.length * mid * 1.2;
+                const maxLineWidth = Math.max(...lines.map(l => c.measureText(l).width));
                 if (totalHeight <= maxHeight && maxLineWidth <= maxWidth) {
                     best = mid;
                     bestLines = lines;
@@ -2384,59 +2483,99 @@
         }
 
         // ============================================================
-        // Génération de la bulle (canvas principal)
+        // Rendu d'une bulle dans un contexte quelconque
+        // Appelé par : le canevas principal (2000×2000), les vignettes de
+        // l'historique (248×168) et l'export ZIP (canevas hors-écran).
+        // L'image est dessinée « contain » dans un carré centré : la vignette
+        // reste donc fidèle au PNG exporté, sans déformation.
+        // Renvoie null si l'image de bulle n'est pas encore chargée.
         // ============================================================
-        function generateBubble() {
-            const text = textInput.value || ' ';
-            const bubbleImg = bubbleImages[selectedBubble];
-            if (!bubbleImg) {
-                statusEl.textContent = t('status.bubbleNotLoaded');
-                return;
-            }
+        function drawBubble(c, w, h, state) {
+            const bubbleImg = bubbleImages[state.bubble];
+            if (!bubbleImg) return null;
 
-            canvas.width = RENDER_SIZE;
-            canvas.height = RENDER_SIZE;
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.drawImage(bubbleImg, 0, 0, canvas.width, canvas.height);
+            c.clearRect(0, 0, w, h);
+            const side = Math.min(w, h);
+            const offX = (w - side) / 2;
+            const offY = (h - side) / 2;
+            c.drawImage(bubbleImg, offX, offY, side, side);
 
-            const cfg = BUBBLE_CONFIG[selectedBubble];
-            const zoneX = cfg.x * canvas.width;
-            const zoneY = cfg.y * canvas.height;
-            const zoneW = cfg.w * canvas.width;
-            const zoneH = cfg.h * canvas.height;
+            const cfg = BUBBLE_CONFIG[state.bubble];
+            const zoneX = offX + cfg.x * side;
+            const zoneY = offY + cfg.y * side;
+            const zoneW = cfg.w * side;
+            const zoneH = cfg.h * side;
 
+            const text = state.text || ' ';
             let fontSize, lines;
-            if (textStyle.autoSize) {
-                ({ fontSize, lines } = fitText(text, zoneW, zoneH, selectedFont));
+            if (state.autoSize) {
+                ({ fontSize, lines } = fitText(c, text, zoneW, zoneH, state));
             } else {
-                fontSize = textStyle.manualSize;
-                ctx.font = buildFont(fontSize, selectedFont);
-                lines = wrapText(text, zoneW);
+                // La taille manuelle est exprimée dans le repère de l'export
+                // (RENDER_SIZE) : on la met à l'échelle du contexte courant
+                // pour que la vignette reflète le rendu final.
+                fontSize = Math.max(1, Math.round(state.manualSize * side / RENDER_SIZE));
+                c.font = buildFont(fontSize, state.font, state);
+                lines = wrapText(c, text, zoneW);
             }
 
-            ctx.font = buildFont(fontSize, selectedFont);
-            ctx.fillStyle = textStyle.color;
-            ctx.textAlign = 'center';
-            ctx.textBaseline = 'middle';
+            c.font = buildFont(fontSize, state.font, state);
+            c.fillStyle = state.color;
+            c.textAlign = 'center';
+            c.textBaseline = 'middle';
 
             const lineHeight = fontSize * 1.2;
             const totalHeight = lines.length * lineHeight;
-            const centerX = zoneX + zoneW / 2;
             const startY = zoneY + (zoneH - totalHeight) / 2 + lineHeight / 2;
-
             lines.forEach((line, i) => {
-                ctx.fillText(line, centerX, startY + i * lineHeight);
+                c.fillText(line, zoneX + zoneW / 2, startY + i * lineHeight);
             });
 
+            const maxLineWidth = lines.length
+                ? Math.max(...lines.map(l => c.measureText(l).width))
+                : 0;
+            return {
+                fontSize,
+                lines,
+                // Un débordement n'est possible qu'en taille manuelle : en mode
+                // auto, la dichotomie garantit que le texte rentre.
+                overflow: totalHeight > zoneH + 0.5 || maxLineWidth > zoneW + 0.5
+            };
+        }
+
+        // ============================================================
+        // Génération de la bulle (canvas principal)
+        // ============================================================
+        function generateBubble() {
+            const state = snapshotState();
+            canvas.width = RENDER_SIZE;
+            canvas.height = RENDER_SIZE;
+            const res = drawBubble(ctx, canvas.width, canvas.height, state);
+            if (!res) {
+                statusEl.textContent = t('status.bubbleNotLoaded');
+                return;
+            }
+            const { fontSize, lines, overflow } = res;
+
             sizeValueEl.textContent = `${fontSize}px`;
-            if (textStyle.autoSize) {
+            if (state.autoSize) {
                 manualSizeInput.value = fontSize;
                 sizeTag.textContent = t('inspector.size.tagAuto');
             } else {
-                sizeTag.textContent = t('inspector.size.tagManual');
+                sizeTag.textContent = t(overflow ? 'inspector.size.tagOverflow' : 'inspector.size.tagManual');
             }
+            sizeTag.classList.toggle('tag-warn', !state.autoSize && overflow);
+
             const key = lines.length === 1 ? 'status.sizeOne' : 'status.size';
-            statusEl.textContent = t(key, { fontSize, lines: lines.length });
+            let status = t(key, { fontSize, lines: lines.length });
+            if (overflow) status += ' · ' + t('status.overflow');
+            statusEl.textContent = status;
+
+            // Nom accessible du canevas : décrit ce qui y est réellement dessiné.
+            // Appliqué APRÈS applyI18n, qui réécrit aria-label via data-i18n-attr.
+            canvas.setAttribute('aria-label', t('preview.canvasLabel', {
+                text: state.text.trim() || t('history.unnamed')
+            }));
         }
 
         // ============================================================
@@ -2451,21 +2590,39 @@
         });
 
         // ============================================================
-        // Sélection de la bulle
+        // Sélection (style, police, couleur)
+        // Un contrôle « actif » doit l'être aussi pour les technologies
+        // d'assistance : classe CSS et aria-pressed sont toujours écrits
+        // ensemble, y compris lors d'une restauration (undo / historique).
         // ============================================================
+        function setPressed(el, on) {
+            el.classList.toggle('active', on);
+            el.setAttribute('aria-pressed', on ? 'true' : 'false');
+        }
+        // Badge ✓ + états ARIA des tuiles de style. Partagé par le clic et
+        // par restoreSnapshot(), qui dupliquaient cette logique.
+        function markStyleTile(bubbleNum) {
+            styleGrid.querySelectorAll('.style-tile').forEach(tile => {
+                const on = parseInt(tile.dataset.bubble, 10) === bubbleNum;
+                setPressed(tile, on);
+                tile.querySelector('.check-badge')?.remove();
+                if (on) {
+                    const badge = document.createElement('div');
+                    badge.className = 'check-badge';
+                    badge.innerHTML = '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-11"/></svg>';
+                    tile.appendChild(badge);
+                }
+            });
+        }
+        function markFontRow(font) {
+            fontList.querySelectorAll('.font-row').forEach(row => setPressed(row, row.dataset.font === font));
+        }
+
         styleGrid.addEventListener('click', async (e) => {
             const tile = e.target.closest('.style-tile');
             if (!tile) return;
-            styleGrid.querySelectorAll('.style-tile').forEach(t => {
-                t.classList.remove('active');
-                t.querySelector('.check-badge')?.remove();
-            });
-            tile.classList.add('active');
-            const badge = document.createElement('div');
-            badge.className = 'check-badge';
-            badge.innerHTML = '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-11"/></svg>';
-            tile.appendChild(badge);
             selectedBubble = parseInt(tile.dataset.bubble, 10);
+            markStyleTile(selectedBubble);
             // Chargement à la volée si la pleine résolution n'est pas encore prête
             // (cas où l'utilisateur sélectionne une bulle avant la fin du préchargement idle).
             if (!bubbleImages[selectedBubble]) {
@@ -2475,15 +2632,11 @@
             generateBubble();
         });
 
-        // ============================================================
-        // Sélection de la police
-        // ============================================================
         fontList.addEventListener('click', (e) => {
             const row = e.target.closest('.font-row');
             if (!row) return;
-            fontList.querySelectorAll('.font-row').forEach(r => r.classList.remove('active'));
-            row.classList.add('active');
             selectedFont = row.dataset.font;
+            markFontRow(selectedFont);
             generateBubble();
         });
 
@@ -2491,8 +2644,8 @@
         // Sélection couleur (swatches + custom)
         // ============================================================
         function setColorActive(color) {
-            colorSwatches.querySelectorAll('.swatch').forEach(s => {
-                s.classList.toggle('active', s.dataset.color?.toLowerCase() === color.toLowerCase());
+            colorSwatches.querySelectorAll('.swatch').forEach(sw => {
+                setPressed(sw, sw.dataset.color?.toLowerCase() === color.toLowerCase());
             });
         }
         colorSwatches.addEventListener('click', (e) => {
@@ -2515,14 +2668,12 @@
         // ============================================================
         boldBtn.addEventListener('click', () => {
             textStyle.bold = !textStyle.bold;
-            boldBtn.classList.toggle('active', textStyle.bold);
-            boldBtn.setAttribute('aria-pressed', textStyle.bold);
+            setPressed(boldBtn, textStyle.bold);
             generateBubble();
         });
         italicBtn.addEventListener('click', () => {
             textStyle.italic = !textStyle.italic;
-            italicBtn.classList.toggle('active', textStyle.italic);
-            italicBtn.setAttribute('aria-pressed', textStyle.italic);
+            setPressed(italicBtn, textStyle.italic);
             generateBubble();
         });
 
@@ -2545,16 +2696,66 @@
         });
 
         // ============================================================
-        // Zoom (visuel — affecte uniquement la prévisualisation)
+        // Zoom + déplacement (pan) — PUREMENT VISUEL
+        // La transformation s'applique à .canvas-stage : ni generateBubble()
+        // ni l'export ne sont affectés, le PNG reste 2000×2000 quel que soit
+        // le zoom ou le déplacement.
         // ============================================================
         const canvasStage = $('canvasStage');
+        const canvasWrap = document.querySelector('.canvas-wrap');
+        let panX = 0, panY = 0;
+
+        // Le déplacement est borné à l'amplitude réelle du débordement :
+        // impossible de « perdre » la bulle hors de la zone d'aperçu.
+        function clampPan() {
+            const scale = zoom / 100;
+            const maxX = Math.max(0, (canvasStage.offsetWidth * scale - canvasWrap.clientWidth) / 2);
+            const maxY = Math.max(0, (canvasStage.offsetHeight * scale - canvasWrap.clientHeight) / 2);
+            panX = Math.max(-maxX, Math.min(maxX, panX));
+            panY = Math.max(-maxY, Math.min(maxY, panY));
+        }
         function applyZoom() {
+            // En dessous de 100 % rien ne dépasse : le pan est réinitialisé.
+            if (zoom <= 100) { panX = 0; panY = 0; } else { clampPan(); }
             zoomVal.textContent = `${zoom}%`;
-            canvasStage.style.transform = `scale(${zoom / 100})`;
             canvasStage.style.transformOrigin = 'center';
+            canvasStage.style.transform = `translate(${panX}px, ${panY}px) scale(${zoom / 100})`;
+            const pannable = zoom > 100;
+            canvasWrap.classList.toggle('pannable', pannable);
+            if (panHintEl) panHintEl.hidden = !pannable;
         }
         zoomIn.addEventListener('click', () => { zoom = Math.min(200, zoom + 25); applyZoom(); });
         zoomOut.addEventListener('click', () => { zoom = Math.max(25, zoom - 25); applyZoom(); });
+        zoomReset.addEventListener('click', () => { zoom = 100; panX = 0; panY = 0; applyZoom(); });
+
+        // Pointer Events : une seule implémentation couvre souris, stylet et
+        // tactile. setPointerCapture garantit qu'on reçoit le pointerup même
+        // si le curseur sort de l'aperçu pendant le glisser.
+        let panDragId = null, dragStartX = 0, dragStartY = 0, panStartX = 0, panStartY = 0;
+        canvasWrap.addEventListener('pointerdown', (e) => {
+            if (zoom <= 100 || (e.pointerType === 'mouse' && e.button !== 0)) return;
+            panDragId = e.pointerId;
+            dragStartX = e.clientX; dragStartY = e.clientY;
+            panStartX = panX; panStartY = panY;
+            try { canvasWrap.setPointerCapture(panDragId); } catch (_) {}
+            canvasWrap.classList.add('panning');
+            e.preventDefault();
+        });
+        canvasWrap.addEventListener('pointermove', (e) => {
+            if (panDragId === null || e.pointerId !== panDragId) return;
+            panX = panStartX + (e.clientX - dragStartX);
+            panY = panStartY + (e.clientY - dragStartY);
+            applyZoom();
+        });
+        function endPan(e) {
+            if (panDragId === null || (e && e.pointerId !== panDragId)) return;
+            try { canvasWrap.releasePointerCapture(panDragId); } catch (_) {}
+            panDragId = null;
+            canvasWrap.classList.remove('panning');
+        }
+        canvasWrap.addEventListener('pointerup', endPan);
+        canvasWrap.addEventListener('pointercancel', endPan);
+        applyZoom();
 
         // ============================================================
         // Historique (localStorage, max 9 entrées)
@@ -2614,37 +2815,11 @@
                 historyStrip.appendChild(thumb);
             });
         }
+        // La vignette passe par le MÊME rendu que le canevas principal :
+        // retour à la ligne, dichotomie et cadrage identiques, à l'échelle près.
         function renderThumbnail(thumbCanvas, item) {
             const tctx = thumbCanvas.getContext('2d');
-            tctx.clearRect(0, 0, thumbCanvas.width, thumbCanvas.height);
-            const img = bubbleImages[item.bubble];
-            if (!img) return;
-            tctx.drawImage(img, 0, 0, thumbCanvas.width, thumbCanvas.height);
-            const cfg = BUBBLE_CONFIG[item.bubble];
-            const zx = cfg.x * thumbCanvas.width;
-            const zy = cfg.y * thumbCanvas.height;
-            const zw = cfg.w * thumbCanvas.width;
-            const zh = cfg.h * thumbCanvas.height;
-            // approximation : tente une taille raisonnable pour la miniature
-            const weight = item.bold ? 'bold' : 'normal';
-            const style = item.italic ? 'italic' : 'normal';
-            let size = 18;
-            tctx.font = `${style} ${weight} ${size}px "${item.font}", sans-serif`;
-            const lines = (item.text || '').split('\n');
-            while (size > 8) {
-                const lw = Math.max(...lines.map(l => tctx.measureText(l).width));
-                if (lw <= zw && lines.length * size * 1.2 <= zh) break;
-                size--;
-                tctx.font = `${style} ${weight} ${size}px "${item.font}", sans-serif`;
-            }
-            tctx.fillStyle = item.color || '#000';
-            tctx.textAlign = 'center';
-            tctx.textBaseline = 'middle';
-            const lh = size * 1.2;
-            const startY = zy + (zh - lines.length * lh) / 2 + lh / 2;
-            lines.forEach((l, i) => {
-                tctx.fillText(l, zx + zw / 2, startY + i * lh);
-            });
+            drawBubble(tctx, thumbCanvas.width, thumbCanvas.height, item);
         }
         function pushHistory(snapshot) {
             const items = loadHistory();
@@ -2679,25 +2854,14 @@
             textStyle.autoSize = s.autoSize;
             textStyle.manualSize = s.manualSize;
 
-            // Sync UI
-            styleGrid.querySelectorAll('.style-tile').forEach(t => {
-                t.classList.toggle('active', parseInt(t.dataset.bubble, 10) === selectedBubble);
-                t.querySelector('.check-badge')?.remove();
-            });
-            const activeTile = styleGrid.querySelector(`.style-tile[data-bubble="${selectedBubble}"]`);
-            if (activeTile) {
-                const badge = document.createElement('div');
-                badge.className = 'check-badge';
-                badge.innerHTML = '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-11"/></svg>';
-                activeTile.appendChild(badge);
-            }
-            fontList.querySelectorAll('.font-row').forEach(r => {
-                r.classList.toggle('active', r.dataset.font === selectedFont);
-            });
+            // Sync UI — classes CSS ET états ARIA (sans ça, un lecteur d'écran
+            // annoncerait encore l'état d'avant l'annulation).
+            markStyleTile(selectedBubble);
+            markFontRow(selectedFont);
             setColorActive(textStyle.color);
             textColorInput.value = textStyle.color;
-            boldBtn.classList.toggle('active', textStyle.bold);
-            italicBtn.classList.toggle('active', textStyle.italic);
+            setPressed(boldBtn, textStyle.bold);
+            setPressed(italicBtn, textStyle.italic);
             autoSizeCheckbox.checked = textStyle.autoSize;
             manualSizeInput.disabled = textStyle.autoSize;
             manualSizeInput.value = textStyle.manualSize;
@@ -2804,15 +2968,26 @@
                 commitSnapshot();
             }
         });
+        // Confirmation en deux temps sur le bouton lui-même plutôt qu'un
+        // confirm() natif : non bloquant, traduit, et l'état reste visible.
+        let clearArmTimer = null;
+        const clearLabel = clearHistoryBtn.querySelector('span');
+        function disarmClear() {
+            if (clearArmTimer) { clearTimeout(clearArmTimer); clearArmTimer = null; }
+            clearLabel.textContent = t('history.clear');
+            clearHistoryBtn.classList.remove('armed');
+        }
         clearHistoryBtn.addEventListener('click', () => {
             if (loadHistory().length === 0) return;
-            if (confirm(t('history.clearConfirm'))) {
-                saveHistory([]);
-                renderHistory();
+            if (!clearArmTimer) {
+                clearLabel.textContent = t('history.clearAsk');
+                clearHistoryBtn.classList.add('armed');
+                clearArmTimer = setTimeout(disarmClear, 4000);
+                return;
             }
-        });
-        exportZipBtn.addEventListener('click', () => {
-            alert(t('history.zipSoon'));
+            disarmClear();
+            saveHistory([]);
+            renderHistory();
         });
 
         // ============================================================
@@ -2822,9 +2997,23 @@
         // Le lien est inséré dans le DOM avant .click() (Firefox ignore
         // les clicks sur anchor détaché).
         // ============================================================
+        // Le lien doit être DANS le document avant .click() : Firefox ignore
+        // les clics sur une ancre détachée. Partagé par l'export PNG et ZIP.
+        function triggerDownload(href, filename, revoke) {
+            const link = document.createElement('a');
+            link.download = filename;
+            link.href = href;
+            link.style.display = 'none';
+            document.body.appendChild(link);
+            link.click();
+            setTimeout(() => {
+                try { document.body.removeChild(link); } catch (_) {}
+                if (revoke) URL.revokeObjectURL(href);
+            }, 100);
+        }
         function doExport() {
             if (!canvas.width || !canvas.height) {
-                alert(t('export.notReady'));
+                showToast(t('export.notReady'), 3600, true);
                 return;
             }
             let dataUrl;
@@ -2832,23 +3021,153 @@
                 dataUrl = canvas.toDataURL('image/png');
             } catch (err) {
                 console.error('[BubblePop] toDataURL a échoué :', err);
-                alert(t('export.canvasError'));
+                showToast(t('export.canvasError'), 5000, true);
                 return;
             }
             if (!dataUrl || dataUrl.length < 100) {
-                alert(t('export.empty'));
+                showToast(t('export.empty'), 3600, true);
                 return;
             }
-            const link = document.createElement('a');
-            link.download = `bubblepop-${Date.now()}.png`;
-            link.href = dataUrl;
-            link.style.display = 'none';
-            document.body.appendChild(link);
-            link.click();
-            setTimeout(() => { try { document.body.removeChild(link); } catch (_) {} }, 100);
+            triggerDownload(dataUrl, `bubblepop-${Date.now()}.png`);
             try { pushHistory(snapshotState()); } catch (e) { console.warn('[BubblePop] historique :', e); }
         }
         downloadBtn.addEventListener('click', doExport);
+
+        // ============================================================
+        // Export ZIP de l'historique — encodeur écrit à la main
+        // Un ZIP est un enchaînement de blocs : pour chaque fichier un en-tête
+        // local (PK\x03\x04) suivi des données, puis un « central directory »
+        // (PK\x01\x02) qui répertorie ces en-têtes, et enfin un « end of central
+        // directory » (PK\x05\x06) qui pointe le début du répertoire.
+        // Méthode 0 (« stored », sans compression) : les PNG contiennent déjà
+        // un flux DEFLATE, recompresser ne gagnerait rien.
+        // Tout est en little-endian.
+        // ============================================================
+        // Table CRC-32 (polynôme inversé 0xEDB88320) : le format impose un CRC
+        // par fichier. Calculée une seule fois au chargement.
+        const CRC_TABLE = (() => {
+            const table = new Uint32Array(256);
+            for (let i = 0; i < 256; i++) {
+                let c = i;
+                for (let k = 0; k < 8; k++) c = (c & 1) ? (0xEDB88320 ^ (c >>> 1)) : (c >>> 1);
+                table[i] = c >>> 0;
+            }
+            return table;
+        })();
+        function crc32(bytes) {
+            let crc = 0xFFFFFFFF;
+            for (let i = 0; i < bytes.length; i++) {
+                crc = CRC_TABLE[(crc ^ bytes[i]) & 0xFF] ^ (crc >>> 8);
+            }
+            return (crc ^ 0xFFFFFFFF) >>> 0;
+        }
+        // Date/heure au format MS-DOS : 5 bits heure / 6 minutes / 5 secondes
+        // (par pas de 2 s), et 7 bits année depuis 1980 / 4 mois / 5 jour.
+        function dosDateTime(ms) {
+            const d = new Date(ms || Date.now());
+            return {
+                time: ((d.getHours() & 31) << 11) | ((d.getMinutes() & 63) << 5) | ((d.getSeconds() >> 1) & 31),
+                date: (((d.getFullYear() - 1980) & 127) << 9) | (((d.getMonth() + 1) & 15) << 5) | (d.getDate() & 31)
+            };
+        }
+        // Petit écrivain d'octets little-endian.
+        function byteWriter() {
+            const chunks = [];
+            let length = 0;
+            const push = (bytes) => { chunks.push(bytes); length += bytes.length; };
+            return {
+                get length() { return length; },
+                bytes: (b) => push(b),
+                u16: (v) => push(new Uint8Array([v & 0xFF, (v >>> 8) & 0xFF])),
+                u32: (v) => push(new Uint8Array([v & 0xFF, (v >>> 8) & 0xFF, (v >>> 16) & 0xFF, (v >>> 24) & 0xFF])),
+                concat: () => {
+                    const out = new Uint8Array(length);
+                    let offset = 0;
+                    for (const chunk of chunks) { out.set(chunk, offset); offset += chunk.length; }
+                    return out;
+                }
+            };
+        }
+        function buildZip(files) {
+            const w = byteWriter();
+            const entries = [];
+            files.forEach(file => {
+                const name = new TextEncoder().encode(file.name);
+                const crc = crc32(file.data);
+                const { time, date } = dosDateTime(file.ts);
+                const offset = w.length;
+                w.bytes(new Uint8Array([0x50, 0x4B, 0x03, 0x04])); // en-tête local
+                w.u16(20); w.u16(0); w.u16(0);                     // version, drapeaux, méthode 0
+                w.u16(time); w.u16(date);
+                w.u32(crc); w.u32(file.data.length); w.u32(file.data.length);
+                w.u16(name.length); w.u16(0);                      // longueurs nom / extra
+                w.bytes(name);
+                w.bytes(file.data);
+                entries.push({ name, crc, size: file.data.length, offset, time, date });
+            });
+            const centralStart = w.length;
+            entries.forEach(e => {
+                w.bytes(new Uint8Array([0x50, 0x4B, 0x01, 0x02])); // central directory
+                w.u16(20); w.u16(20); w.u16(0); w.u16(0);          // versions, drapeaux, méthode
+                w.u16(e.time); w.u16(e.date);
+                w.u32(e.crc); w.u32(e.size); w.u32(e.size);
+                w.u16(e.name.length); w.u16(0); w.u16(0);          // nom / extra / commentaire
+                w.u16(0); w.u16(0); w.u32(0);                      // disque, attributs internes/externes
+                w.u32(e.offset);
+                w.bytes(e.name);
+            });
+            const centralSize = w.length - centralStart;
+            w.bytes(new Uint8Array([0x50, 0x4B, 0x05, 0x06]));     // end of central directory
+            w.u16(0); w.u16(0);
+            w.u16(entries.length); w.u16(entries.length);
+            w.u32(centralSize); w.u32(centralStart);
+            w.u16(0);                                              // longueur du commentaire
+            return w.concat();
+        }
+        // dataURL PNG → octets bruts. atob est synchrone, comme toDataURL :
+        // toute la chaîne reste dans le geste utilisateur (cf. doExport).
+        function dataUrlToBytes(dataUrl) {
+            const binary = atob(dataUrl.slice(dataUrl.indexOf(',') + 1));
+            const bytes = new Uint8Array(binary.length);
+            for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+            return bytes;
+        }
+        function renderItemToPng(item) {
+            const off = document.createElement('canvas');
+            off.width = RENDER_SIZE;
+            off.height = RENDER_SIZE;
+            const octx = off.getContext('2d');
+            if (!drawBubble(octx, off.width, off.height, item)) return null;
+            return dataUrlToBytes(off.toDataURL('image/png'));
+        }
+        function exportHistoryZip() {
+            const items = loadHistory();
+            if (items.length === 0) { showToast(t('history.zipEmpty')); return; }
+            // Le rendu doit rester synchrone : si une image de bulle manque
+            // encore (préchargement idle non terminé), on la charge puis on
+            // relance — cas rare, seul chemin asynchrone de l'export.
+            const missing = [...new Set(items.map(i => i.bubble))].filter(n => !bubbleImages[n]);
+            if (missing.length) {
+                showToast(t('init.loading'));
+                Promise.all(missing.map(loadBubbleImage)).then(exportHistoryZip);
+                return;
+            }
+            try {
+                const files = items.map((item, i) => ({
+                    name: `bubblepop-${String(i + 1).padStart(2, '0')}.png`,
+                    ts: item.ts,
+                    data: renderItemToPng(item)
+                })).filter(f => f.data);
+                if (!files.length) { showToast(t('history.zipError'), 3200, true); return; }
+                const blob = new Blob([buildZip(files)], { type: 'application/zip' });
+                triggerDownload(URL.createObjectURL(blob), `bubblepop-history-${Date.now()}.zip`, true);
+                showToast(t('history.zipDone', { count: files.length }));
+            } catch (e) {
+                console.error('[BubblePop] export ZIP :', e);
+                showToast(t('history.zipError'), 3200, true);
+            }
+        }
+        exportZipBtn.addEventListener('click', exportHistoryZip);
 
         copyBtn.addEventListener('click', async () => {
             try {
@@ -2863,7 +3182,7 @@
                 }
             } catch (e) {
                 console.error('Clipboard copy failed:', e);
-                alert(t('export.copyError'));
+                showToast(t('export.copyError'), 5000, true);
             }
         });
 
@@ -2892,8 +3211,12 @@
         // ============================================================
         const toastEl = document.getElementById('toast');
         let toastTimer = null;
-        function showToast(message, ms = 2200) {
+        // isError : bordure d'alerte + role="alert" (annonce immédiate par les
+        // lecteurs d'écran, là où role="status" attend une pause).
+        function showToast(message, ms = 2200, isError = false) {
             if (!toastEl) return;
+            toastEl.setAttribute('role', isError ? 'alert' : 'status');
+            toastEl.classList.toggle('toast-error', !!isError);
             toastEl.textContent = message;
             toastEl.classList.add('show');
             if (toastTimer) clearTimeout(toastTimer);
@@ -2954,10 +3277,30 @@
             // click sur backdrop (hors .modal) ferme la modale
             if (e.target === helpModal) closeHelp();
         });
+        // Piège de focus : tant que la modale est ouverte, Tab ne doit pas
+        // renvoyer le focus derrière le fond assombri (WCAG 2.1.2 / RGAA 10.8).
+        const FOCUSABLE_SEL = 'a[href], button:not([disabled]), input:not([disabled]), [tabindex]:not([tabindex="-1"])';
+        function trapModalFocus(e) {
+            const items = [...helpModal.querySelectorAll(FOCUSABLE_SEL)]
+                .filter(el => !el.hidden && el.offsetParent !== null);
+            if (!items.length) return;
+            const first = items[0];
+            const last = items[items.length - 1];
+            if (e.shiftKey && document.activeElement === first) {
+                e.preventDefault();
+                last.focus();
+            } else if (!e.shiftKey && document.activeElement === last) {
+                e.preventDefault();
+                first.focus();
+            }
+        }
         window.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && !helpModal.hidden) {
+            if (helpModal.hidden) return;
+            if (e.key === 'Escape') {
                 e.preventDefault();
                 closeHelp();
+            } else if (e.key === 'Tab') {
+                trapModalFocus(e);
             }
         });
         // Bouton Ko-fi : visible uniquement quand KOFI_URL est renseignee
